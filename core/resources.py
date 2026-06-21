@@ -1,5 +1,6 @@
-from import_export import resources, fields
+from import_export import resources, fields, widgets
 from import_export.widgets import ForeignKeyWidget
+from django.contrib.auth import get_user_model
 from .models import (
     # Блок 1: Ядро
     Role, User, UserRole, Campus, Specialty, Qualification, Setting, Order, Group,
@@ -13,8 +14,8 @@ from .models import (
     # Блок 4: Отчеты по практике
     PracticeTask, PracticeDiary, PracticeControlPoint, PracticeAttestation,
     # Блок 5: Оценки, зачетка, протоколы
-    MCK, DisciplineReference, DisciplineInGroup, AssessmentSchedule, Statement,
-    StatementGrade, GEKProtocol, GEKMember, GIAResult, GIADefenseQuestion,
+    MCK, DisciplineReference, DisciplineInGroup, AssessmentSchedule, AssessmentTeacher,
+    Statement, StatementGrade, GEKProtocol, GEKMember, GIAResult, GIADefenseQuestion,
     AttendanceTable, AttendanceTableRow,
 )
 
@@ -33,14 +34,20 @@ class RoleResource(resources.ModelResource):
 
 class UserResource(resources.ModelResource):
     """Ресурс для импорта/экспорта пользователей с хешированием пароля."""
-    
+
     def before_import_row(self, row, **kwargs):
-        """Хешируем пароль перед импортом."""
+        """Хешируем пароль и обрабатываем пустые значения перед импортом."""
+        # Хешируем пароль, если он не захеширован
         password = row.get('password', '')
         if password and not password.startswith(('pbkdf2_', 'argon2', 'bcrypt')):
-            # Если пароль не захеширован, хешируем его
             from django.contrib.auth.hashers import make_password
             row['password'] = make_password(password)
+
+        # Преобразуем пустые строки в None для поля esia_id
+        esia_id = row.get('esia_id', '')
+        if esia_id in ('', None):
+            row['esia_id'] = None
+
         return super().before_import_row(row, **kwargs)
 
     class Meta:
@@ -91,7 +98,7 @@ class SpecialtyResource(resources.ModelResource):
 
 class QualificationResource(resources.ModelResource):
     specialty = fields.Field(
-        column_name='specialty',
+        column_name='specialty_id',
         attribute='specialty',
         widget=ForeignKeyWidget(Specialty, field='id_specialty')
     )
@@ -626,19 +633,15 @@ class MCKResource(resources.ModelResource):
 
 class DisciplineReferenceResource(resources.ModelResource):
     """Ресурс для импорта/экспорта справочника дисциплин с очисткой данных."""
-    
+
     def before_import_row(self, row, row_number=None, **kwargs):
         """Очищаем данные перед импортом."""
-        # Отладка — посмотрим, что приходит
-        print(f"\n=== ИМПОРТ СТРОКИ {row_number} ===")
-        print(f"Исходные данные: {dict(row)}")
-        
         # Очищаем код от пробелов
         code = row.get('code', '')
         if isinstance(code, str):
             code = code.strip().replace(' ', '')
         row['code'] = code
-        
+
         # Очищаем название от пробелов в начале и конце и точек в конце
         name = row.get('name', '')
         if isinstance(name, str):
@@ -646,7 +649,7 @@ class DisciplineReferenceResource(resources.ModelResource):
             if name.endswith('.'):
                 name = name[:-1]
         row['name'] = name
-        
+
         # Преобразуем тип в нижний регистр
         type_value = row.get('type', '')
         if isinstance(type_value, str):
@@ -656,12 +659,10 @@ class DisciplineReferenceResource(resources.ModelResource):
             'Практика': 'практика',
             'ГИА': 'гиа',
         }
-        
+
         if type_value in type_mapping:
             row['type'] = type_mapping[type_value]
-        
-        print(f"После обработки: {dict(row)}")
-        
+
         return super().before_import_row(row, row_number=row_number, **kwargs)
 
     class Meta:
@@ -669,11 +670,8 @@ class DisciplineReferenceResource(resources.ModelResource):
         import_id_fields = ('code',)
         fields = ('code', 'name', 'type')
         export_order = fields
-        # ВАЖНО: отключаем пропуск "неизменённых" строк
         skip_unchanged = False
-        # Отключаем массовый импорт (может вызывать проблемы)
         use_bulk = False
-        # Создаём новые записи, если их нет
         force_init_instance = True
 
 
@@ -704,31 +702,182 @@ class DisciplineInGroupResource(resources.ModelResource):
         export_order = fields
 
 
+# ==============================================================================
+# РАСПИСАНИЕ АТТЕСТАЦИИ (с поддержкой M2M через AssessmentTeacher)
+# ==============================================================================
+
 class AssessmentScheduleResource(resources.ModelResource):
+    """
+    Ресурс для импорта/экспорта расписания аттестации.
+    
+    Поддерживает импорт:
+    - teacher (основной преподаватель) — через ForeignKeyWidget по id_user
+    - co_teachers (со-преподаватели) — через строку с ID через / или ,
+      значения вида "34/19" или "34,19" преобразуются в записи AssessmentTeacher
+    
+    После сохранения объекта AssessmentSchedule автоматически создаются
+    соответствующие записи в AssessmentTeacher.
+    """
+    
     group = fields.Field(
         column_name='group',
         attribute='group',
-        widget=ForeignKeyWidget(Group, field='id_group')
+        widget=widgets.ForeignKeyWidget(Group, 'id_group')
     )
+    
     discipline_in_group = fields.Field(
         column_name='discipline_in_group',
         attribute='discipline_in_group',
-        widget=ForeignKeyWidget(DisciplineInGroup, field='id_record')
+        widget=widgets.ForeignKeyWidget(DisciplineInGroup, 'id_record')
     )
+    
+    # Основной преподаватель — импортируется напрямую через ForeignKeyWidget
     teacher = fields.Field(
         column_name='teacher',
-        attribute='teacher',
-        widget=ForeignKeyWidget(User, field='id_user')
+        attribute=None,  # не привязываем напрямую к модели
+        widget=widgets.ForeignKeyWidget(User, 'id_user')
     )
-
+    
+    # Со-преподаватели — импортируются как строка ID через / или ,
+    co_teachers = fields.Field(
+        column_name='co_teachers',
+        attribute=None,
+    )
+    
     class Meta:
         model = AssessmentSchedule
         import_id_fields = ('id_schedule',)
         fields = (
-            'id_schedule', 'group', 'discipline_in_group', 'date',
-            'time', 'room', 'teacher', 'retake_date', 'retake_time',
+            'id_schedule',
+            'group',
+            'discipline_in_group',
+            'date',
+            'time',
+            'room',
+            'teacher',
+            'co_teachers',
+            'retake_date',
+            'retake_time',
         )
-        export_order = fields
+        skip_unchanged = False
+        report_skipped = False
+    
+    def before_import_row(self, row, row_number=None, **kwargs):
+        """
+        Перед импортом строки извлекаем teacher и co_teachers,
+        чтобы после создания объекта AssessmentSchedule создать записи AssessmentTeacher.
+        """
+        # Сохраняем teacher и co_teachers во временные атрибуты
+        teacher_id = row.get('teacher', '')
+        co_teachers_str = row.get('co_teachers', '')
+        
+        # Преобразуем в int или None
+        self._current_teacher_id = None
+        if teacher_id and str(teacher_id).strip().isdigit():
+            self._current_teacher_id = int(teacher_id)
+        
+        self._current_co_teacher_ids = []
+        if co_teachers_str:
+            import re
+            ids = re.split(r'[,/\s]+', str(co_teachers_str).strip())
+            for id_str in ids:
+                if id_str.strip().isdigit():
+                    self._current_co_teacher_ids.append(int(id_str))
+        
+        # Удаляем эти поля из row, чтобы они не мешали импорту модели
+        row.pop('teacher', None)
+        row.pop('co_teachers', None)
+        
+        return super().before_import_row(row, row_number=row_number, **kwargs)
+    
+    def after_save_instance(self, instance, row, **kwargs):
+        """
+        После сохранения AssessmentSchedule создаём записи AssessmentTeacher.
+        """
+        dry_run = kwargs.get('dry_run', False)
+        if dry_run:
+            return
+        
+        # Очищаем существующие записи (для обновления)
+        instance.assessment_teachers.all().delete()
+        
+        # Создаём запись для основного преподавателя
+        if self._current_teacher_id:
+            try:
+                teacher = User.objects.get(id_user=self._current_teacher_id)
+                AssessmentTeacher.objects.create(
+                    schedule=instance,
+                    teacher=teacher,
+                    role='primary'
+                )
+            except User.DoesNotExist:
+                pass
+        
+        # Создаём записи для со-преподавателей
+        for co_teacher_id in self._current_co_teacher_ids:
+            try:
+                co_teacher = User.objects.get(id_user=co_teacher_id)
+                # Пропускаем, если это тот же, что и основной
+                if co_teacher_id != self._current_teacher_id:
+                    AssessmentTeacher.objects.get_or_create(
+                        schedule=instance,
+                        teacher=co_teacher,
+                        defaults={'role': 'co'}
+                    )
+            except User.DoesNotExist:
+                pass
+    
+    def dehydrate_teacher(self, obj):
+        """Экспорт: возвращает ID основного преподавателя."""
+        primary = obj.get_primary_teacher()
+        return primary.id_user if primary else None
+    
+    def dehydrate_co_teachers(self, obj):
+        """Экспорт: возвращает IDs со-преподавателей через слэш."""
+        co_teachers = obj.get_co_teachers()
+        if not co_teachers.exists():
+            return None
+        return '/'.join([str(t.id_user) for t in co_teachers])
+
+
+# ==============================================================================
+# AssessmentTeacherResource — для прямого импорта промежуточной таблицы
+# ==============================================================================
+
+class AssessmentTeacherResource(resources.ModelResource):
+    """
+    Ресурс для прямого импорта/экспорта промежуточной таблицы AssessmentTeacher.
+    Полезен, если нужно массово добавить преподавателей к существующим записям расписания.
+    
+    Формат CSV:
+    id_assessment_teacher, schedule_id, teacher_id, role
+    1, 5, 34, primary
+    2, 5, 19, co
+    """
+    
+    schedule = fields.Field(
+        column_name='schedule_id',
+        attribute='schedule',
+        widget=widgets.ForeignKeyWidget(AssessmentSchedule, 'id_schedule')
+    )
+    
+    teacher = fields.Field(
+        column_name='teacher_id',
+        attribute='teacher',
+        widget=widgets.ForeignKeyWidget(User, 'id_user')
+    )
+    
+    class Meta:
+        model = AssessmentTeacher
+        import_id_fields = ('id_assessment_teacher',)
+        fields = (
+            'id_assessment_teacher',
+            'schedule',
+            'teacher',
+            'role',
+        )
+        skip_unchanged = True
+        report_skipped = False
 
 
 class StatementResource(resources.ModelResource):

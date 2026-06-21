@@ -65,6 +65,20 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.last_name} {self.first_name} ({self.email})"
+    
+    def get_full_name(self):
+        """Возвращает ФИО пользователя."""
+        parts = [self.last_name, self.first_name, self.middle_name]
+        return ' '.join(filter(None, parts)).strip()
+    
+    def get_short_name(self):
+        """Возвращает Фамилия И.О."""
+        parts = [self.last_name]
+        if self.first_name:
+            parts.append(f"{self.first_name[0]}.")
+        if self.middle_name:
+            parts.append(f"{self.middle_name[0]}.")
+        return ' '.join(parts)
 
 
 class UserRole(models.Model):
@@ -849,24 +863,156 @@ class DisciplineInGroup(models.Model):
         return f"{self.discipline_ref.code} ({self.group})"
 
 
-class AssessmentSchedule(models.Model):
-    id_schedule = models.AutoField(_('ID расписания'), primary_key=True)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name=_('Группа'))
-    discipline_in_group = models.ForeignKey(DisciplineInGroup, on_delete=models.CASCADE, verbose_name=_('Дисциплина'))
-    date = models.DateField(_('Дата проведения'))
-    time = models.TimeField(_('Время проведения'), blank=True, null=True)
-    room = models.CharField(_('Аудитория'), max_length=50, blank=True, null=True)
-    teacher = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name=_('Преподаватель'))
-    retake_date = models.DateField(_('Дата пересдачи'), blank=True, null=True)
-    retake_time = models.TimeField(_('Время пересдачи'), blank=True, null=True)
+# ==============================================================================
+# РАСПИСАНИЕ АТТЕСТАЦИИ (с поддержкой нескольких преподавателей через M2M)
+# ==============================================================================
 
+class AssessmentTeacher(models.Model):
+    """
+    Промежуточная модель для связи расписания аттестации с преподавателями.
+    Реализует Many-to-Many через 'through' с указанием роли (основной/со-преподаватель).
+    """
+    
+    ROLE_CHOICES = [
+        ('primary', 'Основной преподаватель'),
+        ('co', 'Со-преподаватель'),
+    ]
+    
+    id_assessment_teacher = models.AutoField(
+        primary_key=True,
+        verbose_name='ID записи'
+    )
+    
+    schedule = models.ForeignKey(
+        'AssessmentSchedule',
+        on_delete=models.CASCADE,
+        related_name='assessment_teachers',
+        verbose_name='Запись расписания'
+    )
+    
+    teacher = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='assessment_teaching',
+        verbose_name='Преподаватель'
+    )
+    
+    role = models.CharField(
+        max_length=20,
+        choices=ROLE_CHOICES,
+        default='primary',
+        verbose_name='Роль'
+    )
+    
     class Meta:
-        verbose_name = _('Расписание аттестации')
-        verbose_name_plural = _('Расписание аттестации')
-        app_label = 'core'
-
+        verbose_name = 'Преподаватель в расписании'
+        verbose_name_plural = 'Преподаватели в расписании'
+        unique_together = ('schedule', 'teacher')
+        ordering = ['-role', 'teacher__last_name']
+    
     def __str__(self):
-        return f"{self.discipline_in_group.discipline_ref.code} - {self.date}"
+        role_label = self.get_role_display()
+        return f"{self.teacher} ({role_label})"
+
+
+class AssessmentSchedule(models.Model):
+    """
+    Расписание аттестации (зачёты и экзамены).
+    
+    Поддерживает нескольких преподавателей через M2M с промежуточной моделью AssessmentTeacher.
+    Один преподаватель назначается основным (role='primary'), остальные — со-преподавателями (role='co').
+    """
+    
+    id_schedule = models.AutoField(
+        primary_key=True,
+        verbose_name='ID расписания'
+    )
+    
+    group = models.ForeignKey(
+        'Group',
+        on_delete=models.CASCADE,
+        related_name='assessments',
+        verbose_name='Группа'
+    )
+    
+    discipline_in_group = models.ForeignKey(
+        'DisciplineInGroup',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='assessments',
+        verbose_name='Дисциплина в группе'
+    )
+    
+    date = models.DateField(verbose_name='Дата проведения')
+    time = models.TimeField(null=True, blank=True, verbose_name='Время начала')
+    
+    room = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name='Аудитория'
+    )
+    
+    # Many-to-Many через промежуточную модель AssessmentTeacher
+    teachers = models.ManyToManyField(
+        User,
+        through='AssessmentTeacher',
+        related_name='assessment_schedules',
+        verbose_name='Преподаватели',
+        help_text='Основной преподаватель и со-преподаватели'
+    )
+    
+    retake_date = models.DateField(null=True, blank=True, verbose_name='Дата пересдачи')
+    retake_time = models.TimeField(null=True, blank=True, verbose_name='Время пересдачи')
+    
+    class Meta:
+        verbose_name = 'Запись расписания аттестации'
+        verbose_name_plural = 'Расписание аттестации'
+        ordering = ['date', 'time', 'group']
+    
+    def __str__(self):
+        primary = self.get_primary_teacher()
+        teacher_name = primary.get_full_name() if primary else '—'
+        discipline = self.discipline_in_group.discipline_ref.name if self.discipline_in_group else '—'
+        return f"{self.group} | {discipline} | {self.date} | {teacher_name}"
+    
+    def get_primary_teacher(self):
+        """Возвращает основного преподавателя или None."""
+        try:
+            at = self.assessment_teachers.select_related('teacher').get(role='primary')
+            return at.teacher
+        except AssessmentTeacher.DoesNotExist:
+            return None
+    
+    def get_co_teachers(self):
+        """Возвращает QuerySet со-преподавателей."""
+        return User.objects.filter(
+            assessment_teaching__schedule=self,
+            assessment_teaching__role='co'
+        )
+    
+    def get_all_teachers(self):
+        """Возвращает QuerySet всех преподавателей (основной + со-преподаватели)."""
+        return User.objects.filter(assessment_teaching__schedule=self)
+    
+    def set_primary_teacher(self, user):
+        """Устанавливает основного преподавателя (удаляя предыдущего)."""
+        self.assessment_teachers.filter(role='primary').delete()
+        if user:
+            AssessmentTeacher.objects.create(
+                schedule=self,
+                teacher=user,
+                role='primary'
+            )
+    
+    def add_co_teacher(self, user):
+        """Добавляет со-преподавателя."""
+        AssessmentTeacher.objects.get_or_create(
+            schedule=self,
+            teacher=user,
+            defaults={'role': 'co'}
+        )
 
 
 class Statement(models.Model):
