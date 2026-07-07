@@ -245,6 +245,43 @@ class FamilyMemberResource(resources.ModelResource):
 
 
 class ProfileResource(resources.ModelResource):
+    """
+    Ресурс для импорта/экспорта профиля студента.
+    Обрабатывает JSON-поля корректно: пустые значения превращаются в None.
+    """
+    
+    # Все JSON-поля модели Profile
+    JSON_FIELDS = [
+        'it_skills', 'creative_skills', 'school_participation',
+        'college_participation', 'achievements', 'social_networks',
+        'motivation_college', 'motivation_specialty',
+        'desired_participation', 'foreign_langs', 'drivers_license',
+    ]
+    
+    def before_import_row(self, row, row_number=None, **kwargs):
+        """
+        Перед импортом строки:
+        1. Преобразуем пустые строки в JSON-поля в None
+        2. Обрабатываем строку "null" как None
+        """
+        for field_name in self.JSON_FIELDS:
+            value = row.get(field_name, '')
+            
+            # Если значение пустое или строка "null" — заменяем на None
+            if value in ('', None, 'null', 'NULL', 'None'):
+                row[field_name] = None
+            elif isinstance(value, str):
+                value = value.strip()
+                # Если это просто слово без JSON-обёртки — оборачиваем в JSON-строку
+                if value and not (
+                    value.startswith(('[', '{', '"')) or
+                    value.lower() in ('true', 'false', 'null') or
+                    value.replace('.', '').replace('-', '').isdigit()
+                ):
+                    row[field_name] = f'"{value}"'
+        
+        return super().before_import_row(row, row_number=row_number, **kwargs)
+    
     class Meta:
         model = Profile
         import_id_fields = ('id_profile',)

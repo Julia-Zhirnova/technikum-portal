@@ -577,22 +577,22 @@ class Organization(models.Model):
     
     director_name = models.CharField(_('ФИО директора'), max_length=255, blank=True, null=True)
     director_position = models.CharField(_('Должность директора'), max_length=100, blank=True, null=True)
-    director_phone = models.CharField(_('Телефон директора'), max_length=20, blank=True, null=True)
+    director_phone = models.CharField(max_length=100, blank=True, null=True, verbose_name='Телефон директора')
     email = models.EmailField(_('Email организации'), blank=True, null=True)
     
     responsible_name = models.CharField(_('ФИО ответственного'), max_length=255, blank=True, null=True)
     responsible_position = models.CharField(_('Должность ответственного'), max_length=100, blank=True, null=True)
-    responsible_phone = models.CharField(_('Телефон ответственного'), max_length=20, blank=True, null=True)
+    responsible_phone = models.CharField(max_length=100, blank=True, null=True, verbose_name='Телефон ответственного')
     
     mentor_name = models.CharField(_('ФИО наставника ОО'), max_length=255, blank=True, null=True)
     mentor_position = models.CharField(_('Должность наставника ОО'), max_length=100, blank=True, null=True)
-    mentor_phone = models.CharField(_('Телефон наставника ОО'), max_length=20, blank=True, null=True)
+    mentor_phone = models.CharField(max_length=100, blank=True, null=True, verbose_name='Телефон наставника')
     
     bank_name = models.CharField(_('Название банка'), max_length=255, blank=True, null=True)
     account = models.CharField(_('Расчетный счет'), max_length=50, blank=True, null=True)
     corr_account = models.CharField(_('Корр. счет'), max_length=50, blank=True, null=True)
     bik = models.CharField(_('БИК'), max_length=20, blank=True, null=True)
-    basis = models.CharField(_('Основание действий'), max_length=255, blank=True, null=True)
+    basis = models.TextField(_('Основание действий'), max_length=255, blank=True, null=True)
 
     class Meta:
         verbose_name = _('Организация')
