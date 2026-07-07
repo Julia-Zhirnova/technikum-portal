@@ -1,16 +1,22 @@
-venv/
+# Временные файлы разбиения
+core_*_part_*
+code_dump.txt
+
+# Бэкапы
+backups/
+
+# Python
 __pycache__/
 *.pyc
 *.pyo
-.env
-db.sqlite3
-.DS_Store
-*.log
-media/
-static/collected/
-.env
-media/
-staticfiles/
-frontend/node_modules/
-frontend/dist/
-frontend/.vite/
+venv/
+*.sqlite3
+
+# Node
+node_modules/
+dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
