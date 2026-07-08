@@ -46,7 +46,7 @@ api.interceptors.response.use(
 export interface LoginResponse {
   access: string;
   refresh: string;
-};
+}
 
 export interface UserProfile {
   snils: string;
@@ -68,6 +68,8 @@ export interface UserProfile {
   pd_consent_date: string | null;
   status: string;
   photo_path: string | null;
+  study_plan: string;
+  dual_edu: boolean;
   age: number | null;
   age_status: string | null;
   completion_percentage: number;
@@ -77,7 +79,7 @@ export interface UserProfile {
   family: any | null;
   education: any | null;
   profile: any | null;
-};
+}
 
 export const authAPI = {
   login: (email: string, password: string) =>
@@ -86,6 +88,21 @@ export const authAPI = {
 
 export const studentAPI = {
   getProfile: () => api.get<UserProfile>('/student/profile/'),
+  updateProfile: (data: any) => api.patch('/student/profile/', data),
+  uploadPhoto: (file: File) => {
+    const formData = new FormData();
+    formData.append('photo', file);
+    return api.post('/student/photo/', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+  uploadScan: (type: string, file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return api.post(`/student/scan/${type}/`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
 };
 
 export default api;
