@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Student, Group, Statement
 from .serializers import (
+    UserProfileSerializer,
     StudentProfileSerializer, GroupWithStudentsSerializer, StatementSerializer
 )
 
@@ -16,9 +17,18 @@ class IsStudent(permissions.BasePermission):
         return request.user.is_authenticated and hasattr(request.user, 'student')
 
 class IsCurator(permissions.BasePermission):
-    """Разрешение только для кураторов."""
+    """Разрешение для кураторов и администраторов."""
     def has_permission(self, request, view):
-        return request.user.is_authenticated and Group.objects.filter(curator=request.user).exists()
+        if not request.user.is_authenticated:
+            return False
+        
+        # Админы всегда имеют доступ
+        if request.user.is_staff:
+            return True
+        
+        # Проверяем роль curator
+        from .models import UserRole
+        return UserRole.objects.filter(user=request.user, role__id_role='curator').exists()
 
 class IsTeacher(permissions.BasePermission):
     """Разрешение только для преподавателей."""
@@ -52,6 +62,9 @@ class CuratorGroupView(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated, IsCurator]
     
     def get_object(self):
+        # Если пользователь — админ, возвращаем первую группу
+        if self.request.user.is_staff:
+            return Group.objects.first()
         return Group.objects.get(curator=self.request.user)
 
 class CuratorStudentDetailView(generics.RetrieveAPIView):
@@ -115,3 +128,18 @@ class WhoAmIView(APIView):
             'full_name': user.get_full_name(),
             'roles': roles,
         })
+
+
+# ==============================================================================
+# API ENDPOINTS ДЛЯ ПОЛЬЗОВАТЕЛЯ (КУРАТОР/ПРЕПОДАВАТЕЛЬ/АДМИН)
+# ==============================================================================
+
+class UserProfileView(generics.RetrieveAPIView):
+    """
+    GET /api/user/profile/ — профиль куратора/преподавателя/админа
+    """
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get_object(self):
+        return self.request.user

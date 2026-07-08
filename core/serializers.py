@@ -283,3 +283,29 @@ class StatementSerializer(serializers.ModelSerializer):
         if obj.teacher:
             return obj.teacher.get_full_name()
         return "—"
+
+
+# ==============================================================================
+# СЕРИАЛИЗАТОР ДЛЯ ПОЛЬЗОВАТЕЛЯ (КУРАТОР/ПРЕПОДАВАТЕЛЬ/АДМИН)
+# ==============================================================================
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    """Сериализатор для кураторов/преподавателей/админов (без данных Student)."""
+    full_name = serializers.SerializerMethodField()
+    roles = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = User
+        fields = (
+            'id_user', 'email', 'last_name', 'first_name', 'middle_name',
+            'full_name', 'roles',
+        )
+        read_only_fields = ('id_user', 'email')
+    
+    def get_full_name(self, obj):
+        return obj.get_full_name()
+    
+    def get_roles(self, obj):
+        from .models import UserRole
+        user_roles = UserRole.objects.filter(user=obj).select_related('role')
+        return [ur.role.id_role for ur in user_roles]

@@ -48,6 +48,13 @@ export interface LoginResponse {
   refresh: string;
 }
 
+export interface WhoAmIResponse {
+  user_id: number;
+  email: string;
+  full_name: string;
+  roles: string[];
+}
+
 export interface UserProfile {
   snils: string;
   user: {
@@ -84,25 +91,36 @@ export interface UserProfile {
 export const authAPI = {
   login: (email: string, password: string) =>
     api.post<LoginResponse>('/token/', { email, password }),
+  whoami: () => api.get<WhoAmIResponse>('/whoami/'),
 };
 
 export const studentAPI = {
   getProfile: () => api.get<UserProfile>('/student/profile/'),
   updateProfile: (data: any) => api.patch('/student/profile/', data),
-  uploadPhoto: (file: File) => {
-    const formData = new FormData();
-    formData.append('photo', file);
-    return api.post('/student/photo/', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-  },
-  uploadScan: (type: string, file: File) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    return api.post(`/student/scan/${type}/`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-  },
+};
+
+export const curatorAPI = {
+  getGroup: () => api.get('/curator/group/'),
+  getStudent: (snils: string) => api.get(`/curator/students/${snils}/`),
+};
+
+export const teacherAPI = {
+  getStatements: () => api.get('/teacher/statements/'),
 };
 
 export default api;
+
+
+export interface UserProfileData {
+  id_user: number;
+  email: string;
+  last_name: string;
+  first_name: string;
+  middle_name: string;
+  full_name: string;
+  roles: string[];
+}
+
+export const userAPI = {
+  getProfile: () => api.get<UserProfileData>('/user/profile/'),
+};

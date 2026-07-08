@@ -15,6 +15,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import { studentAPI, type UserProfile } from '../services/api';
 import NotificationBell from '../components/NotificationBell';
+import RoleSwitcher from '../components/RoleSwitcher';
 import PracticePage from './PracticePage';
 import GradesPage from './GradesPage';
 import AttendancePage from './AttendancePage';
@@ -108,6 +109,7 @@ export default function ProfilePage() {
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             🎓 Люберецкий техникум
           </Typography>
+          <RoleSwitcher />
           <NotificationBell />
           <Typography sx={{ mx: 2 }}>{profile.user.full_name}</Typography>
           <IconButton onClick={handleLogout} color="inherit" title="Выйти">

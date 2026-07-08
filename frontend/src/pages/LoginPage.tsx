@@ -23,7 +23,9 @@ export default function LoginPage() {
       const response = await authAPI.login(email, password);
       localStorage.setItem('access_token', response.data.access);
       localStorage.setItem('refresh_token', response.data.refresh);
-      navigate('/profile');
+      
+      // Перенаправляем на корень, где SmartRedirect определит роль
+      navigate('/');
     } catch (err: any) {
       setError(
         err.response?.status === 401
@@ -90,9 +92,10 @@ export default function LoginPage() {
 
           <Box sx={{ mt: 3, p: 2, bgcolor: 'grey.100', borderRadius: 1 }}>
             <Typography variant="caption" color="text.secondary">
-              <strong>Тестовый вход:</strong><br />
-              Email: <code>ivanov.ii@test.ru</code><br />
-              Пароль: <code>student123</code>
+              <strong>Тестовые входы:</strong><br />
+              Студент: <code>shpak_va@luberteh.ru</code> / <code>12345</code><br />
+              Куратор: <code>tardv69@yandex.ru</code> / <code>curator123</code><br />
+              Админ: <code>admin@luberteh.ru</code> / <code>admin123</code>
             </Typography>
           </Box>
         </CardContent>
