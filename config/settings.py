@@ -5,6 +5,7 @@ Django settings for technikum-portal project.
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
 
 # Загружаем переменные окружения из .env файла
 load_dotenv()
@@ -137,6 +138,13 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
 }
+# Настройки JWT-аутентификации
+SIMPLE_JWT = {
+    'USER_ID_FIELD': 'id_user',  # Поле первичного ключа в модели User
+    'USER_ID_CLAIM': 'user_id',  # Как это поле будет называться в токене
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # Время жизни access-токена
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Время жизни refresh-токена
+}
 
 # CORS settings (для React frontend)
 CORS_ALLOWED_ORIGINS = [
@@ -173,3 +181,5 @@ LOGGING = {
 }
 
 AUTH_USER_MODEL = 'core.User' # Замените 'core' на имя вашего приложения
+
+

@@ -160,8 +160,11 @@ def main():
     user.middle_name = 'Иванович'
     user.email = 'ivanov.ii@test.ru'
     user.requires_password_change = False
+    user.set_password('student123')  # Устанавливаем пароль
     user.save()
     print(f"  ✅ ФИО: {user.get_full_name()}")
+    print(f"  ✅ Email: {user.email}")
+    print(f"  ✅ Пароль: student123")
     
     # 3. Обновляем паспорт
     print("\n📄 Обновление паспорта...")

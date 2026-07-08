@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Student, Group, Statement
 from .serializers import (
-    StudentSerializer, GroupWithStudentsSerializer, StatementSerializer
+    StudentProfileSerializer, GroupWithStudentsSerializer, StatementSerializer
 )
 
 # ==============================================================================
@@ -26,49 +26,70 @@ class IsTeacher(permissions.BasePermission):
         return request.user.is_authenticated and Statement.objects.filter(teacher=request.user).exists()
 
 # ==============================================================================
-# API ENDPOINTS
+# API ENDPOINTS ДЛЯ СТУДЕНТА
 # ==============================================================================
 
-class StudentProfileView(generics.RetrieveAPIView):
+class StudentProfileView(generics.RetrieveUpdateAPIView):
     """
-    GET /api/student/profile/
-    Возвращает профиль текущего студента.
+    GET /api/student/profile/ — получить профиль студента
+    PUT/PATCH /api/student/profile/ — обновить профиль студента
     """
-    serializer_class = StudentSerializer
+    serializer_class = StudentProfileSerializer
     permission_classes = [permissions.IsAuthenticated, IsStudent]
     
     def get_object(self):
-        # Получаем студента, связанного с текущим пользователем
         return Student.objects.get(user=self.request.user)
+
+# ==============================================================================
+# API ENDPOINTS ДЛЯ КУРАТОРА
+# ==============================================================================
 
 class CuratorGroupView(generics.RetrieveAPIView):
     """
-    GET /api/curator/group/
-    Возвращает группу куратора со списком студентов.
+    GET /api/curator/group/ — группа куратора со списком студентов
     """
     serializer_class = GroupWithStudentsSerializer
     permission_classes = [permissions.IsAuthenticated, IsCurator]
     
     def get_object(self):
-        # Получаем группу, где текущий пользователь — куратор
         return Group.objects.get(curator=self.request.user)
+
+class CuratorStudentDetailView(generics.RetrieveAPIView):
+    """
+    GET /api/curator/students/<snils>/ — анкета конкретного студента
+    """
+    serializer_class = StudentProfileSerializer
+    permission_classes = [permissions.IsAuthenticated, IsCurator]
+    lookup_field = 'snils'
+    
+    def get_queryset(self):
+        # Куратор видит только студентов своей группы
+        curator_group = Group.objects.filter(curator=self.request.user).first()
+        if curator_group:
+            return Student.objects.filter(group=curator_group)
+        return Student.objects.none()
+
+# ==============================================================================
+# API ENDPOINTS ДЛЯ ПРЕПОДАВАТЕЛЯ
+# ==============================================================================
 
 class TeacherStatementsView(generics.ListAPIView):
     """
-    GET /api/teacher/statements/
-    Возвращает список ведомостей преподавателя.
+    GET /api/teacher/statements/ — список ведомостей преподавателя
     """
     serializer_class = StatementSerializer
     permission_classes = [permissions.IsAuthenticated, IsTeacher]
     
     def get_queryset(self):
-        # Возвращаем только ведомости текущего преподавателя
         return Statement.objects.filter(teacher=self.request.user)
+
+# ==============================================================================
+# УНИВЕРСАЛЬНЫЕ ENDPOINTS
+# ==============================================================================
 
 class WhoAmIView(APIView):
     """
-    GET /api/whoami/
-    Возвращает роль текущего пользователя (студент/куратор/преподаватель).
+    GET /api/whoami/ — роль текущего пользователя
     """
     permission_classes = [permissions.IsAuthenticated]
     
@@ -76,19 +97,15 @@ class WhoAmIView(APIView):
         user = request.user
         roles = []
         
-        # Проверяем, является ли пользователь студентом
         if hasattr(user, 'student'):
             roles.append('student')
         
-        # Проверяем, является ли пользователь куратором
         if Group.objects.filter(curator=user).exists():
             roles.append('curator')
         
-        # Проверяем, является ли пользователь преподавателем
         if Statement.objects.filter(teacher=user).exists():
             roles.append('teacher')
         
-        # Если пользователь — администратор
         if user.is_staff:
             roles.append('admin')
         
@@ -96,5 +113,5 @@ class WhoAmIView(APIView):
             'user_id': user.id_user,
             'email': user.email,
             'full_name': user.get_full_name(),
-            'roles': roles
+            'roles': roles,
         })
