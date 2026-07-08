@@ -1,285 +1,264 @@
 import { useEffect, useState } from 'react';
-import { Container, Typography, Card, CardContent, Grid, Chip, Box, CircularProgress, Alert } from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import {
+  Container, Typography, Card, CardContent, Grid, Chip, Box,
+  CircularProgress, Alert, Button, AppBar, Toolbar, Avatar, LinearProgress,
+  Accordion, AccordionSummary, AccordionDetails, IconButton,
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { studentAPI, type UserProfile } from '../services/api';
 
-interface StudentProfile {
-  snils: string;
-  user_full_name: string;
-  group_name: string;
-  birth_date: string;
-  gender: string;
-  birth_place: string;
-  phone: string;
-  inn: string | null;
-  status: string;
-  passport: {
-    series_number: string;
-    issue_date: string;
-    issuer: string;
-    unit_code: string;
-  } | null;
-  health: {
-    status: string;
-    oms_number: string;
-    oms_issuer: string;
-  } | null;
-  military: {
-    registration_number: string;
-    fitness_category: string;
-    commissariat: string;
-  } | null;
-  family: {
-    status: string;
-    housing_type: string;
-  } | null;
-  profile: {
-    it_skills: any;
-    programming_langs: string;
-    hobbies: string;
-  } | null;
-}
+const API_BASE_URL = 'http://localhost:8000';
 
 export default function ProfilePage() {
-  const [profile, setProfile] = useState<StudentProfile | null>(null);
+  const navigate = useNavigate();
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Пока что используем тестовые данные, позже добавим авторизацию
-    const testProfile: StudentProfile = {
-      snils: '123-456-789 00',
-      user_full_name: 'Иванов Иван Иванович',
-      group_name: 'ИС-24',
-      birth_date: '2007-01-01',
-      gender: 'мужской',
-      birth_place: 'Москва',
-      phone: '89991234567',
-      inn: '123456789012',
-      status: 'обучается (студент)',
-      passport: {
-        series_number: '4619 123456',
-        issue_date: '2023-01-15',
-        issuer: 'ГУ МВД РОССИИ ПО МОСКОВСКОЙ ОБЛАСТИ',
-        unit_code: '500-066'
-      },
-      health: {
-        status: 'здоров',
-        oms_number: '5999000999000999',
-        oms_issuer: 'ЗАО "МАКС-М" Московской области'
-      },
-      military: {
-        registration_number: 'СА №1239900',
-        fitness_category: 'А',
-        commissariat: 'Военный комиссариат г. Люберцы'
-      },
-      family: {
-        status: 'полная',
-        housing_type: 'в_собственном_жилье_с_родителями'
-      },
-      profile: {
-        it_skills: ['программирование', 'создание сайтов'],
-        programming_langs: 'Python, JavaScript',
-        hobbies: 'Спорт, чтение'
+    const loadProfile = async () => {
+      try {
+        const response = await studentAPI.getProfile();
+        setProfile(response.data);
+      } catch (err: any) {
+        setError(err.response?.data?.detail || 'Ошибка загрузки профиля');
+        if (err.response?.status === 401) {
+          navigate('/login');
+        }
+      } finally {
+        setLoading(false);
       }
     };
-    
-    setProfile(testProfile);
-    setLoading(false);
-  }, []);
+    loadProfile();
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    navigate('/login');
+  };
 
   if (loading) {
     return (
-      <Container maxWidth="md" sx={{ pb: 10, pt: 3, textAlign: 'center' }}>
+      <Container maxWidth="md" sx={{ textAlign: 'center', mt: 10 }}>
         <CircularProgress />
         <Typography sx={{ mt: 2 }}>Загрузка профиля...</Typography>
       </Container>
     );
   }
 
-  if (error) {
+  if (error || !profile) {
     return (
-      <Container maxWidth="md" sx={{ pb: 10, pt: 3 }}>
-        <Alert severity="error">{error}</Alert>
+      <Container maxWidth="md" sx={{ mt: 5 }}>
+        <Alert severity="error">{error || 'Профиль не найден'}</Alert>
       </Container>
     );
   }
 
-  if (!profile) {
-    return (
-      <Container maxWidth="md" sx={{ pb: 10, pt: 3 }}>
-        <Alert severity="warning">Профиль не найден</Alert>
-      </Container>
-    );
-  }
+  const photoUrl = profile.photo_path ? `${API_BASE_URL}/media/${profile.photo_path}` : null;
 
   return (
-    <Container maxWidth="md" sx={{ pb: 10, pt: 3 }}>
-      <Box sx={{ textAlign: 'center', mb: 4 }}>
-        <PersonIcon sx={{ fontSize: 60, color: 'primary.main', mb: 2 }} />
-        <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
-          Мой профиль
-        </Typography>
-        <Chip label={profile.status} color="primary" sx={{ mt: 1 }} />
-      </Box>
+    <>
+      <AppBar position="sticky" color="default" elevation={1}>
+        <Toolbar>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            🎓 Люберецкий техникум
+          </Typography>
+          <Typography sx={{ mr: 2 }}>{profile.user.full_name}</Typography>
+          <IconButton onClick={handleLogout} color="inherit" title="Выйти">
+            <LogoutIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
 
-      {/* Основная информация */}
-      <Card sx={{ mb: 3 }}>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>👤 Основная информация</Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body2" color="text.secondary">ФИО</Typography>
-              <Typography variant="body1" fontWeight="bold">{profile.user_full_name}</Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body2" color="text.secondary">Группа</Typography>
-              <Typography variant="body1" fontWeight="bold">{profile.group_name}</Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body2" color="text.secondary">Дата рождения</Typography>
-              <Typography variant="body1">{profile.birth_date}</Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body2" color="text.secondary">Место рождения</Typography>
-              <Typography variant="body1">{profile.birth_place}</Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body2" color="text.secondary">Телефон</Typography>
-              <Typography variant="body1">{profile.phone}</Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body2" color="text.secondary">СНИЛС</Typography>
-              <Typography variant="body1">{profile.snils}</Typography>
-            </Grid>
-            {profile.inn && (
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body2" color="text.secondary">ИНН</Typography>
-                <Typography variant="body1">{profile.inn}</Typography>
-              </Grid>
-            )}
-          </Grid>
-        </CardContent>
-      </Card>
-
-      {/* Паспорт */}
-      {profile.passport && (
+      <Container maxWidth="md" sx={{ pb: 5, pt: 3 }}>
         <Card sx={{ mb: 3 }}>
           <CardContent>
-            <Typography variant="h6" gutterBottom>📄 Паспорт</Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body2" color="text.secondary">Серия и номер</Typography>
-                <Typography variant="body1">{profile.passport.series_number}</Typography>
+            <Grid container spacing={3} alignItems="center">
+              <Grid item>
+                <Avatar
+                  src={photoUrl || undefined}
+                  sx={{ width: 120, height: 120, fontSize: 48 }}
+                >
+                  {profile.user.first_name[0]}{profile.user.last_name[0]}
+                </Avatar>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body2" color="text.secondary">Дата выдачи</Typography>
-                <Typography variant="body1">{profile.passport.issue_date}</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body2" color="text.secondary">Кем выдан</Typography>
-                <Typography variant="body1">{profile.passport.issuer}</Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body2" color="text.secondary">Код подразделения</Typography>
-                <Typography variant="body1">{profile.passport.unit_code}</Typography>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Здоровье */}
-      {profile.health && (
-        <Card sx={{ mb: 3 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>🏥 Здоровье</Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body2" color="text.secondary">Состояние</Typography>
-                <Typography variant="body1">{profile.health.status}</Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body2" color="text.secondary">Номер полиса ОМС</Typography>
-                <Typography variant="body1">{profile.health.oms_number}</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body2" color="text.secondary">Кем выдан полис</Typography>
-                <Typography variant="body1">{profile.health.oms_issuer}</Typography>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Воинский учет */}
-      {profile.military && (
-        <Card sx={{ mb: 3 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>🎖️ Воинский учет</Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body2" color="text.secondary">Номер приписного</Typography>
-                <Typography variant="body1">{profile.military.registration_number}</Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body2" color="text.secondary">Категория годности</Typography>
-                <Typography variant="body1">{profile.military.fitness_category}</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body2" color="text.secondary">Военкомат</Typography>
-                <Typography variant="body1">{profile.military.commissariat}</Typography>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Семья */}
-      {profile.family && (
-        <Card sx={{ mb: 3 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>👨‍👩‍👧‍👦 Семья</Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body2" color="text.secondary">Статус семьи</Typography>
-                <Typography variant="body1">{profile.family.status}</Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body2" color="text.secondary">Тип жилья</Typography>
-                <Typography variant="body1">{profile.family.housing_type}</Typography>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Профиль */}
-      {profile.profile && (
-        <Card sx={{ mb: 3 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>💼 Профиль</Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant="body2" color="text.secondary">IT-навыки</Typography>
-                <Typography variant="body1">
-                  {Array.isArray(profile.profile.it_skills) 
-                    ? profile.profile.it_skills.join(', ') 
-                    : '—'}
+              <Grid item xs>
+                <Typography variant="h5" fontWeight="bold">
+                  {profile.user.full_name}
                 </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body2" color="text.secondary">Языки программирования</Typography>
-                <Typography variant="body1">{profile.profile.programming_langs || '—'}</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body2" color="text.secondary">Хобби</Typography>
-                <Typography variant="body1">{profile.profile.hobbies || '—'}</Typography>
+                <Typography color="text.secondary" sx={{ mt: 0.5 }}>
+                  Группа: <strong>{profile.group_name}</strong> • {profile.age} лет • {profile.age_status}
+                </Typography>
+                <Box sx={{ mt: 1, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                  <Chip label={profile.status} color="success" size="small" />
+                  <Chip label={`Анкета заполнена на ${profile.completion_percentage}%`} color="primary" size="small" />
+                </Box>
+                <LinearProgress
+                  variant="determinate"
+                  value={profile.completion_percentage}
+                  sx={{ mt: 2, height: 8, borderRadius: 4 }}
+                />
               </Grid>
             </Grid>
           </CardContent>
         </Card>
-      )}
-    </Container>
+
+        <Accordion defaultExpanded>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="h6">👤 Основная информация</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container spacing={2}>
+              <InfoRow label="СНИЛС" value={profile.snils} />
+              <InfoRow label="Email" value={profile.user.email} />
+              <InfoRow label="Телефон" value={profile.phone} />
+              <InfoRow label="ИНН" value={profile.inn || '—'} />
+              <InfoRow label="Дата рождения" value={profile.birth_date} />
+              <InfoRow label="Пол" value={profile.gender} />
+              <InfoRow label="Место рождения" value={profile.birth_place} />
+              <InfoRow label="Согласие на ПДн" value={profile.pd_consent ? '✅ Дано' : '❌ Не дано'} />
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+
+        {profile.passport && (
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">📄 Паспорт</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container spacing={2}>
+                <InfoRow label="Серия и номер" value={profile.passport.series_number || '—'} />
+                <InfoRow label="Дата выдачи" value={profile.passport.issue_date || '—'} />
+                <InfoRow label="Кем выдан" value={profile.passport.issuer || '—'} />
+                <InfoRow label="Код подразделения" value={profile.passport.unit_code || '—'} />
+                <InfoRow label="Регион" value={profile.passport.region_city || '—'} />
+                <InfoRow label="Адрес" value={profile.passport.address_detail || '—'} />
+              </Grid>
+              {profile.passport.file_path && (
+                <Button
+                  href={profile.passport.file_path}
+                  target="_blank"
+                  variant="outlined"
+                  size="small"
+                  sx={{ mt: 2 }}
+                >
+                  📎 Посмотреть скан
+                </Button>
+              )}
+            </AccordionDetails>
+          </Accordion>
+        )}
+
+        {profile.health && (
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">🏥 Здоровье</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container spacing={2}>
+                <InfoRow label="Состояние" value={profile.health.status} />
+                <InfoRow label="Полис ОМС" value={profile.health.oms_number || '—'} />
+                <InfoRow label="Выдан" value={profile.health.oms_issuer || '—'} />
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+        )}
+
+        {profile.military && (
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">🎖️ Воинский учёт</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container spacing={2}>
+                <InfoRow label="Номер приписного" value={profile.military.registration_number || '—'} />
+                <InfoRow label="Категория" value={profile.military.fitness_category || '—'} />
+                <InfoRow label="Военкомат" value={profile.military.commissariat || '—'} />
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+        )}
+
+        {profile.family && (
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">👨‍👩‍👧‍👦 Семья</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container spacing={2}>
+                <InfoRow label="Статус" value={profile.family.status} />
+                <InfoRow label="Тип жилья" value={profile.family.housing_type} />
+                <InfoRow label="Несовершеннолетних" value={String(profile.family.minors_count ?? '—')} />
+                <InfoRow label="Совершеннолетних" value={String(profile.family.adults_count ?? '—')} />
+              </Grid>
+              {profile.family.members?.length > 0 && (
+                <>
+                  <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }}>Члены семьи:</Typography>
+                  {profile.family.members.map((member: any) => (
+                    <Card key={member.id_member} variant="outlined" sx={{ mb: 1, p: 1 }}>
+                      <Typography variant="body2">
+                        <strong>{member.relation}:</strong> {member.full_name}
+                      </Typography>
+                      {member.phone && (
+                        <Typography variant="caption" color="text.secondary">
+                          📞 {member.phone}
+                        </Typography>
+                      )}
+                    </Card>
+                  ))}
+                </>
+              )}
+            </AccordionDetails>
+          </Accordion>
+        )}
+
+        {profile.education && (
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">🎓 Предыдущее образование</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container spacing={2}>
+                <InfoRow label="Учебное заведение" value={profile.education.name} />
+                <InfoRow label="Тип" value={profile.education.type} />
+                <InfoRow label="Профиль" value={profile.education.profile || '—'} />
+                <InfoRow label="Год окончания" value={profile.education.graduation_date} />
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+        )}
+
+        {profile.profile && (
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">💼 Профиль</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container spacing={2}>
+                <InfoRow label="Языки программирования" value={profile.profile.programming_langs || '—'} />
+                <InfoRow label="Хобби" value={profile.profile.hobbies || '—'} />
+                <InfoRow label="Доп. образование" value={profile.profile.extra_edu || '—'} />
+                <InfoRow label="Спорт. разряды" value={profile.profile.sports_ranks || '—'} />
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+        )}
+      </Container>
+    </>
+  );
+}
+
+function InfoRow({ label, value }: { label: string; value: string }) {
+  return (
+    <Grid item xs={12} sm={6}>
+      <Typography variant="body2" color="text.secondary">
+        {label}
+      </Typography>
+      <Typography variant="body1">{value}</Typography>
+    </Grid>
   );
 }

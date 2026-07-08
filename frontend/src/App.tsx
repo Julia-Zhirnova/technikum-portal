@@ -1,10 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import BottomNavigation from './components/BottomNavigation';
-import HomePage from './pages/HomePage';
-import DocumentsPage from './pages/DocumentsPage';
-import RequestsPage from './pages/RequestsPage';
+import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 
 const theme = createTheme({
@@ -14,20 +11,31 @@ const theme = createTheme({
   },
 });
 
+function ProtectedRoute({ children }: { children: React.ReactElement }) {
+  const token = localStorage.getItem('access_token');
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+}
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <div className="min-h-screen bg-gray-50">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/documents" element={<DocumentsPage />} />
-            <Route path="/requests" element={<RequestsPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-          </Routes>
-          <BottomNavigation />
-        </div>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
       </Router>
     </ThemeProvider>
   );
