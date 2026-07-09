@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import CuratorDashboard from './pages/CuratorDashboard';
+import TeacherDashboard from './pages/TeacherDashboard';
 import { userAPI } from './services/api';
 
 const theme = createTheme({
@@ -36,27 +37,33 @@ function SmartRedirect() {
       }
 
       try {
-        // Используем /api/user/profile/ для всех пользователей
         const response = await userAPI.getProfile();
         const roles = response.data.roles;
         
         console.log('Роли пользователя:', roles);
         
-        // Определяем, куда перенаправить
-        if (roles.includes('student')) {
-          setRedirect('/profile');
-        } else if (roles.includes('curator')) {
+        // Приоритет ролей: curator > teacher > student > admin
+        // Кураторы и преподаватели должны попадать на свои дашборды
+        if (roles.includes('curator')) {
           setRedirect('/curator');
         } else if (roles.includes('teacher')) {
-          setRedirect('/curator'); // Временно, пока нет TeacherDashboard
+          setRedirect('/teacher');
+        } else if (roles.includes('student')) {
+          setRedirect('/profile');
         } else if (roles.includes('admin')) {
-          setRedirect('/curator'); // Временно, пока нет AdminDashboard
+          window.location.href = 'http://localhost:8000/admin/';
+          return;
         } else {
           setRedirect('/login');
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Ошибка проверки роли:', error);
-        setRedirect('/login');
+        // Если ошибка 403, значит нет роли student, пробуем curator
+        if (error.response?.status === 403) {
+          setRedirect('/curator');
+        } else {
+          setRedirect('/login');
+        }
       } finally {
         setLoading(false);
       }
@@ -93,6 +100,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <CuratorDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/teacher"
+            element={
+              <ProtectedRoute>
+                <TeacherDashboard />
               </ProtectedRoute>
             }
           />

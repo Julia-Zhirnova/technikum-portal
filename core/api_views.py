@@ -31,9 +31,14 @@ class IsCurator(permissions.BasePermission):
         return UserRole.objects.filter(user=request.user, role__id_role='curator').exists()
 
 class IsTeacher(permissions.BasePermission):
-    """Разрешение только для преподавателей."""
+    """Разрешение для преподавателей."""
     def has_permission(self, request, view):
-        return request.user.is_authenticated and Statement.objects.filter(teacher=request.user).exists()
+        if not request.user.is_authenticated:
+            return False
+        
+        # Проверяем роль teacher через UserRole
+        from .models import UserRole
+        return UserRole.objects.filter(user=request.user, role__id_role='teacher').exists()
 
 # ==============================================================================
 # API ENDPOINTS ДЛЯ СТУДЕНТА
@@ -54,18 +59,18 @@ class StudentProfileView(generics.RetrieveUpdateAPIView):
 # API ENDPOINTS ДЛЯ КУРАТОРА
 # ==============================================================================
 
-class CuratorGroupView(generics.RetrieveAPIView):
+class CuratorGroupView(generics.ListAPIView):
     """
-    GET /api/curator/group/ — группа куратора со списком студентов
+    GET /api/curator/group/ — список групп куратора со студентами
     """
     serializer_class = GroupWithStudentsSerializer
     permission_classes = [permissions.IsAuthenticated, IsCurator]
+    pagination_class = None
     
-    def get_object(self):
-        # Если пользователь — админ, возвращаем первую группу
-        if self.request.user.is_staff:
-            return Group.objects.first()
-        return Group.objects.get(curator=self.request.user)
+    def get_queryset(self):
+        user = self.request.user
+        # Возвращаем ТОЛЬКО группы, где пользователь назначен куратором
+        return Group.objects.filter(curator=user).order_by('id_group')
 
 class CuratorStudentDetailView(generics.RetrieveAPIView):
     """
@@ -102,24 +107,22 @@ class TeacherStatementsView(generics.ListAPIView):
 
 class WhoAmIView(APIView):
     """
-    GET /api/whoami/ — роль текущего пользователя
+    GET /api/whoami/ — роли текущего пользователя
     """
     permission_classes = [permissions.IsAuthenticated]
     
     def get(self, request):
+        from .models import UserRole
         user = request.user
         roles = []
         
-        if hasattr(user, 'student'):
-            roles.append('student')
+        # Получаем все роли пользователя из таблицы UserRole
+        user_roles = UserRole.objects.filter(user=user).select_related('role')
+        for ur in user_roles:
+            roles.append(ur.role.id_role)
         
-        if Group.objects.filter(curator=user).exists():
-            roles.append('curator')
-        
-        if Statement.objects.filter(teacher=user).exists():
-            roles.append('teacher')
-        
-        if user.is_staff:
+        # Добавляем админа, если is_staff
+        if user.is_staff and 'admin' not in roles:
             roles.append('admin')
         
         return Response({

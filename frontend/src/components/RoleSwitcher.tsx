@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, Menu, MenuItem, Typography } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { authAPI } from '../services/api';
 
 export default function RoleSwitcher() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [activeRole, setActiveRole] = useState('student');
   const [userRoles, setUserRoles] = useState<string[]>([]);
@@ -14,16 +15,21 @@ export default function RoleSwitcher() {
     const loadRoles = async () => {
       try {
         const response = await authAPI.whoami();
+        console.log('Получены роли:', response.data.roles);
         setUserRoles(response.data.roles);
-        if (response.data.roles.length > 0) {
-          setActiveRole(response.data.roles[0]);
-        }
+        
+        // Определяем активную роль по URL
+        const path = location.pathname;
+        if (path === '/profile') setActiveRole('student');
+        else if (path === '/curator') setActiveRole('curator');
+        else if (path === '/teacher') setActiveRole('teacher');
+        else if (response.data.roles.length > 0) setActiveRole(response.data.roles[0]);
       } catch (err) {
         console.error('Ошибка загрузки ролей:', err);
       }
     };
     loadRoles();
-  }, []);
+  }, [location.pathname]);
 
   const roles = [
     { id: 'student', label: '🎓 Студент', path: '/profile' },
@@ -32,6 +38,7 @@ export default function RoleSwitcher() {
     { id: 'admin', label: '🔧 Администратор', path: '/admin' },
   ];
 
+  // Показываем только те роли, которые есть у пользователя
   const availableRoles = roles.filter(r => userRoles.includes(r.id));
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -47,6 +54,7 @@ export default function RoleSwitcher() {
     handleClose();
     
     if (roleId === 'admin') {
+      // Переход в Django admin
       window.location.href = 'http://localhost:8000/admin/';
     } else {
       navigate(path);
@@ -55,8 +63,9 @@ export default function RoleSwitcher() {
 
   const currentRole = roles.find(r => r.id === activeRole);
 
+  // Не показываем переключатель, если только одна роль
   if (availableRoles.length <= 1) {
-    return null; // Не показываем переключатель, если только одна роль
+    return null;
   }
 
   return (
