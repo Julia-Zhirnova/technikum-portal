@@ -94,9 +94,13 @@ export const authAPI = {
   whoami: () => api.get<WhoAmIResponse>('/whoami/'),
 };
 
+export const referencesAPI = {
+  getReferences: () => api.get('/references/'),
+};
+
 export const studentAPI = {
   getProfile: () => api.get<UserProfile>('/student/profile/'),
-  updateProfile: (data: any) => api.patch('/student/profile/', data),
+  updateProfile: (data: any) => api.patch('/student/profile/update/', data),
 };
 
 export const curatorAPI = {

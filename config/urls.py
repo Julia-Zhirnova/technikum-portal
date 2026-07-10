@@ -23,6 +23,8 @@ urlpatterns = [
     
     # Студент
     path('api/student/profile/', api_views.StudentProfileView.as_view(), name='student_profile'),
+    path('api/student/profile/update/', api_views.StudentProfileUpdateView.as_view(), name='student_profile_update'),
+    path('api/references/', api_views.ReferencesView.as_view(), name='references'),
     path('api/user/profile/', api_views.UserProfileView.as_view(), name='user_profile'),
     
     # Куратор

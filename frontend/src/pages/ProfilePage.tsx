@@ -4,7 +4,7 @@ import {
   Container, Typography, Card, CardContent, Grid, Chip, Box,
   CircularProgress, Alert, Button, AppBar, Toolbar, Avatar, LinearProgress,
   Accordion, AccordionSummary, AccordionDetails, IconButton, Tabs, Tab,
-  TextField, FormControlLabel, Checkbox,
+  TextField, FormControlLabel, Checkbox, Select, MenuItem, FormControl, InputLabel,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -13,7 +13,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import { studentAPI, type UserProfile } from '../services/api';
+import { studentAPI, referencesAPI, type UserProfile } from '../services/api';
 import NotificationBell from '../components/NotificationBell';
 import RoleSwitcher from '../components/RoleSwitcher';
 import PracticePage from './PracticePage';
@@ -47,15 +47,20 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState<any>({});
+  const [references, setReferences] = useState<any>({});
 
   useEffect(() => {
-    const loadProfile = async () => {
+    const loadData = async () => {
       try {
-        const response = await studentAPI.getProfile();
-        setProfile(response.data);
-        setEditedData(response.data);
+        const [profileResponse, referencesResponse] = await Promise.all([
+          studentAPI.getProfile(),
+          referencesAPI.getReferences(),
+        ]);
+        setProfile(profileResponse.data);
+        setEditedData(profileResponse.data);
+        setReferences(referencesResponse.data);
       } catch (err: any) {
-        setError(err.response?.data?.detail || 'Ошибка загрузки профиля');
+        setError(err.response?.data?.detail || 'Ошибка загрузки данных');
         if (err.response?.status === 401) {
           navigate('/login');
         }
@@ -63,19 +68,23 @@ export default function ProfilePage() {
         setLoading(false);
       }
     };
-    loadProfile();
+    loadData();
   }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    navigate('/login');
-  };
-
-  const handleSave = () => {
-    // TODO: API запрос на сохранение
-    setProfile(editedData);
-    setIsEditing(false);
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      await studentAPI.updateProfile(editedData);
+      setProfile(editedData);
+      setIsEditing(false);
+      alert('✅ Данные успешно сохранены!');
+    } catch (error: any) {
+      console.error('❌ Ошибка сохранения:', error);
+      console.error('📋 Детали ошибки:', error.response?.data);
+      alert(`❌ Ошибка при сохранении: ${JSON.stringify(error.response?.data || error.message)}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCancel = () => {
@@ -83,7 +92,7 @@ export default function ProfilePage() {
     setIsEditing(false);
   };
 
-  if (loading) {
+  if (loading && !profile) {
     return (
       <Container maxWidth="md" sx={{ textAlign: 'center', mt: 10 }}>
         <CircularProgress />
@@ -112,7 +121,7 @@ export default function ProfilePage() {
           <RoleSwitcher />
           <NotificationBell />
           <Typography sx={{ mx: 2 }}>{profile.user.full_name}</Typography>
-          <IconButton onClick={handleLogout} color="inherit" title="Выйти">
+          <IconButton onClick={() => navigate('/login')} color="inherit" title="Выйти">
             <LogoutIcon />
           </IconButton>
         </Toolbar>
@@ -140,21 +149,6 @@ export default function ProfilePage() {
                     >
                       {profile.user.first_name[0]}{profile.user.last_name[0]}
                     </Avatar>
-                    {isEditing && (
-                      <IconButton
-                        sx={{
-                          position: 'absolute',
-                          bottom: 0,
-                          right: 0,
-                          bgcolor: 'primary.main',
-                          color: 'white',
-                          '&:hover': { bgcolor: 'primary.dark' },
-                        }}
-                        size="small"
-                      >
-                        <PhotoCameraIcon />
-                      </IconButton>
-                    )}
                   </Box>
                 </Grid>
                 <Grid item xs>
@@ -213,10 +207,7 @@ export default function ProfilePage() {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <Typography variant="body2" color="text.secondary">СНИЛС (только чтение)</Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Typography variant="body1" sx={{ flexGrow: 1 }}>{profile.snils}</Typography>
-                    <ScanButton filePath={profile.snils_file} />
-                  </Box>
+                  <Typography variant="body1">{profile.snils}</Typography>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <Typography variant="body2" color="text.secondary">Email</Typography>
@@ -237,30 +228,16 @@ export default function ProfilePage() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <Typography variant="body2" color="text.secondary">ИНН</Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    {isEditing ? (
-                      <TextField
-                        size="small"
-                        fullWidth
-                        value={editedData.inn || ''}
-                        onChange={(e) => setEditedData({...editedData, inn: e.target.value})}
-                      />
-                    ) : (
-                      <Typography variant="body1" sx={{ flexGrow: 1 }}>{profile.inn || '—'}</Typography>
-                    )}
-                    <ScanButton filePath={profile.inn_file} />
-                  </Box>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={profile.pd_consent}
-                        disabled={!isEditing}
-                      />
-                    }
-                    label={`Согласие на ПДн ${profile.pd_consent_date ? `(от ${profile.pd_consent_date})` : ''}`}
-                  />
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      value={editedData.inn || ''}
+                      onChange={(e) => setEditedData({...editedData, inn: e.target.value})}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.inn || '—'}</Typography>
+                  )}
                 </Grid>
               </Grid>
             </AccordionDetails>
@@ -274,21 +251,87 @@ export default function ProfilePage() {
               </AccordionSummary>
               <AccordionDetails>
                 <Grid container spacing={2}>
-                  <InfoRow label="Серия и номер" value={profile.passport.series_number || '—'} editable={isEditing} />
-                  <InfoRow label="Дата выдачи" value={profile.passport.issue_date || '—'} />
-                  <InfoRow label="Кем выдан" value={profile.passport.issuer || '—'} editable={isEditing} />
-                  <InfoRow label="Код подразделения" value={profile.passport.unit_code || '—'} editable={isEditing} />
-                  <InfoRow label="Регион и город" value={profile.passport.region_city || '—'} editable={isEditing} />
-                  <InfoRow label="Адрес регистрации" value={profile.passport.address_detail || '—'} editable={isEditing} />
-                  <InfoRow label="Фактический адрес" value={profile.passport.fact_detail || '—'} editable={isEditing} />
-                  <Grid item xs={12}>
-                    <FormControlLabel
-                      control={<Checkbox checked={profile.passport.temp_reg} disabled={!isEditing} />}
-                      label="Временная прописка"
-                    />
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Серия и номер</Typography>
+                    {isEditing ? (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        value={editedData.passport?.series_number || ''}
+                        onChange={(e) => setEditedData({
+                          ...editedData,
+                          passport: {...editedData.passport, series_number: e.target.value}
+                        })}
+                      />
+                    ) : (
+                      <Typography variant="body1">{profile.passport.series_number || '—'}</Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Дата выдачи</Typography>
+                    {isEditing ? (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        type="date"
+                        value={editedData.passport?.issue_date || ''}
+                        onChange={(e) => setEditedData({
+                          ...editedData,
+                          passport: {...editedData.passport, issue_date: e.target.value}
+                        })}
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    ) : (
+                      <Typography variant="body1">{profile.passport.issue_date || '—'}</Typography>
+                    )}
                   </Grid>
                   <Grid item xs={12}>
-                    <ScanButton filePath={profile.passport.file_path} label="Скан паспорта" />
+                    <Typography variant="body2" color="text.secondary">Кем выдан</Typography>
+                    {isEditing ? (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        value={editedData.passport?.issuer || ''}
+                        onChange={(e) => setEditedData({
+                          ...editedData,
+                          passport: {...editedData.passport, issuer: e.target.value}
+                        })}
+                      />
+                    ) : (
+                      <Typography variant="body1">{profile.passport.issuer || '—'}</Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Код подразделения</Typography>
+                    {isEditing ? (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        value={editedData.passport?.unit_code || ''}
+                        onChange={(e) => setEditedData({
+                          ...editedData,
+                          passport: {...editedData.passport, unit_code: e.target.value}
+                        })}
+                      />
+                    ) : (
+                      <Typography variant="body1">{profile.passport.unit_code || '—'}</Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="body2" color="text.secondary">Адрес регистрации</Typography>
+                    {isEditing ? (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        value={editedData.passport?.address_detail || ''}
+                        onChange={(e) => setEditedData({
+                          ...editedData,
+                          passport: {...editedData.passport, address_detail: e.target.value}
+                        })}
+                      />
+                    ) : (
+                      <Typography variant="body1">{profile.passport.address_detail || '—'}</Typography>
+                    )}
                   </Grid>
                 </Grid>
               </AccordionDetails>
@@ -303,12 +346,43 @@ export default function ProfilePage() {
               </AccordionSummary>
               <AccordionDetails>
                 <Grid container spacing={2}>
-                  <InfoRow label="Состояние" value={profile.health.status} editable={isEditing} />
-                  <InfoRow label="Полис ОМС" value={profile.health.oms_number || '—'} editable={isEditing} />
-                  <InfoRow label="Дата выдачи ОМС" value={profile.health.oms_date || '—'} />
-                  <InfoRow label="Кем выдан ОМС" value={profile.health.oms_issuer || '—'} editable={isEditing} />
-                  <Grid item xs={12}>
-                    <ScanButton filePath={profile.health.oms_scan} label="Скан полиса ОМС" />
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Состояние здоровья</Typography>
+                    {isEditing ? (
+                      <FormControl fullWidth size="small">
+                        <Select
+                          value={editedData.health?.status || ''}
+                          onChange={(e) => setEditedData({
+                            ...editedData,
+                            health: {...editedData.health, status: e.target.value}
+                          })}
+                        >
+                          {references.health_status?.map((option: any) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    ) : (
+                      <Typography variant="body1">{profile.health.status}</Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Полис ОМС</Typography>
+                    {isEditing ? (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        value={editedData.health?.oms_number || ''}
+                        onChange={(e) => setEditedData({
+                          ...editedData,
+                          health: {...editedData.health, oms_number: e.target.value}
+                        })}
+                      />
+                    ) : (
+                      <Typography variant="body1">{profile.health.oms_number || '—'}</Typography>
+                    )}
                   </Grid>
                 </Grid>
               </AccordionDetails>
@@ -323,12 +397,43 @@ export default function ProfilePage() {
               </AccordionSummary>
               <AccordionDetails>
                 <Grid container spacing={2}>
-                  <InfoRow label="Номер приписного" value={profile.military.registration_number || '—'} editable={isEditing} />
-                  <InfoRow label="Категория годности" value={profile.military.fitness_category || '—'} />
-                  <InfoRow label="Военкомат" value={profile.military.commissariat || '—'} editable={isEditing} />
-                  <InfoRow label="Дата выдачи" value={profile.military.issue_date || '—'} />
-                  <Grid item xs={12}>
-                    <ScanButton filePath={profile.military.file_path} label="Скан приписного" />
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Номер приписного</Typography>
+                    {isEditing ? (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        value={editedData.military?.registration_number || ''}
+                        onChange={(e) => setEditedData({
+                          ...editedData,
+                          military: {...editedData.military, registration_number: e.target.value}
+                        })}
+                      />
+                    ) : (
+                      <Typography variant="body1">{profile.military.registration_number || '—'}</Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Категория годности</Typography>
+                    {isEditing ? (
+                      <FormControl fullWidth size="small">
+                        <Select
+                          value={editedData.military?.fitness_category || ''}
+                          onChange={(e) => setEditedData({
+                            ...editedData,
+                            military: {...editedData.military, fitness_category: e.target.value}
+                          })}
+                        >
+                          {references.fitness_category?.map((option: any) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    ) : (
+                      <Typography variant="body1">{profile.military.fitness_category || '—'}</Typography>
+                    )}
                   </Grid>
                 </Grid>
               </AccordionDetails>
@@ -343,103 +448,212 @@ export default function ProfilePage() {
               </AccordionSummary>
               <AccordionDetails>
                 <Grid container spacing={2}>
-                  <InfoRow label="Статус семьи" value={profile.family.status} editable={isEditing} />
-                  <InfoRow label="Тип жилья" value={profile.family.housing_type} editable={isEditing} />
-                  <InfoRow label="Несовершеннолетних" value={String(profile.family.minors_count ?? '—')} editable={isEditing} />
-                  <InfoRow label="Совершеннолетних" value={String(profile.family.adults_count ?? '—')} editable={isEditing} />
-                </Grid>
-                {profile.family.members?.length > 0 && (
-                  <>
-                    <Typography variant="subtitle1" sx={{ mt: 3, mb: 1, fontWeight: 'bold' }}>
-                      Члены семьи:
-                    </Typography>
-                    {profile.family.members.map((member: any) => (
-                      <Card key={member.id_member} variant="outlined" sx={{ mb: 1, p: 2 }}>
-                        <Grid container spacing={1}>
-                          <Grid item xs={12} sm={6}>
-                            <Typography variant="body2" color="text.secondary">Родство</Typography>
-                            <Typography variant="body1" fontWeight="bold">{member.relation}</Typography>
-                          </Grid>
-                          <Grid item xs={12} sm={6}>
-                            <Typography variant="body2" color="text.secondary">ФИО</Typography>
-                            <Typography variant="body1">{member.full_name}</Typography>
-                          </Grid>
-                          <Grid item xs={12} sm={6}>
-                            <Typography variant="body2" color="text.secondary">Дата рождения</Typography>
-                            <Typography variant="body1">{member.birth_date || '—'}</Typography>
-                          </Grid>
-                          <Grid item xs={12} sm={6}>
-                            <Typography variant="body2" color="text.secondary">Телефон</Typography>
-                            <Typography variant="body1">{member.phone || '—'}</Typography>
-                          </Grid>
-                          <Grid item xs={12} sm={6}>
-                            <Typography variant="body2" color="text.secondary">Образование</Typography>
-                            <Typography variant="body1">{member.education || '—'}</Typography>
-                          </Grid>
-                          <Grid item xs={12} sm={6}>
-                            <Typography variant="body2" color="text.secondary">Место работы</Typography>
-                            <Typography variant="body1">{member.workplace || '—'}</Typography>
-                          </Grid>
-                          <Grid item xs={12}>
-                            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                              {member.is_pensioner && <Chip label="👴 Пенсионер" size="small" />}
-                              {member.is_svo && <Chip label="🎖️ СВО" size="small" color="warning" />}
-                              {member.is_priority_contact && <Chip label="⭐ Приоритетный контакт" size="small" color="primary" />}
-                            </Box>
-                          </Grid>
-                        </Grid>
-                      </Card>
-                    ))}
-                  </>
-                )}
-              </AccordionDetails>
-            </Accordion>
-          )}
-
-          {/* Блок 1.6: Предыдущее образование */}
-          {profile.education && (
-            <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h6">🎓 Предыдущее образование</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Grid container spacing={2}>
-                  <InfoRow label="Учебное заведение" value={profile.education.name} editable={isEditing} />
-                  <InfoRow label="Тип" value={profile.education.type} editable={isEditing} />
-                  <InfoRow label="Профиль" value={profile.education.profile || '—'} editable={isEditing} />
-                  <InfoRow label="Дата окончания" value={profile.education.graduation_date || '—'} />
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Статус семьи</Typography>
+                    {isEditing ? (
+                      <FormControl fullWidth size="small">
+                        <Select
+                          value={editedData.family?.status || ''}
+                          onChange={(e) => setEditedData({
+                            ...editedData,
+                            family: {...editedData.family, status: e.target.value}
+                          })}
+                        >
+                          {references.family_status?.map((option: any) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    ) : (
+                      <Typography variant="body1">{profile.family.status}</Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Тип жилья</Typography>
+                    {isEditing ? (
+                      <FormControl fullWidth size="small">
+                        <Select
+                          value={editedData.family?.housing_type || ''}
+                          onChange={(e) => setEditedData({
+                            ...editedData,
+                            family: {...editedData.family, housing_type: e.target.value}
+                          })}
+                        >
+                          {references.housing_type?.map((option: any) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    ) : (
+                      <Typography variant="body1">{profile.family.housing_type}</Typography>
+                    )}
+                  </Grid>
                 </Grid>
               </AccordionDetails>
             </Accordion>
           )}
 
-          {/* Блок 1.7: Профиль */}
-          {profile.profile && (
-            <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h6">💼 Профиль и увлечения</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Grid container spacing={2}>
-                  <InfoRow label="Языки программирования" value={profile.profile.programming_langs || '—'} editable={isEditing} />
-                  <InfoRow label="Хобби" value={profile.profile.hobbies || '—'} editable={isEditing} />
-                  <InfoRow label="Доп. образование" value={profile.profile.extra_edu || '—'} editable={isEditing} />
-                  <InfoRow label="Спорт. разряды" value={profile.profile.sports_ranks || '—'} editable={isEditing} />
-                  <InfoRow label="Характер" value={profile.profile.character_behavior || '—'} editable={isEditing} />
+          {/* Блок 1.6: Образование */}
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">🎓 Предыдущее образование</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="body2" color="text.secondary">Учебное заведение</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      value={editedData.education?.name || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        education: {...editedData.education, name: e.target.value}
+                      })}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.education?.name || '—'}</Typography>
+                  )}
                 </Grid>
-                {profile.profile.foreign_langs?.length > 0 && (
-                  <Box sx={{ mt: 2 }}>
-                    <Typography variant="subtitle2" color="text.secondary">Иностранные языки:</Typography>
-                    <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
-                      {profile.profile.foreign_langs.map((lang: string, i: number) => (
-                        <Chip key={i} label={lang} size="small" />
-                      ))}
-                    </Box>
-                  </Box>
-                )}
-              </AccordionDetails>
-            </Accordion>
-          )}
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="body2" color="text.secondary">Тип заведения</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      value={editedData.education?.type || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        education: {...editedData.education, type: e.target.value}
+                      })}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.education?.type || '—'}</Typography>
+                  )}
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="body2" color="text.secondary">Профиль класса</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      value={editedData.education?.profile || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        education: {...editedData.education, profile: e.target.value}
+                      })}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.education?.profile || '—'}</Typography>
+                  )}
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="body2" color="text.secondary">Дата окончания</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      type="date"
+                      value={editedData.education?.graduation_date || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        education: {...editedData.education, graduation_date: e.target.value}
+                      })}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.education?.graduation_date || '—'}</Typography>
+                  )}
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+
+          {/* Блок 1.7: Профиль студента */}
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">💼 Профиль и интересы</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography variant="body2" color="text.secondary">Языки программирования</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      multiline
+                      rows={2}
+                      value={editedData.profile?.programming_langs || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        profile: {...editedData.profile, programming_langs: e.target.value}
+                      })}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.profile?.programming_langs || '—'}</Typography>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body2" color="text.secondary">Хобби и увлечения</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      multiline
+                      rows={3}
+                      value={editedData.profile?.hobbies || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        profile: {...editedData.profile, hobbies: e.target.value}
+                      })}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.profile?.hobbies || '—'}</Typography>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body2" color="text.secondary">Дополнительное образование</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      multiline
+                      rows={2}
+                      value={editedData.profile?.extra_edu || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        profile: {...editedData.profile, extra_edu: e.target.value}
+                      })}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.profile?.extra_edu || '—'}</Typography>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body2" color="text.secondary">Спортивные разряды</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      value={editedData.profile?.sports_ranks || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        profile: {...editedData.profile, sports_ranks: e.target.value}
+                      })}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.profile?.sports_ranks || '—'}</Typography>
+                  )}
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
         </Container>
       </TabPanel>
 
@@ -449,33 +663,5 @@ export default function ProfilePage() {
       <TabPanel value={activeTab} index={4}><RequestsPage /></TabPanel>
       <TabPanel value={activeTab} index={5}><NotificationsPage /></TabPanel>
     </>
-  );
-}
-
-function InfoRow({ label, value, editable }: { label: string; value: string; editable?: boolean }) {
-  return (
-    <Grid item xs={12} sm={6}>
-      <Typography variant="body2" color="text.secondary">{label}</Typography>
-      {editable ? (
-        <TextField size="small" fullWidth defaultValue={value} />
-      ) : (
-        <Typography variant="body1">{value}</Typography>
-      )}
-    </Grid>
-  );
-}
-
-function ScanButton({ filePath, label = 'Скан' }: { filePath: string | null; label?: string }) {
-  if (!filePath) {
-    return (
-      <Button size="small" startIcon={<AttachFileIcon />} variant="outlined">
-        Загрузить {label}
-      </Button>
-    );
-  }
-  return (
-    <Button size="small" startIcon={<VisibilityIcon />} href={filePath} target="_blank">
-      Просмотр
-    </Button>
   );
 }

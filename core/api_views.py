@@ -2,6 +2,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Student, Group, Statement
+from .serializers_update import StudentProfileUpdateSerializer
 from .serializers import (
     UserProfileSerializer,
     StudentProfileSerializer, GroupWithStudentsSerializer, StatementSerializer
@@ -69,6 +70,16 @@ class CuratorGroupView(generics.ListAPIView):
     
     def get_queryset(self):
         user = self.request.user
+        # Проверяем, что пользователь имеет роль куратора
+        from .models import UserRole
+        has_curator_role = UserRole.objects.filter(
+            user=user, 
+            role__id_role='curator'
+        ).exists()
+        
+        if not has_curator_role:
+            return Group.objects.none()
+        
         # Возвращаем ТОЛЬКО группы, где пользователь назначен куратором
         return Group.objects.filter(curator=user).order_by('id_group')
 
@@ -104,6 +115,41 @@ class TeacherStatementsView(generics.ListAPIView):
 # ==============================================================================
 # УНИВЕРСАЛЬНЫЕ ENDPOINTS
 # ==============================================================================
+
+
+
+class StudentProfileUpdateView(APIView):
+    """
+    PATCH /api/student/profile/update/ — обновление профиля студента
+    """
+    permission_classes = [permissions.IsAuthenticated, IsStudent]
+    
+    def patch(self, request, *args, **kwargs):
+        try:
+            student = Student.objects.get(user=request.user)
+            print(f"🎯 Найден студент для обновления: {student.snils}")
+            
+            serializer = StudentProfileUpdateSerializer(student, data=request.data, partial=True)
+            
+            if serializer.is_valid():
+                print(f"✅ Данные валидны, вызываем update()")
+                updated_student = serializer.update(student, serializer.validated_data)
+                print(f"✅ Обновление завершено")
+                
+                # Возвращаем обновленный профиль
+                profile_serializer = StudentProfileSerializer(updated_student)
+                return Response(profile_serializer.data)
+            else:
+                print(f"❌ Ошибки валидации: {serializer.errors}")
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                
+        except Student.DoesNotExist:
+            return Response({'error': 'Студент не найден'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            print(f"❌ Ошибка: {e}")
+            import traceback
+            traceback.print_exc()
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class WhoAmIView(APIView):
     """
@@ -146,3 +192,40 @@ class UserProfileView(generics.RetrieveAPIView):
     
     def get_object(self):
         return self.request.user
+
+
+# ==============================================================================
+# API ENDPOINTS ДЛЯ ПОЛУЧЕНИЯ СПРАВОЧНИКОВ (ВЫПАДАЮЩИЕ СПИСКИ)
+# ==============================================================================
+
+class ReferencesView(APIView):
+    """
+    GET /api/references/ — получение всех вариантов choices из моделей
+    """
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request):
+        from .models import Health, Military, Family, FamilyMember, Passport
+        
+        references = {
+            # Здоровье
+            'health_status': [{'value': c[0], 'label': c[1]} for c in Health._meta.get_field('status').choices],
+            
+            # Воинский учет
+            'fitness_category': [{'value': c[0], 'label': c[1]} for c in Military._meta.get_field('fitness_category').choices],
+            
+            # Семья
+            'family_status': [{'value': c[0], 'label': c[1]} for c in Family._meta.get_field('status').choices],
+            'housing_type': [{'value': c[0], 'label': c[1]} for c in Family._meta.get_field('housing_type').choices],
+            
+            # Члены семьи
+            'relation': [{'value': c[0], 'label': c[1]} for c in FamilyMember._meta.get_field('relation').choices],
+            
+            # Паспорт
+            'gender': [
+                {'value': 'мужской', 'label': 'Мужской'},
+                {'value': 'женский', 'label': 'Женский'},
+            ],
+        }
+        
+        return Response(references)
