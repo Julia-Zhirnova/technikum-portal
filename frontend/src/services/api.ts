@@ -101,6 +101,7 @@ export const referencesAPI = {
 export const studentAPI = {
   getProfile: () => api.get<UserProfile>('/student/profile/'),
   updateProfile: (data: any) => api.patch('/student/profile/update/', data),
+  getGrades: () => api.get('/student/grades/'),
 };
 
 export const curatorAPI = {
@@ -110,6 +111,20 @@ export const curatorAPI = {
 
 export const teacherAPI = {
   getStatements: () => api.get('/teacher/statements/'),
+  getStatementGrades: (statementId: number) => api.get(`/teacher/statements/${statementId}/grades/`),
+  updateGrade: (gradeId: number, data: { grade: string }) => api.patch(`/teacher/grades/${gradeId}/`, data),
+  restoreStatement: (statementId: number) => api.post(`/teacher/statements/${statementId}/restore/`),
+  exportGrades: (statementId: number, format: string = 'excel') => 
+    api.get(`/teacher/statements/${statementId}/export/?export_format=${format}`, { responseType: 'blob' }),
+  importGrades: (statementId: number, file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return api.post(`/teacher/statements/${statementId}/import/`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+  },
+  generateDocx: (statementId: number, type: string = 'zachet') => 
+    api.post(`/teacher/statements/${statementId}/generate-docx/?type=${type}`, {}, { responseType: 'blob' }),
 };
 
 export default api;

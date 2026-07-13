@@ -1,0 +1,26 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 127.0.0.1:8000...
+* Connected to localhost (127.0.0.1) port 8000 (#0)
+> GET /api/teacher/statements/47/export/?format=excel HTTP/1.1
+> Host: localhost:8000
+> User-Agent: curl/8.0.1
+> Accept: */*
+> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzOTc5MzA5LCJpYXQiOjE3ODM4OTI5MDksImp0aSI6Ijk4NmU3OWIxNTZiNDRkOGFiYjg3MjIwMjUxYmYyZTk0IiwidXNlcl9pZCI6Mn0.J18DBvbO3Ht5MRUSSxdW-4IjboW1anBeRgiv_Raf4wY
+> 
+< HTTP/1.1 404 Not Found
+< Date: Sun, 12 Jul 2026 21:48:29 GMT
+< Server: WSGIServer/0.2 CPython/3.11.15
+< Content-Type: application/json
+< Vary: Accept, origin
+< Allow: GET, HEAD, OPTIONS
+< X-Frame-Options: DENY
+< Content-Length: 50
+< X-Content-Type-Options: nosniff
+< Referrer-Policy: same-origin
+< Cross-Origin-Opener-Policy: same-origin
+< 
+{ [50 bytes data]
+100    50  100    50    0     0  22341      0 --:--:-- --:--:-- --:--:-- 25000
+* Connection #0 to host localhost left intact
+{"detail":"Страница не найдена."}

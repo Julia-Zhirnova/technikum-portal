@@ -8,6 +8,7 @@ from rest_framework_simplejwt.views import (
 )
 from accounts import views as account_views
 from core import api_views
+from core.views_restore_statement import RestoreStatementView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +25,7 @@ urlpatterns = [
     # Студент
     path('api/student/profile/', api_views.StudentProfileView.as_view(), name='student_profile'),
     path('api/student/profile/update/', api_views.StudentProfileUpdateView.as_view(), name='student_profile_update'),
+    path('api/student/grades/', api_views.StudentGradesView.as_view(), name='student_grades'),
     path('api/references/', api_views.ReferencesView.as_view(), name='references'),
     path('api/user/profile/', api_views.UserProfileView.as_view(), name='user_profile'),
     
@@ -36,6 +38,14 @@ urlpatterns = [
     
     # Session auth (для тестирования через браузер)
     path('api/auth/', include('rest_framework.urls')),
+path('api/teacher/grades/<int:grade_id>/', api_views.UpdateGradeView.as_view(), name='update-grade'),
+    path('api/teacher/statements/<int:statement_id>/restore/', RestoreStatementView.as_view(), name='restore-statement'),
+    path('api/teacher/statements/<int:statement_id>/grades/', api_views.TeacherStatementGradesView.as_view(), name='teacher-statement-grades'),
+    path('api/teacher/statements/<int:statement_id>/export/', api_views.StatementGradesExportView.as_view(), name='teacher-statement-export'),
+    path('api/teacher/statements/<int:statement_id>/debug-export/', api_views.debug_export_fbv, name='debug-export'),
+    path('api/teacher/statements/<int:statement_id>/test-export/', api_views.TestExportView.as_view(), name='test-export'),
+    path('api/teacher/statements/<int:statement_id>/import/', api_views.StatementGradesImportView.as_view(), name='teacher-statement-import'),
+    path('api/teacher/statements/<int:statement_id>/generate-docx/', api_views.StatementGenerateDocxView.as_view(), name='teacher-statement-generate-docx'),
 ]
 
 # Отдаём медиа-файлы в режиме разработки

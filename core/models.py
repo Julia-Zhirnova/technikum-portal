@@ -1033,7 +1033,6 @@ class Statement(models.Model):
     return_date = models.DateField(_('Дата возврата'), blank=True, null=True)
     status = models.CharField(_('Статус'), max_length=50, choices=[
         ('в_работе', 'В работе'),
-        ('в_работе', 'В работе'),
         ('закрыта', 'Закрыта'),
         ('сдана_в_архив', 'Сдана в архив'),
     ], default='в_работе')

@@ -1,0 +1,85 @@
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+[13/Jul/2026 20:39:46] "OPTIONS /api/token/ HTTP/1.1" 200 0
+[13/Jul/2026 20:39:46] "POST /api/token/ HTTP/1.1" 200 483
+[13/Jul/2026 20:39:47] "OPTIONS /api/user/profile/ HTTP/1.1" 200 0
+[13/Jul/2026 20:39:47] "OPTIONS /api/user/profile/ HTTP/1.1" 200 0
+[13/Jul/2026 20:39:47] "GET /api/user/profile/ HTTP/1.1" 200 223
+[13/Jul/2026 20:39:47] "GET /api/user/profile/ HTTP/1.1" 200 223
+[13/Jul/2026 20:39:47] "OPTIONS /api/curator/group/ HTTP/1.1" 200 0
+[13/Jul/2026 20:39:47] "OPTIONS /api/curator/group/ HTTP/1.1" 200 0
+[13/Jul/2026 20:39:47] "GET /api/curator/group/ HTTP/1.1" 200 6035
+[13/Jul/2026 20:39:47] "GET /api/curator/group/ HTTP/1.1" 200 6035
+[13/Jul/2026 20:39:47] "OPTIONS /api/whoami/ HTTP/1.1" 200 0
+[13/Jul/2026 20:39:47] "OPTIONS /api/whoami/ HTTP/1.1" 200 0
+[13/Jul/2026 20:39:47] "GET /api/whoami/ HTTP/1.1" 200 141
+[13/Jul/2026 20:39:47] "GET /api/whoami/ HTTP/1.1" 200 141
+[13/Jul/2026 20:39:54] "OPTIONS /api/teacher/statements/ HTTP/1.1" 200 0
+[13/Jul/2026 20:39:54] "OPTIONS /api/teacher/statements/ HTTP/1.1" 200 0
+[13/Jul/2026 20:39:55] "GET /api/teacher/statements/ HTTP/1.1" 200 73619
+[13/Jul/2026 20:39:55] "GET /api/whoami/ HTTP/1.1" 200 141
+[13/Jul/2026 20:39:55] "GET /api/whoami/ HTTP/1.1" 200 141
+[13/Jul/2026 20:39:56] "GET /api/teacher/statements/ HTTP/1.1" 200 73619
+[13/Jul/2026 20:39:57] "OPTIONS /api/teacher/statements/47/grades/ HTTP/1.1" 200 0
+[13/Jul/2026 20:39:57] "GET /api/teacher/statements/47/grades/ HTTP/1.1" 200 5225
+[13/Jul/2026 20:39:59] "OPTIONS /api/teacher/statements/47/export/?export_format=csv HTTP/1.1" 200 0
+[13/Jul/2026 20:39:59] "GET /api/teacher/statements/47/export/?export_format=csv HTTP/1.1" 200 3532
+[13/Jul/2026 20:40:26] "OPTIONS /api/teacher/grades/654/ HTTP/1.1" 200 0
+[13/Jul/2026 20:40:26] "PATCH /api/teacher/grades/654/ HTTP/1.1" 200 233
+[13/Jul/2026 20:40:26] "GET /api/teacher/statements/47/grades/ HTTP/1.1" 200 5205
+[13/Jul/2026 20:40:34] "OPTIONS /api/teacher/statements/47/export/?export_format=txt HTTP/1.1" 200 0
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 13, 2026 - 20:39:29
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0MDUwNzg2LCJpYXQiOjE3ODM5NjQzODYsImp0aSI6ImJkYTQ1N2Y5YmNmMzRlMDY5M2JhNzczNDhkNGM3NzkyIiwidXNlcl9pZCI6Mn0.rrNKUQH0GxQZnR027dRV2JovoP0uXbgvJNbwDuuJKCQ', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0MDUwNzg2LCJpYXQiOjE3ODM5NjQzODYsImp0aSI6ImJkYTQ1N2Y5YmNmMzRlMDY5M2JhNzczNDhkNGM3NzkyIiwidXNlcl9pZCI6Mn0.rrNKUQH0GxQZnR027dRV2JovoP0uXbgvJNbwDuuJKCQ', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/47/grades/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0MDUwNzg2LCJpYXQiOjE3ODM5NjQzODYsImp0aSI6ImJkYTQ1N2Y5YmNmMzRlMDY5M2JhNzczNDhkNGM3NzkyIiwidXNlcl9pZCI6Mn0.rrNKUQH0GxQZnR027dRV2JovoP0uXbgvJNbwDuuJKCQ', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/47/export/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0MDUwNzg2LCJpYXQiOjE3ODM5NjQzODYsImp0aSI6ImJkYTQ1N2Y5YmNmMzRlMDY5M2JhNzczNDhkNGM3NzkyIiwidXNlcl9pZCI6Mn0.rrNKUQH0GxQZnR027dRV2JovoP0uXbgvJNbwDuuJKCQ', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'}
+================================================================================
+🚨 [DISPATCH 1] Входящий request.method: GET
+🚨 [DISPATCH 2] После initialize_request, request.method: GET
+🚨 [DISPATCH 3] request.method.lower(): get
+🚨 [DISPATCH 4] Метод в http_method_names? True
+🚨 [DISPATCH 5] После initial, request.method: GET
+🚨 [DISPATCH 5b] request.user: Жирнова Юлия (YVZhirnova@yandex.ru)
+🚨 [DISPATCH 6] Выбран handler: get
+🚨 [DISPATCH 7] Вызываем handler...
+🔍 Export request for statement_id=47
+   User: Жирнова Юлия (YVZhirnova@yandex.ru)
+   Method: GET
+✅ Statement found: Э-1-2026-ИС-24
+   Teacher: Жирнова Юлия Витальевна
+   Request user: Жирнова Юлия Витальевна
+   Match: True
+🚨 [DISPATCH 8] Handler вернул статус: 200
+================================================================================
+🔍 DEBUG MIDDLEWARE - Request: PATCH /api/teacher/grades/654/
+   User: No user
+   Headers: {'Content-Length': '30', 'Content-Type': 'application/json', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0MDUwNzg2LCJpYXQiOjE3ODM5NjQzODYsImp0aSI6ImJkYTQ1N2Y5YmNmMzRlMDY5M2JhNzczNDhkNGM3NzkyIiwidXNlcl9pZCI6Mn0.rrNKUQH0GxQZnR027dRV2JovoP0uXbgvJNbwDuuJKCQ', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/47/grades/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0MDUwNzg2LCJpYXQiOjE3ODM5NjQzODYsImp0aSI6ImJkYTQ1N2Y5YmNmMzRlMDY5M2JhNzczNDhkNGM3NzkyIiwidXNlcl9pZCI6Mn0.rrNKUQH0GxQZnR027dRV2JovoP0uXbgvJNbwDuuJKCQ', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/47/export/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0MDUwNzg2LCJpYXQiOjE3ODM5NjQzODYsImp0aSI6ImJkYTQ1N2Y5YmNmMzRlMDY5M2JhNzczNDhkNGM3NzkyIiwidXNlcl9pZCI6Mn0.rrNKUQH0GxQZnR027dRV2JovoP0uXbgvJNbwDuuJKCQ', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7'}[13/Jul/2026 20:40:34] "GET /api/teacher/statements/47/export/?export_format=txt HTTP/1.1" 200 5191
+[13/Jul/2026 20:40:50] "GET /api/teacher/statements/47/export/?export_format=csv HTTP/1.1" 200 3512
+[13/Jul/2026 20:42:07] "OPTIONS /api/teacher/statements/47/import/ HTTP/1.1" 200 0
+[13/Jul/2026 20:42:07] "POST /api/teacher/statements/47/import/ HTTP/1.1" 200 140
+[13/Jul/2026 20:42:09] "GET /api/teacher/statements/47/grades/ HTTP/1.1" 200 5185
+[13/Jul/2026 20:42:15] "OPTIONS /api/teacher/statements/47/generate-docx/?type=zachet HTTP/1.1" 200 0
+[13/Jul/2026 20:42:16] "POST /api/teacher/statements/47/generate-docx/?type=zachet HTTP/1.1" 200 10953
+[13/Jul/2026 20:42:22] "OPTIONS /api/teacher/statements/47/generate-docx/?type=protocol HTTP/1.1" 200 0
+[13/Jul/2026 20:42:22] "POST /api/teacher/statements/47/generate-docx/?type=protocol HTTP/1.1" 200 11780
