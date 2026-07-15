@@ -41,6 +41,17 @@ urlpatterns = [
     path('api/curator/requests/', api_views.CuratorStudentRequestsView.as_view(), name='curator_requests'),
     path('api/curator/requests/<int:request_id>/', api_views.CuratorUpdateRequestView.as_view(), name='curator_update_request'),
 
+    # Практика студента
+    path('api/student/practice/', api_views.StudentPracticeView.as_view(), name='student_practice'),
+    path('api/curator/practice/', api_views.CuratorStudentPracticeView.as_view(), name='curator_practice'),
+
+    # Практика для преподавателя
+    path('api/teacher/practice/students/', api_views.TeacherPracticeStudentsView.as_view(), name='teacher_practice_students'),
+    path('api/teacher/practice/place/<int:place_id>/', api_views.TeacherUpdatePracticePlaceView.as_view(), name='teacher_update_practice_place'),
+    path('api/teacher/practice/diary/<int:entry_id>/', api_views.TeacherApproveDiaryEntryView.as_view(), name='teacher_approve_diary_entry'),
+
+
+
     
     # Преподаватель
     path('api/teacher/statements/', api_views.TeacherStatementsView.as_view(), name='teacher_statements'),

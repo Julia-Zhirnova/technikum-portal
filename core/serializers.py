@@ -4,6 +4,7 @@ from .models import (
     StudentRequest, Notification,
     Passport, Health, Military, Family, FamilyMember, Profile,
     EducationInstitution,
+    StudentPracticePlace, PracticeDiary, PracticeAttestation,
 )
 
 # ==============================================================================
@@ -614,3 +615,33 @@ class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = ['id_notification', 'title', 'message', 'is_read', 'link', 'created_at']
+
+
+# ==============================================================================
+# СЕРИАЛИЗАТОРЫ ДЛЯ ПРАКТИКИ
+# ==============================================================================
+
+class PracticeDiarySerializer(serializers.ModelSerializer):
+    """Сериализатор дневника практики."""
+    class Meta:
+        model = PracticeDiary
+        fields = ['id_entry', 'date', 'work_content', 'hours', 'is_approved_by_org']
+
+
+class PracticeAttestationSerializer(serializers.ModelSerializer):
+    """Сериализатор аттестации практики."""
+    class Meta:
+        model = PracticeAttestation
+        fields = ['id_attestation', 'competencies_eval', 'characteristic_text', 'recommended_grade', 'fill_date']
+
+
+class StudentPracticePlaceSerializer(serializers.ModelSerializer):
+    """Сериализатор места прохождения практики."""
+    organization_name = serializers.CharField(source='organization.name', read_only=True)
+    student_name = serializers.CharField(source='student.user.get_full_name', read_only=True)
+    diary = PracticeDiarySerializer(source='practicediary_set', many=True, read_only=True)
+    attestation = PracticeAttestationSerializer(source='practiceattestation', read_only=True)
+    
+    class Meta:
+        model = StudentPracticePlace
+        fields = ['id_place', 'student_name', 'organization_name', 'position', 'status', 'diary', 'attestation']

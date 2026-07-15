@@ -1,39 +1,12 @@
 Watching for file changes with StatReloader
 Watching for file changes with StatReloader
-[15/Jul/2026 21:00:15] "GET /api/whoami/ HTTP/1.1" 200 162
-[15/Jul/2026 21:00:15] "GET /api/student/notifications/ HTTP/1.1" 200 52
-[15/Jul/2026 21:00:15] "GET /api/whoami/ HTTP/1.1" 200 162
-[15/Jul/2026 21:00:15] "GET /api/student/notifications/ HTTP/1.1" 200 52
-[15/Jul/2026 21:00:15] "GET /api/whoami/ HTTP/1.1" 200 162
-[15/Jul/2026 21:00:15] "GET /api/student/notifications/ HTTP/1.1" 200 52
-[15/Jul/2026 21:00:15] "GET /api/whoami/ HTTP/1.1" 200 162
-[15/Jul/2026 21:00:15] "GET /api/student/notifications/ HTTP/1.1" 200 52
-[15/Jul/2026 21:00:17] "GET /api/whoami/ HTTP/1.1" 200 162
-[15/Jul/2026 21:00:19] "GET /api/references/ HTTP/1.1" 200 3083
-[15/Jul/2026 21:00:19] "GET /api/whoami/ HTTP/1.1" 200 162
-[15/Jul/2026 21:00:19] "GET /api/references/ HTTP/1.1" 200 3083
-[15/Jul/2026 21:00:19] "GET /api/student/profile/ HTTP/1.1" 200 4076
-[15/Jul/2026 21:00:19] "GET /api/student/profile/ HTTP/1.1" 200 4076
-[15/Jul/2026 21:00:20] "GET /api/whoami/ HTTP/1.1" 200 162
-[15/Jul/2026 21:00:21] "GET /api/whoami/ HTTP/1.1" 200 162
-[15/Jul/2026 21:00:21] "GET /api/student/grades/ HTTP/1.1" 200 3004
-[15/Jul/2026 21:00:21] "GET /api/student/grades/ HTTP/1.1" 200 3004
-[15/Jul/2026 21:00:22] "GET /api/whoami/ HTTP/1.1" 200 162
-[15/Jul/2026 21:00:23] "GET /api/student/requests/ HTTP/1.1" 200 52
-[15/Jul/2026 21:00:23] "GET /api/whoami/ HTTP/1.1" 200 162
-[15/Jul/2026 21:00:23] "GET /api/student/requests/ HTTP/1.1" 200 52
-[15/Jul/2026 21:00:24] "GET /api/whoami/ HTTP/1.1" 200 162
-[15/Jul/2026 21:00:24] "GET /api/student/notifications/ HTTP/1.1" 200 52
-[15/Jul/2026 21:00:24] "GET /api/student/notifications/ HTTP/1.1" 200 52
-[15/Jul/2026 21:00:30] "POST /api/token/ HTTP/1.1" 200 489
-[15/Jul/2026 21:00:30] "GET /api/user/profile/ HTTP/1.1" 200 268
-[15/Jul/2026 21:00:30] "GET /api/user/profile/ HTTP/1.1" 200 268
-[15/Jul/2026 21:00:30] "GET /api/whoami/ HTTP/1.1" 200 153
-[15/Jul/2026 21:00:30] "GET /api/whoami/ HTTP/1.1" 200 153
-[15/Jul/2026 21:00:30] "GET /api/student/notifications/ HTTP/1.1" 200 1760
-[15/Jul/2026 21:00:30] "GET /api/whoami/ HTTP/1.1" 200 153
-[15/Jul/2026 21:00:30] "GET /api/student/notifications/ HTTP/1.1" 200 1760
-[15/Jul/2026 21:00:30] "GET /api/whoami/ HTTP/1.1" 200 153
-[15/Jul/2026 21:00:32] "GET /api/whoami/ HTTP/1.1" 200 153
-[15/Jul/2026 21:00:32] "GET /api/student/requests/ HTTP/1.1" 200 1975
-[15/Jul/2026 21:00:32] "GET /api/student/requests/ HTTP/1.1" 200 1975
+/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/rest_framework/pagination.py:208: UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'core.models.StudentPracticePlace'> QuerySet.
+  paginator = self.django_paginator_class(queryset, page_size)
+[15/Jul/2026 22:55:53] "GET /api/whoami/ HTTP/1.1" 200 144
+[15/Jul/2026 22:55:53] "GET /api/whoami/ HTTP/1.1" 200 144
+[15/Jul/2026 22:55:53] "GET /api/teacher/practice/students/ HTTP/1.1" 200 20988
+[15/Jul/2026 22:55:54] "GET /api/student/notifications/ HTTP/1.1" 200 52
+[15/Jul/2026 22:55:54] "GET /api/whoami/ HTTP/1.1" 200 144
+[15/Jul/2026 22:55:54] "GET /api/student/notifications/ HTTP/1.1" 200 52
+[15/Jul/2026 22:55:54] "GET /api/teacher/practice/students/ HTTP/1.1" 200 20988
+[15/Jul/2026 22:55:54] "GET /api/whoami/ HTTP/1.1" 200 144

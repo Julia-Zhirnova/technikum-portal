@@ -7,6 +7,7 @@ import ProfilePage from './pages/ProfilePage';
 import CuratorDashboard from './pages/CuratorDashboard';
 import CuratorRequestsPage from './pages/CuratorRequestsPage';
 import TeacherDashboard from './pages/TeacherDashboard';
+import TeacherPracticePage from './pages/TeacherPracticePage';
 import { userAPI } from './services/api';
 import DashboardLayout from './components/DashboardLayout';
 import RequestsPage from './pages/RequestsPage';
@@ -125,6 +126,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <TeacherDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/teacher/practice"
+              element={
+                <ProtectedRoute>
+                  <TeacherPracticePage />
                 </ProtectedRoute>
               }
             />

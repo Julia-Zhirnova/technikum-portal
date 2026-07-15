@@ -33,6 +33,7 @@ export default function Sidebar() {
   // Меню для преподавателя
   const teacherMenu = [
     { title: 'Панель преподавателя', icon: <DashboardIcon />, path: '/teacher' },
+    { title: 'Практика студентов', icon: <WorkIcon />, path: '/teacher/practice' },
     { title: 'Мой профиль', icon: <PersonIcon />, path: '/profile' },
   ];
 

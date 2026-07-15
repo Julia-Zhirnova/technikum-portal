@@ -1,66 +1,103 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box, Typography, Card, CardContent, Grid, Chip, Table, TableBody, TableCell,
-  TableContainer, TableHead, TableRow, Paper, Button, Tabs, Tab, Divider
+  TableContainer, TableHead, TableRow, Paper, Button, Tabs, Tab, Divider, CircularProgress, Alert
 } from '@mui/material';
 import DescriptionIcon from '@mui/icons-material/Description';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PendingIcon from '@mui/icons-material/Pending';
+import { practiceAPI } from '../services/api';
+
+interface PracticeData {
+  id_place: number;
+  organization_name: string;
+  position: string;
+  status: string;
+  diary: Array<{
+    id_entry: number;
+    date: string;
+    work_content: string;
+    hours: number;
+    is_approved_by_org: boolean;
+  }>;
+  attestation?: {
+    id_attestation: number;
+    competencies_eval: string;
+    characteristic_text: string;
+    recommended_grade: string;
+    fill_date: string;
+  };
+}
 
 export default function PracticePage() {
   const [tabValue, setTabValue] = useState(0);
+  const [practice, setPractice] = useState<PracticeData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    loadPractice();
+  }, []);
+
+  const loadPractice = async () => {
+    try {
+      setLoading(true);
+      const response = await practiceAPI.getStudentPractice();
+      setPractice(response.data);
+    } catch (err: any) {
+      console.error('Ошибка загрузки практики', err);
+      setError('Информация о практике не найдена');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 
-  // Пример данных (в будущем будут приходить с бэкенда)
-  const practiceInfo = {
-    type: 'Учебная практика (УП.02.01)',
-    place: 'ООО "ТехноСервис", г. Люберцы, ул. Кирова, д. 15',
-    supervisor: 'Иванов Иван Иванович',
-    dates: '17.12.2025 – 23.12.2025',
-    status: 'Завершена'
-  };
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
-  const diaryEntries = [
-    { date: '17.12.2025', content: 'Ознакомление с правилами техники безопасности и внутренним распорядком организации.', hours: 6 },
-    { date: '18.12.2025', content: 'Изучение структуры ИТ-отдела и используемого программного обеспечения.', hours: 6 },
-    { date: '19.12.2025', content: 'Участие в настройке рабочих мест и установке необходимого ПО.', hours: 6 },
-    { date: '20.12.2025', content: 'Самостоятельное выполнение заданий руководителя практики.', hours: 6 },
-    { date: '23.12.2025', content: 'Оформление отчета по практике, подписание дневника руководителем.', hours: 4 },
-  ];
+  if (error || !practice) {
+    return (
+      <Box sx={{ p: 3 }}>
+        <Alert severity="info">
+          {error || 'Информация о практике не найдена. Обратитесь к куратору.'}
+        </Alert>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" fontWeight="bold" gutterBottom>
-        💼 Производственная / Учебная практика
+        💼 Моя практика
       </Typography>
 
       <Card sx={{ mb: 3 }}>
         <CardContent>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-            <Typography variant="h6" fontWeight="bold">{practiceInfo.type}</Typography>
+            <Typography variant="h6" fontWeight="bold">
+              {practice.organization_name || 'Организация не указана'}
+            </Typography>
             <Chip 
               icon={<CheckCircleIcon />} 
-              label={practiceInfo.status} 
-              color="success" 
+              label={practice.status || 'Неизвестно'} 
+              color={practice.status === 'Завершена' ? 'success' : 'warning'} 
               variant="outlined" 
             />
           </Box>
           <Divider sx={{ mb: 2 }} />
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
-              <Typography variant="body2" color="text.secondary">Место прохождения:</Typography>
-              <Typography variant="body1" fontWeight="medium">{practiceInfo.place}</Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="body2" color="text.secondary">Руководитель от организации:</Typography>
-              <Typography variant="body1" fontWeight="medium">{practiceInfo.supervisor}</Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="body2" color="text.secondary">Период прохождения:</Typography>
-              <Typography variant="body1" fontWeight="medium">{practiceInfo.dates}</Typography>
+              <Typography variant="body2" color="text.secondary">Должность:</Typography>
+              <Typography variant="body1" fontWeight="medium">{practice.position || 'Не указана'}</Typography>
             </Grid>
           </Grid>
         </CardContent>
@@ -84,17 +121,17 @@ export default function PracticePage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {diaryEntries.map((entry, index) => (
-                <TableRow key={index} hover>
-                  <TableCell>{entry.date}</TableCell>
-                  <TableCell>{entry.content}</TableCell>
+              {practice.diary && practice.diary.map((entry) => (
+                <TableRow key={entry.id_entry} hover>
+                  <TableCell>{new Date(entry.date).toLocaleDateString('ru-RU')}</TableCell>
+                  <TableCell>{entry.work_content}</TableCell>
                   <TableCell sx={{ textAlign: 'right' }}>{entry.hours}</TableCell>
                 </TableRow>
               ))}
               <TableRow sx={{ bgcolor: 'grey.50', fontWeight: 'bold' }}>
                 <TableCell colSpan={2} align="right" sx={{ fontWeight: 'bold' }}>Итого:</TableCell>
                 <TableCell sx={{ textAlign: 'right', fontWeight: 'bold' }}>
-                  {diaryEntries.reduce((sum, item) => sum + item.hours, 0)}
+                  {practice.diary?.reduce((sum, item) => sum + item.hours, 0) || 0}
                 </TableCell>
               </TableRow>
             </TableBody>

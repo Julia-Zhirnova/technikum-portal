@@ -158,3 +158,14 @@ export const curatorRequestsAPI = {
   getList: () => api.get('/curator/requests/'),
   update: (requestId: number, data: any) => api.patch(`/curator/requests/${requestId}/`, data),
 };
+
+export const practiceAPI = {
+  getStudentPractice: () => api.get('/student/practice/'),
+  getCuratorPractice: () => api.get('/curator/practice/'),
+};
+
+export const teacherPracticeAPI = {
+  getStudents: () => api.get('/teacher/practice/students/'),
+  updatePlace: (placeId: number, data: any) => api.patch(`/teacher/practice/place/${placeId}/`, data),
+  approveDiaryEntry: (entryId: number) => api.patch(`/teacher/practice/diary/${entryId}/`, {}),
+};

@@ -1,12 +1,13 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Student, Group, Statement, StudentRequest, Notification
+from .models import Student, Group, Statement, StudentRequest, Notification, StudentPracticePlace, PracticeDiary, PracticeAttestation, Organization
 from .serializers_update import StudentProfileUpdateSerializer
 from .serializers import (
     StudentRequestSerializer, NotificationSerializer,
     UserProfileSerializer,
-    StudentProfileSerializer, GroupWithStudentsSerializer, StatementSerializer
+    StudentProfileSerializer, GroupWithStudentsSerializer, StatementSerializer,
+    StudentPracticePlaceSerializer, PracticeDiarySerializer, PracticeAttestationSerializer
 )
 
 # ==============================================================================
@@ -1092,3 +1093,85 @@ class CuratorUpdateRequestView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except StudentRequest.DoesNotExist:
             return Response({'error': 'Заявка не найдена'}, status=status.HTTP_404_NOT_FOUND)
+
+
+# ==============================================================================
+# ПРАКТИКА СТУДЕНТА
+# ==============================================================================
+
+class StudentPracticeView(generics.RetrieveAPIView):
+    """GET: Информация о практике текущего студента"""
+    serializer_class = StudentPracticePlaceSerializer
+    permission_classes = [permissions.IsAuthenticated, IsStudent]
+
+    def get_object(self):
+        student = self.request.user.student
+        # Возвращаем последнее место практики студента
+        return StudentPracticePlace.objects.filter(student=student).order_by('-id_place').first()
+
+
+# ==============================================================================
+# ПРАКТИКА СТУДЕНТОВ ДЛЯ КУРАТОРА
+# ==============================================================================
+
+class CuratorStudentPracticeView(generics.ListAPIView):
+    """GET: Список практики студентов группы куратора"""
+    serializer_class = StudentPracticePlaceSerializer
+    permission_classes = [permissions.IsAuthenticated, IsCurator]
+
+    def get_queryset(self):
+        curator_groups = Group.objects.filter(curator=self.request.user)
+        students = Student.objects.filter(group__in=curator_groups)
+        return StudentPracticePlace.objects.filter(student__in=students).select_related('student__user', 'organization')
+
+
+# ==============================================================================
+# ПРАКТИКА ДЛЯ ПРЕПОДАВАТЕЛЯ
+# ==============================================================================
+
+class TeacherPracticeStudentsView(generics.ListAPIView):
+    """GET: Список студентов с информацией о практике для преподавателя"""
+    serializer_class = StudentPracticePlaceSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Возвращаем все места практики (преподаватель видит всех студентов)
+        return StudentPracticePlace.objects.all().select_related('student__user', 'organization')
+
+
+class TeacherUpdatePracticePlaceView(APIView):
+    """PATCH: Обновление места практики студента преподавателем"""
+    permission_classes = [permissions.IsAuthenticated]
+
+    def patch(self, request, place_id):
+        try:
+            place = StudentPracticePlace.objects.get(id_place=place_id)
+            
+            # Обновляем только разрешённые поля
+            allowed_fields = ['organization', 'position', 'status']
+            for field in allowed_fields:
+                if field in request.data:
+                    setattr(place, field, request.data[field])
+            
+            place.save()
+            
+            serializer = StudentPracticePlaceSerializer(place)
+            return Response(serializer.data)
+        except StudentPracticePlace.DoesNotExist:
+            return Response({'error': 'Место практики не найдено'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class TeacherApproveDiaryEntryView(APIView):
+    """PATCH: Одобрение записи в дневнике практики"""
+    permission_classes = [permissions.IsAuthenticated]
+
+    def patch(self, request, entry_id):
+        try:
+            entry = PracticeDiary.objects.get(id_entry=entry_id)
+            entry.is_approved_by_org = True
+            entry.save()
+            
+            serializer = PracticeDiarySerializer(entry)
+            return Response(serializer.data)
+        except PracticeDiary.DoesNotExist:
+            return Response({'error': 'Запись в дневнике не найдена'}, status=status.HTTP_404_NOT_FOUND)
