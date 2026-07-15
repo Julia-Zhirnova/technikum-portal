@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Container, Typography, Card, CardContent, Grid, Chip, Box,
-  CircularProgress, Alert, AppBar, Toolbar, IconButton, Table,
+  CircularProgress, Alert, AppBar, Toolbar, Button, IconButton, Table,
   TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
   FormControl, InputLabel, Select, MenuItem,
 } from '@mui/material';
@@ -10,6 +10,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PeopleIcon from '@mui/icons-material/People';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import SchoolIcon from '@mui/icons-material/School';
+import MailIcon from '@mui/icons-material/Mail';
 import { curatorAPI } from '../services/api';
 import NotificationBell from '../components/NotificationBell';
 import RoleSwitcher from '../components/RoleSwitcher';
@@ -127,6 +128,19 @@ export default function CuratorDashboard() {
       </AppBar>
 
       <Container maxWidth="lg" sx={{ pb: 5, pt: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Typography variant="h4" fontWeight="bold">
+          📊 Панель куратора
+        </Typography>
+        <Button 
+          variant="contained" 
+          color="primary"
+          startIcon={<MailIcon />}
+          onClick={() => navigate('/curator/requests')}
+        >
+          📨 Заявки студентов
+        </Button>
+      </Box>
         {/* Выбор группы */}
         {groups.length > 1 && (
           <FormControl fullWidth sx={{ mb: 3 }}>

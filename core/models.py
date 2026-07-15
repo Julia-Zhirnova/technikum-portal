@@ -1187,3 +1187,58 @@ class AttendanceTableRow(models.Model):
 
     def __str__(self):
         return f"{self.student} в табеле {self.table}"
+
+
+# ==============================================================================
+# ЗАЯВКИ И УВЕДОМЛЕНИЯ СТУДЕНТА
+# ==============================================================================
+
+class StudentRequest(models.Model):
+    REQUEST_TYPES = [
+        ('academic_certificate', 'Академическая справка'),
+        ('study_certificate', 'Справка с места учебы'),
+        ('characteristic', 'Характеристика'),
+        ('other', 'Другое'),
+    ]
+    
+    STATUS_CHOICES = [
+        ('pending', 'В обработке'),
+        ('approved', 'Одобрено'),
+        ('rejected', 'Отклонено'),
+        ('ready', 'Готово к выдаче'),
+    ]
+
+    id_request = models.AutoField(_('ID заявки'), primary_key=True)
+    student = models.ForeignKey('Student', on_delete=models.CASCADE, verbose_name=_('Студент'), related_name='requests')
+    request_type = models.CharField(_('Тип заявки'), max_length=50, choices=REQUEST_TYPES)
+    description = models.TextField(_('Описание / Дополнительная информация'), blank=True, null=True)
+    status = models.CharField(_('Статус'), max_length=20, choices=STATUS_CHOICES, default='pending')
+    comment = models.TextField(_('Комментарий куратора/администратора'), blank=True, null=True)
+    created_at = models.DateTimeField(_('Дата создания'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Дата обновления'), auto_now=True)
+
+    class Meta:
+        verbose_name = _('Заявка студента')
+        verbose_name_plural = _('Заявки студентов')
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Заявка #{self.id_request} - {self.get_request_type_display()} ({self.student.user.get_full_name()})"
+
+
+class Notification(models.Model):
+    id_notification = models.AutoField(_('ID уведомления'), primary_key=True)
+    student = models.ForeignKey('Student', on_delete=models.CASCADE, verbose_name=_('Студент'), related_name='notifications')
+    title = models.CharField(_('Заголовок'), max_length=200)
+    message = models.TextField(_('Текст уведомления'))
+    is_read = models.BooleanField(_('Прочитано'), default=False)
+    link = models.CharField(_('Ссылка (опционально)'), max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(_('Дата создания'), auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Уведомление')
+        verbose_name_plural = _('Уведомления')
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Уведомление для {self.student.user.get_full_name()}: {self.title}"

@@ -26,12 +26,21 @@ urlpatterns = [
     path('api/student/profile/', api_views.StudentProfileView.as_view(), name='student_profile'),
     path('api/student/profile/update/', api_views.StudentProfileUpdateView.as_view(), name='student_profile_update'),
     path('api/student/grades/', api_views.StudentGradesView.as_view(), name='student_grades'),
+    # Студент: Заявки и уведомления
+    path('api/student/requests/', api_views.StudentRequestView.as_view(), name='student_requests'),
+    path('api/student/notifications/', api_views.NotificationView.as_view(), name='student_notifications'),
+    path('api/student/notifications/<int:notification_id>/read/', api_views.MarkNotificationReadView.as_view(), name='mark_notification_read'),
+
     path('api/references/', api_views.ReferencesView.as_view(), name='references'),
     path('api/user/profile/', api_views.UserProfileView.as_view(), name='user_profile'),
     
     # Куратор
     path('api/curator/group/', api_views.CuratorGroupView.as_view(), name='curator_group'),
     path('api/curator/students/<str:snils>/', api_views.CuratorStudentDetailView.as_view(), name='curator_student_detail'),
+    # Куратор: Заявки студентов
+    path('api/curator/requests/', api_views.CuratorStudentRequestsView.as_view(), name='curator_requests'),
+    path('api/curator/requests/<int:request_id>/', api_views.CuratorUpdateRequestView.as_view(), name='curator_update_request'),
+
     
     # Преподаватель
     path('api/teacher/statements/', api_views.TeacherStatementsView.as_view(), name='teacher_statements'),

@@ -1,9 +1,10 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Student, Group, Statement
+from .models import Student, Group, Statement, StudentRequest, Notification
 from .serializers_update import StudentProfileUpdateSerializer
 from .serializers import (
+    StudentRequestSerializer, NotificationSerializer,
     UserProfileSerializer,
     StudentProfileSerializer, GroupWithStudentsSerializer, StatementSerializer
 )
@@ -733,69 +734,96 @@ class StatementGradesImportView(APIView):
             
             grades_updated = 0
             grades_created = 0
+            errors = []
             
+            def process_row(idx, fio, snils, grade_value):
+                nonlocal grades_updated, grades_created
+                if not fio:
+                    return
+                
+                # Нормализуем СНИЛС: убираем пробелы и тире
+                clean_snils = str(snils).replace(' ', '').replace('-', '').strip() if snils else ''
+                clean_fio = str(fio).strip()
+                clean_grade = str(grade_value).strip() if grade_value else ''
+                
+                student = None
+                # 1. Ищем по СНИЛС (сравниваем очищенные значения)
+                if clean_snils:
+                    for s in Student.objects.all():
+                        if s.snils and s.snils.replace(' ', '').replace('-', '').strip() == clean_snils:
+                            student = s
+                            break
+                
+                # 2. Если не нашли по СНИЛС, ищем по ФИО (разбиваем на фамилию и имя)
+                if not student and clean_fio:
+                    parts = clean_fio.split()
+                    if len(parts) >= 2:
+                        last_name = parts[0]
+                        first_name = parts[1]
+                        try:
+                            student = Student.objects.get(user__last_name__iexact=last_name, user__first_name__iexact=first_name)
+                        except Student.DoesNotExist:
+                            pass
+                
+                if not student:
+                    errors.append(f"Строка {idx}: Студент '{clean_fio}' (СНИЛС: {clean_snils}) не найден в системе.")
+                    return
+                
+                grade_obj, created = StatementGrade.objects.get_or_create(
+                    statement=statement,
+                    student=student,
+                    defaults={'grade': clean_grade}
+                )
+                if not created:
+                    if grade_obj.grade != clean_grade:
+                        grade_obj.grade = clean_grade
+                        grade_obj.save()
+                        grades_updated += 1
+                else:
+                    grades_created += 1
+
             if file.name.endswith('.xlsx'):
                 wb = openpyxl.load_workbook(io.BytesIO(file.read()))
                 ws = wb.active
                 
-                # Пропускаем заголовок
                 for row in ws.iter_rows(min_row=2, values_only=True):
-                    if not row or not row[0]:
+                    if not row or not row[1]: # Проверяем наличие ФИО (колонка 2, индекс 1)
                         continue
                     
-                    idx, fio, snils, grade_value, date_str, is_retake_str = row[:6] if len(row) >= 6 else (row + (None,) * (6 - len(row)))
+                    # Ожидаем: №, ФИО, СНИЛС, Оценка, Дата, Пересдача
+                    idx = row[0]
+                    fio = row[1]
+                    snils = row[2]
+                    grade_value = row[3]
                     
-                    # Ищем студента по СНИЛС
-                    if snils:
-                        try:
-                            student = Student.objects.get(snils=str(snils).strip())
-                            grade_obj, created = StatementGrade.objects.get_or_create(
-                                statement=statement,
-                                student=student,
-                                defaults={'grade': str(grade_value or '')}
-                            )
-                            if not created:
-                                grade_obj.grade = str(grade_value or '')
-                                grade_obj.save()
-                                grades_updated += 1
-                            else:
-                                grades_created += 1
-                        except Student.DoesNotExist:
-                            continue
-                            
+                    process_row(idx, fio, snils, grade_value)
+                    
             elif file.name.endswith('.csv'):
                 content = file.read().decode('utf-8-sig')
                 reader = csv.reader(io.StringIO(content), delimiter=';')
                 next(reader, None)  # Пропускаем заголовок
                 
                 for row in reader:
-                    if not row or len(row) < 4:
+                    if not row or len(row) < 3:
                         continue
                     
-                    idx, fio, snils, grade_value = row[0], row[1], row[2], row[3]
+                    idx = row[0]
+                    fio = row[1]
+                    snils = row[2]
+                    grade_value = row[3] if len(row) > 3 else ''
                     
-                    if snils:
-                        try:
-                            student = Student.objects.get(snils=str(snils).strip())
-                            grade_obj, created = StatementGrade.objects.get_or_create(
-                                statement=statement,
-                                student=student,
-                                defaults={'grade': str(grade_value or '')}
-                            )
-                            if not created:
-                                grade_obj.grade = str(grade_value or '')
-                                grade_obj.save()
-                                grades_updated += 1
-                            else:
-                                grades_created += 1
-                        except Student.DoesNotExist:
-                            continue
+                    process_row(idx, fio, snils, grade_value)
+            
+            message = f'Импорт завершён. Создано: {grades_created}, Обновлено: {grades_updated}.'
+            if errors:
+                message += f' Ошибок: {len(errors)}. Первые 5: ' + '; '.join(errors[:5])
             
             return Response({
                 'success': True,
-                'message': f'Импорт завершён. Создано: {grades_created}, Обновлено: {grades_updated}',
+                'message': message,
                 'grades_created': grades_created,
-                'grades_updated': grades_updated
+                'grades_updated': grades_updated,
+                'errors': errors[:10] # Возвращаем первые 10 ошибок для отладки
             })
             
         except Statement.DoesNotExist:
@@ -958,3 +986,103 @@ def debug_export_fbv(request, statement_id):
     print(f"!!! 🚀 FBV ВЫЗВАН УСПЕШНО: statement_id={statement_id}")
     print(f"    User: {request.user}")
     return HttpResponse(f"FBV Работает! Statement: {statement_id}", content_type='text/plain')
+
+
+# ==============================================================================
+# ЗАЯВКИ И УВЕДОМЛЕНИЯ СТУДЕНТА
+# ==============================================================================
+
+class StudentRequestView(generics.ListCreateAPIView):
+    """GET/POST: Список заявок студента и создание новой"""
+    serializer_class = StudentRequestSerializer
+    permission_classes = [permissions.IsAuthenticated, IsStudent]
+
+    def get_queryset(self):
+        return StudentRequest.objects.filter(student=self.request.user.student)
+
+    def perform_create(self, serializer):
+        serializer.save(student=self.request.user.student)
+
+
+class NotificationView(generics.ListAPIView):
+    """GET: Список уведомлений студента"""
+    serializer_class = NotificationSerializer
+    permission_classes = [permissions.IsAuthenticated, IsStudent]
+
+    def get_queryset(self):
+        return Notification.objects.filter(student=self.request.user.student)
+
+
+class MarkNotificationReadView(APIView):
+    """POST: Отметить уведомление как прочитанное"""
+    permission_classes = [permissions.IsAuthenticated, IsStudent]
+
+    def post(self, request, notification_id):
+        try:
+            notification = Notification.objects.get(
+                id_notification=notification_id, 
+                student=request.user.student
+            )
+            notification.is_read = True
+            notification.save()
+            return Response({'success': True})
+        except Notification.DoesNotExist:
+            return Response({'error': 'Уведомление не найдено'}, status=status.HTTP_404_NOT_FOUND)
+
+
+# ==============================================================================
+# ЗАЯВКИ СТУДЕНТОВ ДЛЯ КУРАТОРА
+# ==============================================================================
+
+class CuratorStudentRequestsView(generics.ListAPIView):
+    """GET: Список заявок студентов группы куратора"""
+    serializer_class = StudentRequestSerializer
+    permission_classes = [permissions.IsAuthenticated, IsCurator]
+
+    def get_queryset(self):
+        # Получаем все группы, где текущий пользователь является куратором
+        curator_groups = Group.objects.filter(curator=self.request.user)
+        
+        # Если пользователь - админ, показываем все заявки
+        if self.request.user.is_staff:
+            return StudentRequest.objects.all().select_related('student__user', 'student__group').order_by('-created_at')
+        
+        # Получаем всех студентов этих групп
+        students = Student.objects.filter(group__in=curator_groups)
+        
+        # Возвращаем заявки этих студентов
+        return StudentRequest.objects.filter(student__in=students).select_related('student__user', 'student__group').order_by('-created_at')
+
+class CuratorUpdateRequestView(APIView):
+    """PATCH: Обновление статуса и комментария заявки студента куратором"""
+    permission_classes = [permissions.IsAuthenticated, IsCurator]
+
+    def patch(self, request, request_id):
+        try:
+            req = StudentRequest.objects.get(id_request=request_id)
+            
+            # Проверяем, что студент из группы, где текущий пользователь является куратором
+            # (или пользователь is_staff)
+            if not request.user.is_staff:
+                is_curator_of_group = Group.objects.filter(curator=request.user, id=req.student.group.id).exists()
+                if not is_curator_of_group:
+                    return Response({'error': 'Нет доступа к этой заявке'}, status=status.HTTP_403_FORBIDDEN)
+            
+            # Обновляем только статус и комментарий
+            serializer = StudentRequestSerializer(req, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                
+                # Создаем уведомление для студента об ответе
+                from .models import Notification
+                Notification.objects.create(
+                    student=req.student,
+                    title=f"Ответ по заявке: {req.get_request_type_display()}",
+                    message=f"Ваша заявка переведена в статус: {req.get_status_display()}. Комментарий: {request.data.get('comment', 'Без комментария')}",
+                    is_read=False
+                )
+                
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except StudentRequest.DoesNotExist:
+            return Response({'error': 'Заявка не найдена'}, status=status.HTTP_404_NOT_FOUND)

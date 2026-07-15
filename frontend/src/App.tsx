@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import CuratorDashboard from './pages/CuratorDashboard';
+import CuratorRequestsPage from './pages/CuratorRequestsPage';
 import TeacherDashboard from './pages/TeacherDashboard';
 import { userAPI } from './services/api';
 
@@ -100,6 +101,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <CuratorDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/curator/requests"
+            element={
+              <ProtectedRoute>
+                <CuratorRequestsPage />
               </ProtectedRoute>
             }
           />

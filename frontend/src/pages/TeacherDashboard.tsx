@@ -166,7 +166,11 @@ export default function TeacherDashboard() {
     
     try {
       const response = await teacherAPI.importGrades(selectedStatement.id_statement, file);
-      alert('✅ ' + response.data.message);
+      let msg = '✅ ' + response.data.message;
+      if (response.data.errors && response.data.errors.length > 0) {
+        msg += '\n\nОшибки:\n' + response.data.errors.join('\n');
+      }
+      alert(msg);
       // Перезагружаем оценки
       const gradesResponse = await teacherAPI.getStatementGrades(selectedStatement.id_statement);
       setGrades(Array.isArray(gradesResponse.data) ? gradesResponse.data : []);

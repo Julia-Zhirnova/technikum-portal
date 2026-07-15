@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import (
     User, Student, Group, Statement, StatementGrade,
+    StudentRequest, Notification,
     Passport, Health, Military, Family, FamilyMember, Profile,
     EducationInstitution,
 )
@@ -589,3 +590,27 @@ class StudentProfileUpdateSerializer(serializers.Serializer):
         instance.save()
         print(f"✅ Студент сохранен")
         return instance
+
+
+# ==============================================================================
+# СЕРИАЛИЗАТОРЫ ДЛЯ ЗАЯВОК И УВЕДОМЛЕНИЙ
+# ==============================================================================
+
+class StudentRequestSerializer(serializers.ModelSerializer):
+    """Сериализатор заявок студента."""
+    request_type_display = serializers.CharField(source='get_request_type_display', read_only=True)
+    status_display = serializers.CharField(source='get_status_display', read_only=True)
+    student_name = serializers.CharField(source='student.user.get_full_name', read_only=True)
+
+    class Meta:
+        model = StudentRequest
+        fields = ['id_request', 'student_name', 'request_type', 'request_type_display', 'description', 
+                  'status', 'status_display', 'comment', 'created_at', 'updated_at']
+        read_only_fields = ['id_request', 'student_name', 'request_type_display', 'status_display', 'created_at', 'updated_at']
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    """Сериализатор уведомлений."""
+    class Meta:
+        model = Notification
+        fields = ['id_notification', 'title', 'message', 'is_read', 'link', 'created_at']

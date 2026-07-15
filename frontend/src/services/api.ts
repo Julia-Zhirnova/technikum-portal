@@ -143,3 +143,18 @@ export interface UserProfileData {
 export const userAPI = {
   getProfile: () => api.get<UserProfileData>('/user/profile/'),
 };
+
+export const requestsAPI = {
+  getList: () => api.get('/student/requests/'),
+  create: (data: any) => api.post('/student/requests/', data),
+};
+
+export const notificationsAPI = {
+  getList: () => api.get('/student/notifications/'),
+  markRead: (id: number) => api.post(`/student/notifications/${id}/read/`),
+};
+
+export const curatorRequestsAPI = {
+  getList: () => api.get('/curator/requests/'),
+  update: (requestId: number, data: any) => api.patch(`/curator/requests/${requestId}/`, data),
+};
