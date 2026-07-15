@@ -8,6 +8,10 @@ import CuratorDashboard from './pages/CuratorDashboard';
 import CuratorRequestsPage from './pages/CuratorRequestsPage';
 import TeacherDashboard from './pages/TeacherDashboard';
 import { userAPI } from './services/api';
+import DashboardLayout from './components/DashboardLayout';
+import RequestsPage from './pages/RequestsPage';
+import NotificationsPage from './pages/NotificationsPage';
+
 
 const theme = createTheme({
   palette: {
@@ -88,38 +92,57 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<SmartRedirect />} />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/curator"
-            element={
-              <ProtectedRoute>
-                <CuratorDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/curator/requests"
-            element={
-              <ProtectedRoute>
-                <CuratorRequestsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/teacher"
-            element={
-              <ProtectedRoute>
-                <TeacherDashboard />
-              </ProtectedRoute>
-            }
-          />
+          <Route element={<DashboardLayout />}>
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/curator"
+              element={
+                <ProtectedRoute>
+                  <CuratorDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/curator/requests"
+              element={
+                <ProtectedRoute>
+                  <CuratorRequestsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/teacher"
+              element={
+                <ProtectedRoute>
+                  <TeacherDashboard />
+                </ProtectedRoute>
+              }
+            />
+            {/* Страницы студента также будут внутри Layout */}
+            <Route
+              path="/student/requests"
+              element={
+                <ProtectedRoute>
+                  <RequestsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/student/notifications"
+              element={
+                <ProtectedRoute>
+                  <NotificationsPage />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
           <Route path="*" element={<SmartRedirect />} />
         </Routes>
       </Router>

@@ -56,18 +56,6 @@ export default function GradesPage() {
   if (error) {
     return (
       <>
-        <AppBar position="sticky" color="default" elevation={1}>
-          <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              🎓 Люберецкий техникум
-            </Typography>
-            <RoleSwitcher />
-            <NotificationBell />
-            <IconButton onClick={handleLogout} color="inherit" title="Выйти">
-              <LogoutIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
         <Container maxWidth="md" sx={{ mt: 5 }}>
           <Alert severity="error">{error}</Alert>
         </Container>
@@ -86,18 +74,6 @@ export default function GradesPage() {
 
   return (
     <>
-      <AppBar position="sticky" color="default" elevation={1}>
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            🎓 Люберецкий техникум
-          </Typography>
-          <RoleSwitcher />
-          <NotificationBell />
-          <IconButton onClick={handleLogout} color="inherit" title="Выйти">
-            <LogoutIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
 
       <Container maxWidth="lg" sx={{ pb: 5, pt: 3 }}>
         <Typography variant="h4" gutterBottom fontWeight="bold">

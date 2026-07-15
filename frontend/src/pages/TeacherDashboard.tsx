@@ -237,17 +237,6 @@ export default function TeacherDashboard() {
 
   return (
     <>
-      <AppBar position="sticky" color="default" elevation={1}>
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            🎓 Люберецкий техникум — Преподаватель
-          </Typography>
-          <RoleSwitcher />
-          <IconButton onClick={handleLogout} color="inherit">
-            <LogoutIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
 
       <Container maxWidth="xl" sx={{ py: 3 }}>
         <Typography variant="h4" gutterBottom fontWeight="bold">

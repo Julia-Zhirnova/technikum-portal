@@ -66,18 +66,6 @@ export default function CuratorDashboard() {
   if (error) {
     return (
       <>
-        <AppBar position="sticky" color="default" elevation={1}>
-          <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              🎓 Люберецкий техникум — Куратор
-            </Typography>
-            <RoleSwitcher />
-            <NotificationBell />
-            <IconButton onClick={handleLogout} color="inherit" title="Выйти">
-              <LogoutIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
         <Container maxWidth="md" sx={{ mt: 5 }}>
           <Alert severity="error">{error}</Alert>
         </Container>
@@ -88,18 +76,6 @@ export default function CuratorDashboard() {
   if (groups.length === 0) {
     return (
       <>
-        <AppBar position="sticky" color="default" elevation={1}>
-          <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              🎓 Люберецкий техникум — Куратор
-            </Typography>
-            <RoleSwitcher />
-            <NotificationBell />
-            <IconButton onClick={handleLogout} color="inherit" title="Выйти">
-              <LogoutIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
         <Container maxWidth="md" sx={{ mt: 5 }}>
           <Alert severity="info">
             У вас нет назначенных групп. Обратитесь к администратору.
@@ -114,18 +90,6 @@ export default function CuratorDashboard() {
 
   return (
     <>
-      <AppBar position="sticky" color="default" elevation={1}>
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            🎓 Люберецкий техникум — Куратор
-          </Typography>
-          <RoleSwitcher />
-          <NotificationBell />
-          <IconButton onClick={handleLogout} color="inherit" title="Выйти">
-            <LogoutIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
 
       <Container maxWidth="lg" sx={{ pb: 5, pt: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>

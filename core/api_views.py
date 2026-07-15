@@ -1005,12 +1005,18 @@ class StudentRequestView(generics.ListCreateAPIView):
 
 
 class NotificationView(generics.ListAPIView):
-    """GET: Список уведомлений студента"""
+    """GET: Список уведомлений текущего пользователя"""
     serializer_class = NotificationSerializer
-    permission_classes = [permissions.IsAuthenticated, IsStudent]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Notification.objects.filter(student=self.request.user.student)
+        user = self.request.user
+        # Если это студент, возвращаем его уведомления
+        if hasattr(user, 'student'):
+            return Notification.objects.filter(student=user.student).order_by('-created_at')
+        # Для кураторов, преподавателей и админов пока возвращаем пустой QuerySet 
+        # (триггеры уведомлений для них будут добавлены позже)
+        return Notification.objects.none()
 
 
 class MarkNotificationReadView(APIView):

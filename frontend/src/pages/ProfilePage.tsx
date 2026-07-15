@@ -113,27 +113,6 @@ export default function ProfilePage() {
 
   return (
     <>
-      <AppBar position="sticky" color="default" elevation={1}>
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            🎓 Люберецкий техникум
-          </Typography>
-          <RoleSwitcher />
-          <NotificationBell />
-          <Typography sx={{ mx: 2 }}>{profile.user.full_name}</Typography>
-          <IconButton onClick={() => navigate('/login')} color="inherit" title="Выйти">
-            <LogoutIcon />
-          </IconButton>
-        </Toolbar>
-        <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} variant="scrollable">
-          <Tab label="📋 Анкета" />
-          <Tab label="💼 Практика" />
-          <Tab label="📖 Зачётка" />
-          <Tab label="📅 Посещаемость" />
-          <Tab label="📨 Заявки" />
-          <Tab label="🔔 Уведомления" />
-        </Tabs>
-      </AppBar>
 
       <TabPanel value={activeTab} index={0}>
         <Container maxWidth="md" sx={{ pb: 5, pt: 3 }}>
