@@ -11,6 +11,9 @@ import { userAPI } from './services/api';
 import DashboardLayout from './components/DashboardLayout';
 import RequestsPage from './pages/RequestsPage';
 import NotificationsPage from './pages/NotificationsPage';
+import StudentDashboard from './pages/StudentDashboard';
+import PracticePage from './pages/PracticePage';
+import GradesPage from './pages/GradesPage';
 
 
 const theme = createTheme({
@@ -53,8 +56,8 @@ function SmartRedirect() {
           setRedirect('/curator');
         } else if (roles.includes('teacher')) {
           setRedirect('/teacher');
-        } else if (roles.includes('student')) {
-          setRedirect('/profile');
+        } else if (roles.includes('student') || roles.includes('Учащийся')) {
+          setRedirect('/student');
         } else if (roles.includes('admin')) {
           window.location.href = 'http://localhost:8000/admin/';
           return;
@@ -126,6 +129,38 @@ function App() {
               }
             />
             {/* Страницы студента также будут внутри Layout */}
+            <Route
+              path="/student/requests"
+              element={
+                <ProtectedRoute>
+                  <RequestsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/student"
+              element={
+                <ProtectedRoute>
+                  <StudentDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/student/grades"
+              element={
+                <ProtectedRoute>
+                  <GradesPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/student/practice"
+              element={
+                <ProtectedRoute>
+                  <PracticePage />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/student/requests"
               element={
