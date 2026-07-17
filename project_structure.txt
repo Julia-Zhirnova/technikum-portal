@@ -1,0 +1,118 @@
+.
+├── ~$test_final_export.xlsx
+├── accounts
+│   ├── admin.py
+│   ├── apps.py
+│   ├── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+├── add_grade_endpoint.py
+├── add_update_serializers.py
+├── assign_curators.py
+├── backup_db.sh
+├── backups
+│   ├── backup_postgres_technikum_db_2026-07-07_23-03-54.sql.gz
+│   └── backup_postgres_technikum_db_2026-07-08_00-11-53.sql.gz
+├── check_user.py
+├── code_dump.txt
+├── config
+│   ├── asgi.py
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── core
+│   ├── admin.py
+│   ├── admin_site.py
+│   ├── api_views.py
+│   ├── apps.py
+│   ├── __init__.py
+│   ├── middleware_debug.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_alter_assessmentschedule_options_and_more.py
+│   │   ├── 0003_alter_organization_basis.py
+│   │   ├── 0004_alter_organization_director_phone_and_more.py
+│   │   ├── 0005_alter_health_status.py
+│   │   ├── 0006_alter_family_housing_type_alter_family_status.py
+│   │   ├── 0007_alter_family_status_alter_health_status_and_more.py
+│   │   ├── 0008_alter_statement_status.py
+│   │   ├── 0009_notification_studentrequest.py
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── resources.py
+│   ├── serializers.py
+│   ├── serializers_update_fixed.py
+│   ├── serializers_update.py
+│   ├── tests.py
+│   ├── views.py
+│   └── views_restore_statement.py
+├── core.admin
+├── core_admin_part_aa
+├── core_admin_part_ab
+├── core_models_part_aa
+├── core_models_part_ab
+├── core_models_part_ac
+├── core_resources_part_aa
+├── core_resources_part_ab
+├── core_resources_part_ac
+├── curl_output.txt
+├── db.sqlite3
+├── debug_save.py
+├── django.log
+├── fill_test_data.py
+├── frontend
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── public
+│   │   ├── favicon.svg
+│   │   └── icons.svg
+│   ├── README.md
+│   ├── src
+│   │   ├── App.css
+│   │   ├── App.tsx
+│   │   ├── assets
+│   │   ├── components
+│   │   ├── index.css
+│   │   ├── main.tsx
+│   │   ├── pages
+│   │   └── services
+│   ├── tailwind.config.js
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   ├── vite.config.ts
+│   └── vite.log
+├── manage.py
+├── manage_servers.sh
+├── manage_users.py
+├── media
+│   └── docs
+│       ├── health
+│       ├── military
+│       ├── passports
+│       └── students
+├── project_structure.txt
+├── requirements.txt
+├── reset_all_passwords.py
+├── set_default_passwords.py
+├── show_component_and_curl.sh
+├── static
+├── templates
+│   └── docx
+│       ├── зачетная_ведомость.docx
+│       └── протокол_экзамена.docx
+├── test_alt_export.xlsx
+├── test_direct_export.xlsx
+├── test_export.xlsx
+├── test_final_export.xlsx
+├── test_without_slash.xlsx
+├── test_with_slash.xlsx
+└── update_grade_endpoint.py
+
+22 directories, 93 files

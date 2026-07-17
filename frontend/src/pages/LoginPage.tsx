@@ -21,17 +21,26 @@ export default function LoginPage() {
 
     try {
       const response = await authAPI.login(email, password);
+      
       localStorage.setItem('access_token', response.data.access);
       localStorage.setItem('refresh_token', response.data.refresh);
       
-      // Перенаправляем на корень, где SmartRedirect определит роль
-      navigate('/');
+      // ГЛАВНОЕ ИСПРАВЛЕНИЕ: Проверяем флаг сразу после логина
+      if (response.data.requires_password_change) {
+        navigate('/change-password');
+      } else {
+        navigate('/');
+      }
     } catch (err: any) {
-      setError(
-        err.response?.status === 401
-          ? 'Неверный email или пароль'
-          : 'Ошибка соединения с сервером'
-      );
+      if (err.response?.status === 401) {
+        // ЧИТАЕМ СООБЩЕНИЕ С БЭКЕНДА (там будет "Ваша учетная запись заблокирована...")
+        const backendMessage = err.response?.data?.detail;
+        setError(backendMessage || 'Неверный email или пароль');
+      } else if (err.code === 'ERR_NETWORK') {
+        setError('Ошибка сети: не удается соединиться с сервером.');
+      } else {
+        setError('Произошла ошибка при входе.');
+      }
     } finally {
       setLoading(false);
     }
@@ -89,17 +98,9 @@ export default function LoginPage() {
               {loading ? <CircularProgress size={24} /> : 'Войти'}
             </Button>
           </form>
-
-          <Box sx={{ mt: 3, p: 2, bgcolor: 'grey.100', borderRadius: 1 }}>
-            <Typography variant="caption" color="text.secondary">
-              <strong>Тестовые входы:</strong><br />
-              Студент: <code>shpak_va@luberteh.ru</code> / <code>12345</code><br />
-              Куратор: <code>tardv69@yandex.ru</code> / <code>curator123</code><br />
-              Админ: <code>admin@luberteh.ru</code> / <code>admin123</code>
-            </Typography>
-          </Box>
         </CardContent>
       </Card>
     </Container>
   );
 }
+

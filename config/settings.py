@@ -141,6 +141,7 @@ REST_FRAMEWORK = {
 }
 # Настройки JWT-аутентификации
 SIMPLE_JWT = {
+    "TOKEN_OBTAIN_SERIALIZER": "accounts.serializers.CustomTokenObtainPairSerializer",
     'USER_ID_FIELD': 'id_user',  # Поле первичного ключа в модели User
     'USER_ID_CLAIM': 'user_id',  # Как это поле будет называться в токене
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # Время жизни access-токена
