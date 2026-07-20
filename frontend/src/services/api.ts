@@ -19,6 +19,17 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    // Обработка 403 Forbidden - роль не соответствует запрошенной
+    if (error.response?.status === 403) {
+      console.warn('403 Forbidden: сброс роли на student');
+      localStorage.setItem('activeRole', 'student');
+      // Перенаправляем на студенческий дашборд
+      if (window.location.pathname !== '/student') {
+        window.location.href = '/student';
+      }
+      return Promise.reject(error);
+    }
+
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem('refresh_token');

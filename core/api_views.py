@@ -1,4 +1,6 @@
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics, permissions, status
+from accounts.permissions import HasActiveRolePermission, RequireRole
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Student, Group, Statement, StudentRequest, Notification, StudentPracticePlace, PracticeDiary, PracticeAttestation, Organization
@@ -62,6 +64,8 @@ class IsTeacher(permissions.BasePermission):
 # ==============================================================================
 
 class StudentProfileView(generics.RetrieveUpdateAPIView):
+    required_role = "student"
+    permission_classes = [RequireRole]
     """
     GET /api/student/profile/ — получить профиль студента
     PUT/PATCH /api/student/profile/ — обновить профиль студента
@@ -77,6 +81,8 @@ class StudentProfileView(generics.RetrieveUpdateAPIView):
 # ==============================================================================
 
 class CuratorGroupView(generics.ListAPIView):
+    required_role = "curator"
+    permission_classes = [RequireRole]
     """
     GET /api/curator/group/ — список групп куратора со студентами
     """
@@ -100,6 +106,8 @@ class CuratorGroupView(generics.ListAPIView):
         return Group.objects.filter(curator=user).order_by('id_group')
 
 class CuratorStudentDetailView(generics.RetrieveAPIView):
+    required_role = "curator"
+    permission_classes = [RequireRole]
     """
     GET /api/curator/students/<snils>/ — анкета конкретного студента
     """
@@ -119,6 +127,8 @@ class CuratorStudentDetailView(generics.RetrieveAPIView):
 # ==============================================================================
 
 class TeacherStatementsView(generics.ListAPIView):
+    required_role = "teacher"
+    permission_classes = [RequireRole]
     """
     GET /api/teacher/statements/ — список ведомостей преподавателя
     """
@@ -135,6 +145,8 @@ class TeacherStatementsView(generics.ListAPIView):
 
 
 class StudentProfileUpdateView(APIView):
+    required_role = "student"
+    permission_classes = [RequireRole]
     """
     PATCH /api/student/profile/update/ — обновление профиля студента
     """
@@ -262,6 +274,8 @@ class ReferencesView(APIView):
 
 
 class StudentGradesView(APIView):
+    required_role = "student"
+    permission_classes = [RequireRole]
     """
     GET /api/student/grades/ — зачётка текущего студента с группировкой по семестрам
     """
@@ -390,6 +404,8 @@ class StudentGradesView(APIView):
 
 
 class UpdateGradeView(APIView):
+    required_role = "teacher"
+    permission_classes = [RequireRole]
     """
     PATCH /api/teacher/grades/<int:grade_id>/ — изменение оценки преподавателем
     """
@@ -476,6 +492,8 @@ class UpdateGradeView(APIView):
 
 
 class TeacherStatementGradesView(APIView):
+    required_role = "teacher"
+    permission_classes = [RequireRole]
     """
     GET /api/teacher/statements/<int:statement_id>/grades/ — оценки по ведомости
     """
@@ -529,6 +547,8 @@ class TeacherStatementGradesView(APIView):
 # ==============================================================================
 
 class StatementGradesExportView(APIView):
+    required_role = "teacher"
+    permission_classes = [RequireRole]
     """
     GET /api/teacher/statements/<id>/export/?format=excel|csv|txt
     Экспорт оценок ведомости в Excel, CSV или TXT
@@ -702,6 +722,8 @@ class StatementGradesExportView(APIView):
 
 
 class StatementGradesImportView(APIView):
+    required_role = "teacher"
+    permission_classes = [RequireRole]
     """
     POST /api/teacher/statements/<id>/import/
     Импорт оценок из Excel/CSV
@@ -841,6 +863,8 @@ class StatementGradesImportView(APIView):
 # ==============================================================================
 
 class StatementGenerateDocxView(APIView):
+    required_role = "teacher"
+    permission_classes = [RequireRole]
     """
     POST /api/teacher/statements/<id>/generate-docx/?type=zachet|protocol
     Генерация DOCX документа по шаблону
@@ -980,6 +1004,8 @@ class StatementGenerateDocxView(APIView):
 # ==============================================================================
 from django.http import HttpResponse
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
@@ -994,6 +1020,8 @@ def debug_export_fbv(request, statement_id):
 # ==============================================================================
 
 class StudentRequestView(generics.ListCreateAPIView):
+    required_role = "student"
+    permission_classes = [RequireRole]
     """GET/POST: Список заявок студента и создание новой"""
     serializer_class = StudentRequestSerializer
     permission_classes = [permissions.IsAuthenticated, IsStudent]
@@ -1006,6 +1034,8 @@ class StudentRequestView(generics.ListCreateAPIView):
 
 
 class NotificationView(generics.ListAPIView):
+    required_role = "student"
+    permission_classes = [RequireRole]
     """GET: Список уведомлений текущего пользователя"""
     serializer_class = NotificationSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -1021,6 +1051,8 @@ class NotificationView(generics.ListAPIView):
 
 
 class MarkNotificationReadView(APIView):
+    required_role = "student"
+    permission_classes = [RequireRole]
     """POST: Отметить уведомление как прочитанное"""
     permission_classes = [permissions.IsAuthenticated, IsStudent]
 
@@ -1042,6 +1074,8 @@ class MarkNotificationReadView(APIView):
 # ==============================================================================
 
 class CuratorStudentRequestsView(generics.ListAPIView):
+    required_role = "curator"
+    permission_classes = [RequireRole]
     """GET: Список заявок студентов группы куратора"""
     serializer_class = StudentRequestSerializer
     permission_classes = [permissions.IsAuthenticated, IsCurator]
@@ -1061,6 +1095,8 @@ class CuratorStudentRequestsView(generics.ListAPIView):
         return StudentRequest.objects.filter(student__in=students).select_related('student__user', 'student__group').order_by('-created_at')
 
 class CuratorUpdateRequestView(APIView):
+    required_role = "curator"
+    permission_classes = [RequireRole]
     """PATCH: Обновление статуса и комментария заявки студента куратором"""
     permission_classes = [permissions.IsAuthenticated, IsCurator]
 
@@ -1100,6 +1136,8 @@ class CuratorUpdateRequestView(APIView):
 # ==============================================================================
 
 class StudentPracticeView(generics.RetrieveAPIView):
+    required_role = "student"
+    permission_classes = [RequireRole]
     """GET: Информация о практике текущего студента"""
     serializer_class = StudentPracticePlaceSerializer
     permission_classes = [permissions.IsAuthenticated, IsStudent]
@@ -1115,6 +1153,8 @@ class StudentPracticeView(generics.RetrieveAPIView):
 # ==============================================================================
 
 class CuratorStudentPracticeView(generics.ListAPIView):
+    required_role = "curator"
+    permission_classes = [RequireRole]
     """GET: Список практики студентов группы куратора"""
     serializer_class = StudentPracticePlaceSerializer
     permission_classes = [permissions.IsAuthenticated, IsCurator]
@@ -1130,6 +1170,8 @@ class CuratorStudentPracticeView(generics.ListAPIView):
 # ==============================================================================
 
 class TeacherPracticeStudentsView(generics.ListAPIView):
+    required_role = "teacher"
+    permission_classes = [RequireRole]
     """GET: Список студентов с информацией о практике для преподавателя"""
     serializer_class = StudentPracticePlaceSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -1140,6 +1182,8 @@ class TeacherPracticeStudentsView(generics.ListAPIView):
 
 
 class TeacherUpdatePracticePlaceView(APIView):
+    required_role = "teacher"
+    permission_classes = [RequireRole]
     """PATCH: Обновление места практики студента преподавателем"""
     permission_classes = [permissions.IsAuthenticated]
 
@@ -1162,6 +1206,8 @@ class TeacherUpdatePracticePlaceView(APIView):
 
 
 class TeacherApproveDiaryEntryView(APIView):
+    required_role = "teacher"
+    permission_classes = [RequireRole]
     """PATCH: Одобрение записи в дневнике практики"""
     permission_classes = [permissions.IsAuthenticated]
 
@@ -1175,3 +1221,72 @@ class TeacherApproveDiaryEntryView(APIView):
             return Response(serializer.data)
         except PracticeDiary.DoesNotExist:
             return Response({'error': 'Запись в дневнике не найдена'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class AdminUsersView(APIView):
+    """Список пользователей для администратора (Функция 1.5)"""
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        from core.models import UserRole
+        
+        # Проверяем наличие заголовка X-Active-Role
+        active_role = request.META.get('HTTP_X_ACTIVE_ROLE')
+        if not active_role:
+            return Response(
+                {"detail": "Отсутствует заголовок X-Active-Role."},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        # Проверяем, что пользователь - администратор
+        is_admin = UserRole.objects.filter(
+            user=request.user,
+            role__id_role='admin'
+        ).exists()
+        
+        if not is_admin:
+            return Response(
+                {"detail": "Доступ только для администраторов."},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        # Фильтры
+        role_filter = request.query_params.get('role')
+        status_filter = request.query_params.get('status')
+        group_filter = request.query_params.get('group')
+        search = request.query_params.get('search')
+        
+        users = User.objects.all()
+        
+        if role_filter:
+            users = users.filter(user_roles__role__id_role=role_filter)
+        if status_filter == 'active':
+            users = users.filter(is_active=True)
+        elif status_filter == 'blocked':
+            users = users.filter(is_active=False)
+        elif status_filter == 'requires_change':
+            users = users.filter(requires_password_change=True)
+        if group_filter:
+            users = users.filter(student__group__id_group=group_filter)
+        if search:
+            users = users.filter(
+                Q(email__icontains=search) |
+                Q(last_name__icontains=search) |
+                Q(first_name__icontains=search)
+            )
+        
+        data = []
+        for user in users:
+            roles = list(UserRole.objects.filter(user=user).values_list('role__id_role', flat=True))
+            data.append({
+                'id': user.id_user,
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'is_active': user.is_active,
+                'requires_password_change': user.requires_password_change,
+                'roles': roles,
+            })
+        
+        return Response(data, status=status.HTTP_200_OK)
+

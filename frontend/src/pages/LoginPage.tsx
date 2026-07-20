@@ -1,57 +1,96 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Box, Container, Grid, Paper, Typography, TextField, Button, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { Container, Box, Card, CardContent, Typography, TextField, Button, Alert, CircularProgress } from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
 import SchoolIcon from '@mui/icons-material/School';
+import GroupsIcon from '@mui/icons-material/Groups';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { authAPI } from '../services/api';
+
+const roles = [
+  { id: 'student', title: 'Студент', desc: 'Личный кабинет', icon: <PersonIcon sx={{ fontSize: 40 }} /> },
+  { id: 'teacher', title: 'Преподаватель', desc: 'Журналы и ведомости', icon: <SchoolIcon sx={{ fontSize: 40 }} /> },
+  { id: 'curator', title: 'Куратор', desc: 'Управление группой', icon: <GroupsIcon sx={{ fontSize: 40 }} /> },
+  { id: 'admin', title: 'Администратор', desc: 'Полный доступ', icon: <AdminPanelSettingsIcon sx={{ fontSize: 40 }} /> },
+];
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); setEmailError(''); setPasswordError(''); setLoading(true);
-    let hasError = false;
-    if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) { setEmailError('Введите корректный email'); hasError = true; }
-    if (!password.trim()) { setPasswordError('Введите пароль'); hasError = true; }
-    if (hasError) { setLoading(false); return; }
-
+    setError(''); setLoading(true);
     try {
-      const response = await authAPI.login(email, password);
-      localStorage.setItem('access_token', response.data.access);
-      localStorage.setItem('refresh_token', response.data.refresh);
-      if (response.data.requires_password_change) navigate('/change-password');
+      const res = await authAPI.login(email, password);
+      localStorage.setItem('access_token', res.data.access);
+      localStorage.setItem('refresh_token', res.data.refresh);
+      if (res.data.requires_password_change) navigate('/change-password');
       else navigate('/');
-    } catch (err: any) {
-      if (err.response?.status === 401) setError(err.response?.data?.detail || 'Неверный email или пароль');
-      else if (err.code === 'ERR_NETWORK') setError('Ошибка сети: не удается соединиться с сервером.');
-      else setError('Произошла ошибка при входе.');
-    } finally { setLoading(false); }
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Ошибка входа');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <Container maxWidth="sm" sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
-      <Card sx={{ width: '100%', boxShadow: 3 }}>
-        <CardContent sx={{ p: 4 }}>
-          <Box sx={{ textAlign: 'center', mb: 3 }}>
-            <img src="/logo.png" alt="Логотип техникума" style={{ height: 80, marginBottom: 16 }} />
-            <Typography variant="h5" fontWeight="bold" sx={{ lineHeight: 1.3 }}>ГБПОУ МО Люберецкий техникум<br/>имени Героя Советского Союза,<br/>лётчика-космонавта Ю. А. Гагарина</Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>Вход в личный кабинет</Typography>
-          </Box>
-          <form onSubmit={handleSubmit} noValidate>
-            <TextField fullWidth label="Электронная почта" type="email" value={email} onChange={(e) => { setEmail(e.target.value); setEmailError(''); }} error={!!emailError} helperText={emailError} required margin="normal" autoFocus />
-            <TextField fullWidth label="Пароль" type="password" value={password} onChange={(e) => { setPassword(e.target.value); setPasswordError(''); }} error={!!passwordError} helperText={passwordError} required margin="normal" />
-            {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
-            <Button type="submit" fullWidth variant="contained" size="large" disabled={loading} sx={{ mt: 3, py: 1.5 }}>{loading ? <CircularProgress size={24} /> : 'Войти'}</Button>
-            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mt: 2 }}>Забыли пароль? Обратитесь к администратору учебного заведения</Typography>
-          </form>
-        </CardContent>
-      </Card>
-    </Container>
+    <Box sx={{ minHeight: '100vh', display: 'flex', overflowY: 'auto' }}>
+      <Box sx={{ 
+        width: { xs: '100%', md: '45%' }, 
+        bgcolor: 'primary.main', 
+        color: 'white', 
+        p: 4, 
+        display: 'flex', 
+        flexDirection: 'column', 
+        justifyContent: 'center', 
+        position: 'relative' 
+      }}>
+        <Box sx={{ 
+          position: 'absolute', inset: 0, 
+          backgroundImage: 'url(/fon.png)', 
+          backgroundSize: 'cover', 
+          opacity: 0.9 
+        }} />
+        <Box sx={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
+          <Typography variant="h2" fontWeight="900" sx={{ fontSize: { xs: '2rem', md: '3.5rem' }, mb: 2 }}>ТехноПортал</Typography>
+          <Typography variant="h5">Единое цифровое пространство техникума</Typography>
+        </Box>
+      </Box>
+      
+      <Container maxWidth="md" sx={{ py: 6, flex: 1 }}>
+        <Typography variant="h4" align="center" gutterBottom>Выберите вашу роль</Typography>
+        <Grid container spacing={3} sx={{ mb: 4 }}>
+          {roles.map((role) => (
+            <Grid item xs={12} sm={6} key={role.id}>
+              <Paper elevation={3} sx={{ 
+                p: 3, height: '100%', display: 'flex', flexDirection: 'column', 
+                alignItems: 'center', justifyContent: 'center', cursor: 'pointer', 
+                '&:hover': { transform: 'translateY(-4px)' }, transition: '0.2s' 
+              }}>
+                {React.cloneElement(role.icon, { sx: { fontSize: 48, mb: 2, color: 'primary.main' } })}
+                <Typography variant="h6" fontWeight="bold">{role.title}</Typography>
+                <Typography variant="body2" color="text.secondary" align="center">{role.desc}</Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+
+        <form onSubmit={handleSubmit}>
+          <TextField fullWidth label="Email" value={email} onChange={e => setEmail(e.target.value)} margin="normal" required />
+          <TextField fullWidth label="Пароль" type="password" value={password} onChange={e => setPassword(e.target.value)} margin="normal" required />
+          {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+          <Button type="submit" variant="contained" fullWidth size="large" disabled={loading} sx={{ mt: 3 }}>
+            {loading ? 'Вход...' : 'Войти в систему'}
+          </Button>
+          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mt: 2 }}>
+            Забыли пароль? Обратитесь к администратору
+          </Typography>
+        </form>
+      </Container>
+    </Box>
   );
 }
