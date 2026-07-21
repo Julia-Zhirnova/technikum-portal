@@ -152,7 +152,18 @@ export interface UserProfileData {
 }
 
 export const userAPI = {
-  getProfile: () => api.get<UserProfileData>('/user/profile/'),
+  getProfile: async () => {
+    try {
+      const response = await api.get<UserProfileData>('/user/profile/', {
+        timeout: 5000 // 5 секунд таймаут
+      });
+      return response;
+    } catch (error) {
+      console.error('Ошибка загрузки профиля:', error);
+      // Если профиль не загрузился, возвращаем заглушку или выбрасываем ошибку
+      throw error;
+    }
+  },
 };
 
 export const requestsAPI = {

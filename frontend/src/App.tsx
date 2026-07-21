@@ -1,79 +1,106 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './ThemeContext';
 import CssBaseline from '@mui/material/CssBaseline';
-import DashboardLayout from './components/DashboardLayout';
+
+// Страницы
 import LoginPage from './pages/LoginPage';
-import StudentDashboard from './pages/StudentDashboard';
-import TeacherDashboard from './pages/TeacherDashboard';
-import AdminDashboard from './pages/AdminDashboard';
-import CuratorDashboard from './pages/CuratorDashboard';
-import MckDashboard from './pages/MckDashboard';
+import ChangePasswordPage from './pages/ChangePasswordPage';
 import ProfilePage from './pages/ProfilePage';
-import GradesPage from './pages/GradesPage';
-import PracticePage from './pages/PracticePage';
+import CuratorDashboard from './pages/CuratorDashboard';
+import CuratorRequestsPage from './pages/CuratorRequestsPage';
+import TeacherDashboard from './pages/TeacherDashboard';
+import TeacherPracticePage from './pages/TeacherPracticePage';
 import RequestsPage from './pages/RequestsPage';
 import NotificationsPage from './pages/NotificationsPage';
-import ChangePasswordPage from './pages/ChangePasswordPage';
-import { userAPI } from './services/api';
+import StudentDashboard from './pages/StudentDashboard';
+import PracticePage from './pages/PracticePage';
+import GradesPage from './pages/GradesPage';
+import AdminDashboard from './pages/AdminDashboard';
+import MckDashboard from './pages/MckDashboard';
 
-function ProtectedRoute({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = React.useState(null);
+import DashboardLayout from './components/DashboardLayout';
 
-  React.useEffect(() => {
-    const checkAuth = async () => {
-      const token = localStorage.getItem('access_token');
-      if (!token) {
-        setIsAuthenticated(false);
-        return;
-      }
-      try {
-        await userAPI.getProfile();
-        setIsAuthenticated(true);
-      } catch (e) {
-        localStorage.removeItem('access_token');
-        setIsAuthenticated(false);
-      }
-    };
-    checkAuth();
-  }, []);
 
-  if (isAuthenticated === null) return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>Загрузка...</div>;
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
-  return <>{children}</>;
+// Функция для безопасного декодирования JWT payload
+function parseJwt(token: string) {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    return null;
+  }
 }
 
-export default function App() {
+// Компонент умного редиректа после входа
+function SmartRedirect() {
+  const token = localStorage.getItem('access_token');
+  
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  const payload = parseJwt(token);
+  let targetPath = '/student/profile'; // Дефолтный путь
+
+  if (payload && payload.roles && Array.isArray(payload.roles)) {
+    const roles = payload.roles;
+    // Приоритет ролей: admin > mck_chairman > teacher > curator > student
+    if (roles.includes('admin')) targetPath = '/admin/users';
+    else if (roles.includes('mck_chairman')) targetPath = '/mck/rpd';
+    else if (roles.includes('teacher')) targetPath = '/teacher/statements';
+    else if (roles.includes('curator')) targetPath = '/curator/group';
+    else if (roles.includes('student')) targetPath = '/student/profile';
+  }
+
+  // Если требуется смена пароля
+  if (payload && payload.requires_password_change === true) {
+    return <Navigate to="/change-password" replace />;
+  }
+
+  return <Navigate to={targetPath} replace />;
+}
+
+
+function App() {
   return (
     <ThemeProvider>
       <CssBaseline />
       <Router>
         <Routes>
+          {/* Публичные маршруты */}
           <Route path="/login" element={<LoginPage />} />
           
-          <Route path="/" element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
-          }>
-            <Route index element={<Navigate to="/student" replace />} />
-            <Route path="student/*" element={<StudentDashboard />} />
-            <Route path="teacher/*" element={<TeacherDashboard />} />
-            <Route path="admin/*" element={<AdminDashboard />} />
-            <Route path="curator/*" element={<CuratorDashboard />} />
-            <Route path="mck/*" element={<MckDashboard />} />
+          {/* Корневой путь — если есть токен, идем на /student, иначе на /login */}
+          <Route path="/" element={<SmartRedirect />} />
+          
+          {/* Защищенные маршруты внутри DashboardLayout */}
+          <Route element={<DashboardLayout />}>
+            <Route path="/change-password" element={<ChangePasswordPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
             
-            <Route path="profile" element={<ProfilePage />} />
-            <Route path="grades" element={<GradesPage />} />
-            <Route path="practice" element={<PracticePage />} />
-            <Route path="requests" element={<RequestsPage />} />
-            <Route path="notifications" element={<NotificationsPage />} />
-            <Route path="change-password" element={<ChangePasswordPage />} />
+            <Route path="/admin/*" element={<AdminDashboard />} />
+            <Route path="/mck/*" element={<MckDashboard />} />
+            <Route path="/curator/*" element={<CuratorDashboard />} />
+            <Route path="/curator/requests" element={<CuratorRequestsPage />} />
+            <Route path="/teacher/*" element={<TeacherDashboard />} />
+            <Route path="/teacher/practice" element={<TeacherPracticePage />} />
+            <Route path="/student/*" element={<StudentDashboard />} />
+            <Route path="/student/grades" element={<GradesPage />} />
+            <Route path="/student/practice" element={<PracticePage />} />
+            <Route path="/student/requests" element={<RequestsPage />} />
+            <Route path="/student/notifications" element={<NotificationsPage />} />
           </Route>
-
-          <Route path="*" element={<Navigate to="/" replace />} />
+          
+          {/* Все остальные пути — на логин */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </Router>
     </ThemeProvider>
   );
 }
+
+export default App;

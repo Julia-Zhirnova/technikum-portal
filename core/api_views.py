@@ -1,9 +1,12 @@
-from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics, permissions, status
 from accounts.permissions import HasActiveRolePermission, RequireRole
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Student, Group, Statement, StudentRequest, Notification, StudentPracticePlace, PracticeDiary, PracticeAttestation, Organization
+from django.contrib.auth import get_user_model
+from django.db.models import Q
+
+User = get_user_model()
 from .serializers_update import StudentProfileUpdateSerializer
 from .serializers import (
     StudentRequestSerializer, NotificationSerializer,
@@ -15,20 +18,6 @@ from .serializers import (
 # ==============================================================================
 # КАСТОМНЫЕ PERMISSIONS
 # ==============================================================================
-
-
-
-# ==============================================================================
-# TEST VIEW ДЛЯ ДИАГНОСТИКИ
-# ==============================================================================
-
-class TestExportView(APIView):
-    """Простой test view для проверки работы экспорта"""
-    permission_classes = [permissions.IsAuthenticated]
-    
-    def get(self, request, statement_id):
-        from django.http import HttpResponse
-        return HttpResponse(f"Test export for statement {statement_id}", content_type='text/plain')
 
 class IsStudent(permissions.BasePermission):
     """Разрешение только для студентов."""
@@ -60,21 +49,36 @@ class IsTeacher(permissions.BasePermission):
         return UserRole.objects.filter(user=request.user, role__id_role='teacher').exists()
 
 # ==============================================================================
+# TEST VIEW ДЛЯ ДИАГНОСТИКИ
+# ==============================================================================
+
+class TestExportView(APIView):
+    """Простой test view для проверки работы экспорта"""
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request, statement_id):
+        from django.http import HttpResponse
+        return HttpResponse(f"Test export for statement {statement_id}", content_type='text/plain')
+
+# ==============================================================================
 # API ENDPOINTS ДЛЯ СТУДЕНТА
 # ==============================================================================
 
 class StudentProfileView(generics.RetrieveUpdateAPIView):
     required_role = "student"
-    permission_classes = [RequireRole]
     """
     GET /api/student/profile/ — получить профиль студента
     PUT/PATCH /api/student/profile/ — обновить профиль студента
     """
     serializer_class = StudentProfileSerializer
-    permission_classes = [permissions.IsAuthenticated, IsStudent]
+    permission_classes = [RequireRole, permissions.IsAuthenticated]
     
     def get_object(self):
-        return Student.objects.get(user=self.request.user)
+        try:
+            return Student.objects.get(user=self.request.user)
+        except Student.DoesNotExist:
+            from django.http import Http404
+            raise Http404("Студент не найден")
 
 # ==============================================================================
 # API ENDPOINTS ДЛЯ КУРАТОРА
@@ -142,8 +146,6 @@ class TeacherStatementsView(generics.ListAPIView):
 # УНИВЕРСАЛЬНЫЕ ENDPOINTS
 # ==============================================================================
 
-
-
 class StudentProfileUpdateView(APIView):
     required_role = "student"
     permission_classes = [RequireRole]
@@ -174,7 +176,7 @@ class StudentProfileUpdateView(APIView):
         except Student.DoesNotExist:
             return Response({'error': 'Студент не найден'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            print(f"❌ Ошибка: {e}")
+            print(f" Ошибка: {e}")
             import traceback
             traceback.print_exc()
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -262,16 +264,6 @@ class ReferencesView(APIView):
 # ==============================================================================
 # API ENDPOINT ДЛЯ ЗАЧЁТКИ СТУДЕНТА
 # ==============================================================================
-
-
-
-
-
-
-
-
-
-
 
 class StudentGradesView(APIView):
     required_role = "student"
@@ -401,8 +393,6 @@ class StudentGradesView(APIView):
             return Response({'error': str(e)}, status=500)
 
 
-
-
 class UpdateGradeView(APIView):
     required_role = "teacher"
     permission_classes = [RequireRole]
@@ -490,7 +480,6 @@ class UpdateGradeView(APIView):
             )
 
 
-
 class TeacherStatementGradesView(APIView):
     required_role = "teacher"
     permission_classes = [RequireRole]
@@ -541,7 +530,6 @@ class TeacherStatementGradesView(APIView):
             )
 
 
-
 # ==============================================================================
 # ЭКСПОРТ/ИМПОРТ ОЦЕНОК
 # ==============================================================================
@@ -578,12 +566,12 @@ class StatementGradesExportView(APIView):
             
             if request.method.lower() in self.http_method_names:
                 handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
-                print(f"🚨 [DISPATCH 6] Выбран handler: {handler.__name__ if hasattr(handler, '__name__') else handler}")
+                print(f" [DISPATCH 6] Выбран handler: {handler.__name__ if hasattr(handler, '__name__') else handler}")
             else:
                 handler = self.http_method_not_allowed
-                print(f"🚨 [DISPATCH 6] Выбран handler: http_method_not_allowed")
+                print(f" [DISPATCH 6] Выбран handler: http_method_not_allowed")
             
-            print(f"🚨 [DISPATCH 7] Вызываем handler...")
+            print(f" [DISPATCH 7] Вызываем handler...")
             response = handler(request, *args, **kwargs)
             print(f"🚨 [DISPATCH 8] Handler вернул статус: {getattr(response, 'status_code', 'NO STATUS')}")
             print("="*80)
@@ -655,7 +643,7 @@ class StatementGradesExportView(APIView):
                 output.write(f"Дисциплина: {statement.discipline_in_group.discipline_ref.name}\n")
                 output.write("=" * 80 + "\n\n")
                 
-                for idx, grade in enumerate(grades, 1):
+                for idx, grade in enumerate(grades, 2):
                     student_name = grade.student.user.get_full_name() if grade.student else 'N/A'
                     output.write(f"{idx}. {student_name}\n")
                     output.write(f"   СНИЛС: {grade.student.snils if grade.student else 'N/A'}\n")
@@ -1021,17 +1009,23 @@ def debug_export_fbv(request, statement_id):
 
 class StudentRequestView(generics.ListCreateAPIView):
     required_role = "student"
-    permission_classes = [RequireRole]
     """GET/POST: Список заявок студента и создание новой"""
     serializer_class = StudentRequestSerializer
-    permission_classes = [permissions.IsAuthenticated, IsStudent]
+    permission_classes = [RequireRole, permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return StudentRequest.objects.filter(student=self.request.user.student)
+        try:
+            student = Student.objects.get(user=self.request.user)
+            return StudentRequest.objects.filter(student=student)
+        except Student.DoesNotExist:
+            return StudentRequest.objects.none()
 
     def perform_create(self, serializer):
-        serializer.save(student=self.request.user.student)
-
+        try:
+            student = Student.objects.get(user=self.request.user)
+            serializer.save(student=student)
+        except Student.DoesNotExist:
+            pass # Обработка ошибки создания заявки без профиля студента
 
 class NotificationView(generics.ListAPIView):
     required_role = "student"
@@ -1137,20 +1131,19 @@ class CuratorUpdateRequestView(APIView):
 
 class StudentPracticeView(generics.RetrieveAPIView):
     required_role = "student"
-    permission_classes = [RequireRole]
     """GET: Информация о практике текущего студента"""
     serializer_class = StudentPracticePlaceSerializer
-    permission_classes = [permissions.IsAuthenticated, IsStudent]
-
+    permission_classes = [RequireRole, permissions.IsAuthenticated]
+    
     def get_object(self):
-        student = self.request.user.student
-        # Возвращаем последнее место практики студента
-        return StudentPracticePlace.objects.filter(student=student).order_by('-id_place').first()
-
-
-# ==============================================================================
-# ПРАКТИКА СТУДЕНТОВ ДЛЯ КУРАТОРА
-# ==============================================================================
+        try:
+            # Пытаемся получить студента безопасным способом
+            student = Student.objects.get(user=self.request.user)
+            place = StudentPracticePlace.objects.filter(student=student).order_by('-id_place').first()
+            return place
+        except Student.DoesNotExist:
+            # Если студента нет - возвращаем None, DRF превратит это в 404
+            return None
 
 class CuratorStudentPracticeView(generics.ListAPIView):
     required_role = "curator"
@@ -1225,10 +1218,11 @@ class TeacherApproveDiaryEntryView(APIView):
 
 class AdminUsersView(APIView):
     """Список пользователей для администратора (Функция 1.5)"""
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     
     def get(self, request):
-        from core.models import UserRole
+        from core.models import UserRole, User
+        from django.db.models import Q
         
         # Проверяем наличие заголовка X-Active-Role
         active_role = request.META.get('HTTP_X_ACTIVE_ROLE')
@@ -1289,4 +1283,3 @@ class AdminUsersView(APIView):
             })
         
         return Response(data, status=status.HTTP_200_OK)
-

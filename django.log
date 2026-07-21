@@ -1,81 +1,204 @@
 Watching for file changes with StatReloader
 Watching for file changes with StatReloader
-[20/Jul/2026 14:13:47] "GET /api/user/profile/ HTTP/1.1" 200 285
-[20/Jul/2026 14:13:47] "GET /api/user/profile/ HTTP/1.1" 200 285
-[20/Jul/2026 14:13:50] "GET /api/user/profile/ HTTP/1.1" 200 285
-[20/Jul/2026 14:13:50] "GET /api/user/profile/ HTTP/1.1" 200 285
-[20/Jul/2026 14:13:53] "GET /api/user/profile/ HTTP/1.1" 200 285
-[20/Jul/2026 14:13:53] "GET /api/user/profile/ HTTP/1.1" 200 285
-[20/Jul/2026 14:14:41] "OPTIONS /api/token/ HTTP/1.1" 200 0
-[20/Jul/2026 14:14:41] "POST /api/token/ HTTP/1.1" 200 686
-[20/Jul/2026 14:14:41] "GET /api/user/profile/ HTTP/1.1" 200 285
-[20/Jul/2026 14:14:41] "GET /api/user/profile/ HTTP/1.1" 200 285
-[20/Jul/2026 14:14:48] "POST /api/token/ HTTP/1.1" 200 744
-[20/Jul/2026 14:14:48] "GET /api/user/profile/ HTTP/1.1" 200 260
-[20/Jul/2026 14:14:48] "GET /api/user/profile/ HTTP/1.1" 200 260
-[20/Jul/2026 14:21:27] "POST /api/token/ HTTP/1.1" 200 683
-[20/Jul/2026 14:21:27] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:21:27] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:21:27] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:21:27] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:21:27] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:21] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:30] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:38] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:39] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:39] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:40] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:41] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:45] "POST /api/token/ HTTP/1.1" 200 683
-[20/Jul/2026 14:22:45] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:45] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:45] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:45] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:45] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:46] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:47] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:47] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:47] "GET /api/user/profile/ HTTP/1.1" 200 268
-[20/Jul/2026 14:22:51] "POST /api/token/ HTTP/1.1" 200 686
-[20/Jul/2026 14:22:51] "GET /api/user/profile/ HTTP/1.1" 200 262
-[20/Jul/2026 14:22:51] "GET /api/user/profile/ HTTP/1.1" 200 262
-[20/Jul/2026 14:22:51] "GET /api/user/profile/ HTTP/1.1" 200 262
-[20/Jul/2026 14:22:52] "GET /api/user/profile/ HTTP/1.1" 200 262
-[20/Jul/2026 14:22:52] "GET /api/user/profile/ HTTP/1.1" 200 262
-[20/Jul/2026 14:22:53] "GET /api/user/profile/ HTTP/1.1" 200 262
-[20/Jul/2026 14:22:53] "GET /api/user/profile/ HTTP/1.1" 200 262
-[20/Jul/2026 14:22:53] "GET /api/user/profile/ HTTP/1.1" 200 262
-[20/Jul/2026 14:22:53] "GET /api/user/profile/ HTTP/1.1" 200 262
-[20/Jul/2026 14:22:58] "POST /api/token/ HTTP/1.1" 200 769
-[20/Jul/2026 14:22:58] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:22:58] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:22:58] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:22:58] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:22:58] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:22:59] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:22:59] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:23:00] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:23:00] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:23:03] "OPTIONS /api/curator/group/ HTTP/1.1" 200 0
-[20/Jul/2026 14:23:03] "OPTIONS /api/curator/group/ HTTP/1.1" 200 0
-[20/Jul/2026 14:23:03] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:23:03] "GET /api/curator/group/ HTTP/1.1" 200 6258
-[20/Jul/2026 14:23:03] "GET /api/curator/group/ HTTP/1.1" 200 6258
-[20/Jul/2026 14:23:04] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:23:04] "GET /api/curator/group/ HTTP/1.1" 200 6258
-[20/Jul/2026 14:23:05] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:23:05] "GET /api/curator/group/ HTTP/1.1" 200 6258
-[20/Jul/2026 14:23:05] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:23:06] "GET /api/curator/group/ HTTP/1.1" 200 6258
-[20/Jul/2026 14:23:06] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:23:06] "GET /api/curator/group/ HTTP/1.1" 200 6258
-[20/Jul/2026 14:23:06] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:23:06] "GET /api/curator/group/ HTTP/1.1" 200 6258
-[20/Jul/2026 14:23:07] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:23:07] "GET /api/curator/group/ HTTP/1.1" 200 6258
-[20/Jul/2026 14:23:08] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:23:08] "GET /api/curator/group/ HTTP/1.1" 200 6258
-[20/Jul/2026 14:23:09] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:23:09] "GET /api/curator/group/ HTTP/1.1" 200 6258
-[20/Jul/2026 14:23:10] "GET /api/user/profile/ HTTP/1.1" 200 247
-[20/Jul/2026 14:23:10] "GET /api/curator/group/ HTTP/1.1" 200 6258
+[21/Jul/2026 20:38:28] "POST /api/token/ HTTP/1.1" 200 744
+[21/Jul/2026 20:44:36] "OPTIONS /api/user/profile/ HTTP/1.1" 200 0
+[21/Jul/2026 20:44:36] "OPTIONS /api/user/profile/ HTTP/1.1" 200 0
+[21/Jul/2026 20:44:36] "GET /api/user/profile/ HTTP/1.1" 200 260
+[21/Jul/2026 20:44:36] "GET /api/user/profile/ HTTP/1.1" 200 260
+[21/Jul/2026 20:45:31] "POST /api/token/ HTTP/1.1" 200 683
+[21/Jul/2026 20:45:31] "GET /api/user/profile/ HTTP/1.1" 200 268
+[21/Jul/2026 20:45:31] "GET /api/user/profile/ HTTP/1.1" 200 268
+[21/Jul/2026 20:45:33] "OPTIONS /api/student/practice/ HTTP/1.1" 200 0
+[21/Jul/2026 20:45:33] "OPTIONS /api/student/practice/ HTTP/1.1" 200 0
+Forbidden: /api/student/practice/
+Forbidden: /api/student/practice/
+[21/Jul/2026 20:45:33] "GET /api/student/practice/ HTTP/1.1" 403 74
+Forbidden: /api/student/practice/
+Forbidden: /api/student/practice/
+[21/Jul/2026 20:45:33] "GET /api/student/practice/ HTTP/1.1" 403 74
+[21/Jul/2026 20:45:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[21/Jul/2026 20:45:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[21/Jul/2026 20:46:44] "OPTIONS /api/student/notifications/ HTTP/1.1" 200 0
+[21/Jul/2026 20:46:44] "OPTIONS /api/student/notifications/ HTTP/1.1" 200 0
+[21/Jul/2026 20:46:45] "GET /api/student/notifications/ HTTP/1.1" 200 1760
+[21/Jul/2026 20:46:45] "GET /api/student/notifications/ HTTP/1.1" 200 1760
+[21/Jul/2026 20:46:45] "OPTIONS /api/student/requests/ HTTP/1.1" 200 0
+[21/Jul/2026 20:46:45] "OPTIONS /api/student/requests/ HTTP/1.1" 200 0
+Forbidden: /api/student/requests/
+Forbidden: /api/student/requests/
+[21/Jul/2026 20:46:45] "GET /api/student/requests/ HTTP/1.1" 403 74
+Forbidden: /api/student/requests/
+Forbidden: /api/student/requests/
+[21/Jul/2026 20:46:45] "GET /api/student/requests/ HTTP/1.1" 403 74
+[21/Jul/2026 20:46:46] "GET /api/user/profile/ HTTP/1.1" 200 268
+[21/Jul/2026 20:46:46] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/practice/
+Forbidden: /api/student/practice/
+[21/Jul/2026 20:46:47] "GET /api/student/practice/ HTTP/1.1" 403 74
+Forbidden: /api/student/practice/
+Forbidden: /api/student/practice/
+[21/Jul/2026 20:46:47] "GET /api/student/practice/ HTTP/1.1" 403 74
+[21/Jul/2026 20:46:47] "GET /api/user/profile/ HTTP/1.1" 200 268
+[21/Jul/2026 20:46:47] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/practice/
+Forbidden: /api/student/practice/
+[21/Jul/2026 20:52:30] "GET /api/student/practice/ HTTP/1.1" 403 74
+Forbidden: /api/student/practice/
+Forbidden: /api/student/practice/
+[21/Jul/2026 20:52:30] "GET /api/student/practice/ HTTP/1.1" 403 74
+[21/Jul/2026 20:52:30] "GET /api/user/profile/ HTTP/1.1" 200 268
+[21/Jul/2026 20:52:30] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/requests/
+Forbidden: /api/student/requests/
+[21/Jul/2026 20:52:31] "GET /api/student/requests/ HTTP/1.1" 403 74
+Forbidden: /api/student/requests/
+Forbidden: /api/student/requests/
+[21/Jul/2026 20:52:31] "GET /api/student/requests/ HTTP/1.1" 403 74
+[21/Jul/2026 20:52:31] "GET /api/user/profile/ HTTP/1.1" 200 268
+[21/Jul/2026 20:52:31] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/requests/
+Forbidden: /api/student/requests/
+[21/Jul/2026 20:52:34] "GET /api/student/requests/ HTTP/1.1" 403 74
+Forbidden: /api/student/requests/
+Forbidden: /api/student/requests/
+[21/Jul/2026 20:52:34] "GET /api/student/requests/ HTTP/1.1" 403 74
+[21/Jul/2026 20:52:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[21/Jul/2026 20:52:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[21/Jul/2026 20:53:13] "POST /api/token/ HTTP/1.1" 200 686
+[21/Jul/2026 20:53:13] "GET /api/user/profile/ HTTP/1.1" 200 285
+[21/Jul/2026 20:53:13] "GET /api/user/profile/ HTTP/1.1" 200 285
+Forbidden: /api/student/practice/
+Forbidden: /api/student/practice/
+[21/Jul/2026 20:53:15] "GET /api/student/practice/ HTTP/1.1" 403 74
+Forbidden: /api/student/practice/
+Forbidden: /api/student/practice/
+[21/Jul/2026 20:53:15] "GET /api/student/practice/ HTTP/1.1" 403 74
+[21/Jul/2026 20:53:15] "GET /api/user/profile/ HTTP/1.1" 200 285
+[21/Jul/2026 20:53:15] "GET /api/user/profile/ HTTP/1.1" 200 285
+[21/Jul/2026 20:53:19] "POST /api/token/ HTTP/1.1" 200 714
+[21/Jul/2026 20:53:19] "GET /api/user/profile/ HTTP/1.1" 200 223
+[21/Jul/2026 20:53:19] "GET /api/user/profile/ HTTP/1.1" 200 223
+[21/Jul/2026 20:53:19] "OPTIONS /api/teacher/statements/ HTTP/1.1" 200 0
+[21/Jul/2026 20:53:19] "OPTIONS /api/teacher/statements/ HTTP/1.1" 200 0
+[21/Jul/2026 20:53:20] "GET /api/teacher/statements/ HTTP/1.1" 200 77878
+[21/Jul/2026 20:53:21] "GET /api/teacher/statements/ HTTP/1.1" 200 77878
+Forbidden: /api/student/practice/
+Forbidden: /api/student/practice/
+[21/Jul/2026 20:53:23] "GET /api/student/practice/ HTTP/1.1" 403 74
+Forbidden: /api/student/practice/
+Forbidden: /api/student/practice/
+[21/Jul/2026 20:53:23] "GET /api/student/practice/ HTTP/1.1" 403 74
+[21/Jul/2026 20:53:23] "GET /api/user/profile/ HTTP/1.1" 200 223
+[21/Jul/2026 20:53:23] "GET /api/user/profile/ HTTP/1.1" 200 223
+[21/Jul/2026 22:42:53] "OPTIONS /api/token/ HTTP/1.1" 200 0
+[21/Jul/2026 22:42:53] "POST /api/token/ HTTP/1.1" 200 714
+[21/Jul/2026 22:42:53] "GET /api/user/profile/ HTTP/1.1" 200 223
+[21/Jul/2026 22:42:53] "GET /api/user/profile/ HTTP/1.1" 200 223
+[21/Jul/2026 22:42:54] "GET /api/teacher/statements/ HTTP/1.1" 200 77878
+[21/Jul/2026 22:42:54] "GET /api/teacher/statements/ HTTP/1.1" 200 77878
+[21/Jul/2026 22:43:02] "GET /api/teacher/statements/ HTTP/1.1" 200 77878
+[21/Jul/2026 22:43:02] "GET /api/teacher/statements/ HTTP/1.1" 200 77878
+[21/Jul/2026 22:43:04] "OPTIONS /api/curator/group/ HTTP/1.1" 200 0
+[21/Jul/2026 22:43:04] "OPTIONS /api/curator/group/ HTTP/1.1" 200 0
+[21/Jul/2026 22:43:04] "GET /api/curator/group/ HTTP/1.1" 200 6035
+[21/Jul/2026 22:43:04] "GET /api/curator/group/ HTTP/1.1" 200 6035
+[21/Jul/2026 22:43:22] "POST /api/token/ HTTP/1.1" 200 686
+[21/Jul/2026 22:43:22] "GET /api/user/profile/ HTTP/1.1" 200 262
+[21/Jul/2026 22:43:22] "GET /api/user/profile/ HTTP/1.1" 200 262
+Forbidden: /api/curator/group/
+Forbidden: /api/curator/group/
+[21/Jul/2026 22:43:24] "GET /api/curator/group/ HTTP/1.1" 403 117
+Forbidden: /api/curator/group/
+Forbidden: /api/curator/group/
+[21/Jul/2026 22:43:24] "GET /api/curator/group/ HTTP/1.1" 403 117
+[21/Jul/2026 22:43:24] "GET /api/user/profile/ HTTP/1.1" 200 262
+[21/Jul/2026 22:43:24] "GET /api/user/profile/ HTTP/1.1" 200 262
+[21/Jul/2026 22:44:51] "POST /api/token/ HTTP/1.1" 200 686
+[21/Jul/2026 22:44:51] "OPTIONS /api/user/profile/ HTTP/1.1" 200 0
+[21/Jul/2026 22:44:51] "OPTIONS /api/user/profile/ HTTP/1.1" 200 0
+[21/Jul/2026 22:44:51] "GET /api/user/profile/ HTTP/1.1" 200 262
+[21/Jul/2026 22:44:51] "GET /api/user/profile/ HTTP/1.1" 200 262
+Forbidden: /api/teacher/statements/
+Forbidden: /api/teacher/statements/
+[21/Jul/2026 22:44:58] "GET /api/teacher/statements/ HTTP/1.1" 403 117
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 21, 2026 - 20:37:47
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQyNzk5LCJpYXQiOjE3ODQ2NTYzOTksImp0aSI6Ijk1NjUxZWM2MTY5ODRjZjRhMjA5ZjUwMmE3ZWRjYjlhIiwidXNlcl9pZCI6Miwicm9sZXMiOlsiY3VyYXRvciIsInRlYWNoZXIiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.gK3iH-4C2TnROOkOsDjGr2A-SZVSyTLc31I-JoPVWuM', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQyNzk5LCJpYXQiOjE3ODQ2NTYzOTksImp0aSI6Ijk1NjUxZWM2MTY5ODRjZjRhMjA5ZjUwMmE3ZWRjYjlhIiwidXNlcl9pZCI6Miwicm9sZXMiOlsiY3VyYXRvciIsInRlYWNoZXIiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.gK3iH-4C2TnROOkOsDjGr2A-SZVSyTLc31I-JoPVWuM', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQ5MzczLCJpYXQiOjE3ODQ2NjI5NzMsImp0aSI6IjI2OWJlYzg5YzkwZTQ3N2VhNDUzYjAyMTk1NWZlZmI5IiwidXNlcl9pZCI6Miwicm9sZXMiOlsiY3VyYXRvciIsInRlYWNoZXIiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.OU4FFq3DcNDRtDnpuVV_aXN7CxA4rXy-3AirVttHVAg', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQ5MzczLCJpYXQiOjE3ODQ2NjI5NzMsImp0aSI6IjI2OWJlYzg5YzkwZTQ3N2VhNDUzYjAyMTk1NWZlZmI5IiwidXNlcl9pZCI6Miwicm9sZXMiOlsiY3VyYXRvciIsInRlYWNoZXIiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.OU4FFq3DcNDRtDnpuVV_aXN7CxA4rXy-3AirVttHVAg', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQ5MzczLCJpYXQiOjE3ODQ2NjI5NzMsImp0aSI6IjI2OWJlYzg5YzkwZTQ3N2VhNDUzYjAyMTk1NWZlZmI5IiwidXNlcl9pZCI6Miwicm9sZXMiOlsiY3VyYXRvciIsInRlYWNoZXIiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.OU4FFq3DcNDRtDnpuVV_aXN7CxA4rXy-3AirVttHVAg', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQ5MzczLCJpYXQiOjE3ODQ2NjI5NzMsImp0aSI6IjI2OWJlYzg5YzkwZTQ3N2VhNDUzYjAyMTk1NWZlZmI5IiwidXNlcl9pZCI6Miwicm9sZXMiOlsiY3VyYXRvciIsInRlYWNoZXIiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.OU4FFq3DcNDRtDnpuVV_aXN7CxA4rXy-3AirVttHVAg', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQ5NDkxLCJpYXQiOjE3ODQ2NjMwOTEsImp0aSI6IjVhODM1OGU1NDVmMTRmNWI4NDNiYTk5Zjk4NjdmZWFiIiwidXNlcl9pZCI6MTkwMSwicm9sZXMiOlsic3R1ZGVudCJdLCJyZXF1aXJlc19wYXNzd29yZF9jaGFuZ2UiOmZhbHNlfQ.k9_sfiU8ZK3Y2L_XYpJIxms2JrbT_balKhLUmP_ZhaU', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQ5NDkxLCJpYXQiOjE3ODQ2NjMwOTEsImp0aSI6IjVhODM1OGU1NDVmMTRmNWI4NDNiYTk5Zjk4NjdmZWFiIiwidXNlcl9pZCI6MTkwMSwicm9sZXMiOlsic3R1ZGVudCJdLCJyZXF1aXJlc19wYXNzd29yZF9jaGFuZ2UiOmZhbHNlfQ.k9_sfiU8ZK3Y2L_XYpJIxms2JrbT_balKhLUmP_ZhaU', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}Forbidden: /api/teacher/statements/
+Forbidden: /api/teacher/statements/
+[21/Jul/2026 22:44:58] "GET /api/teacher/statements/ HTTP/1.1" 403 117
+[21/Jul/2026 22:44:58] "GET /api/user/profile/ HTTP/1.1" 200 262
+[21/Jul/2026 22:44:58] "GET /api/user/profile/ HTTP/1.1" 200 262
+[21/Jul/2026 22:47:55] "GET /api/user/profile/ HTTP/1.1" 200 262
+[21/Jul/2026 22:48:16] "POST /api/token/ HTTP/1.1" 200 744
+[21/Jul/2026 22:48:16] "GET /api/user/profile/ HTTP/1.1" 200 260
+[21/Jul/2026 22:48:16] "GET /api/user/profile/ HTTP/1.1" 200 260
+[21/Jul/2026 22:48:18] "GET /api/curator/group/ HTTP/1.1" 200 4844
+[21/Jul/2026 22:48:18] "GET /api/curator/group/ HTTP/1.1" 200 4844
+[21/Jul/2026 22:48:20] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[21/Jul/2026 22:48:20] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[21/Jul/2026 22:48:25] "POST /api/token/ HTTP/1.1" 200 714
+[21/Jul/2026 22:48:25] "GET /api/user/profile/ HTTP/1.1" 200 223
+[21/Jul/2026 22:48:25] "GET /api/user/profile/ HTTP/1.1" 200 223
+[21/Jul/2026 22:48:25] "GET /api/teacher/statements/ HTTP/1.1" 200 77878
+[21/Jul/2026 22:48:26] "GET /api/teacher/statements/ HTTP/1.1" 200 77878
+[21/Jul/2026 22:48:29] "OPTIONS /api/teacher/practice/students/ HTTP/1.1" 200 0
+[21/Jul/2026 22:48:29] "OPTIONS /api/teacher/practice/students/ HTTP/1.1" 200 0
+/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/rest_framework/pagination.py:208: UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'core.models.StudentPracticePlace'> QuerySet.
+  paginator = self.django_paginator_class(queryset, page_size)
+[21/Jul/2026 22:48:29] "GET /api/teacher/practice/students/ HTTP/1.1" 200 20988
+[21/Jul/2026 22:48:29] "GET /api/teacher/practice/students/ HTTP/1.1" 200 20988
+[21/Jul/2026 22:48:31] "GET /api/teacher/statements/ HTTP/1.1" 200 77878
+
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQ5Njk2LCJpYXQiOjE3ODQ2NjMyOTYsImp0aSI6IjQ1ODM4OGUyMDRiNDRhNmFiOWFkY2IyYWY4YjExZWY3IiwidXNlcl9pZCI6NCwicm9sZXMiOlsiYWRtaW4iLCJjdXJhdG9yIiwidGVhY2hlciJdLCJyZXF1aXJlc19wYXNzd29yZF9jaGFuZ2UiOmZhbHNlfQ.RPVgd-qyyHyJyqqg_wLxfd1tD7pKo99GMHAx7n16wcc', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQ5Njk2LCJpYXQiOjE3ODQ2NjMyOTYsImp0aSI6IjQ1ODM4OGUyMDRiNDRhNmFiOWFkY2IyYWY4YjExZWY3IiwidXNlcl9pZCI6NCwicm9sZXMiOlsiYWRtaW4iLCJjdXJhdG9yIiwidGVhY2hlciJdLCJyZXF1aXJlc19wYXNzd29yZF9jaGFuZ2UiOmZhbHNlfQ.RPVgd-qyyHyJyqqg_wLxfd1tD7pKo99GMHAx7n16wcc', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQ5NzA1LCJpYXQiOjE3ODQ2NjMzMDUsImp0aSI6IjZkZTU4ZGU2OTM5NDQwNGY4ODdhNmZmMmY0YWI4MmVkIiwidXNlcl9pZCI6Miwicm9sZXMiOlsiY3VyYXRvciIsInRlYWNoZXIiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.fExhRMqKTTegKRhPG8ICzAU1IQbD-0GxyjPjT6ySGCY', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQ5NzA1LCJpYXQiOjE3ODQ2NjMzMDUsImp0aSI6IjZkZTU4ZGU2OTM5NDQwNGY4ODdhNmZmMmY0YWI4MmVkIiwidXNlcl9pZCI6Miwicm9sZXMiOlsiY3VyYXRvciIsInRlYWNoZXIiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.fExhRMqKTTegKRhPG8ICzAU1IQbD-0GxyjPjT6ySGCY', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/practice/students/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQ5NzA1LCJpYXQiOjE3ODQ2NjMzMDUsImp0aSI6IjZkZTU4ZGU2OTM5NDQwNGY4ODdhNmZmMmY0YWI4MmVkIiwidXNlcl9pZCI6Miwicm9sZXMiOlsiY3VyYXRvciIsInRlYWNoZXIiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.fExhRMqKTTegKRhPG8ICzAU1IQbD-0GxyjPjT6ySGCY', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/practice/students/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQ5NzA1LCJpYXQiOjE3ODQ2NjMzMDUsImp0aSI6IjZkZTU4ZGU2OTM5NDQwNGY4ODdhNmZmMmY0YWI4MmVkIiwidXNlcl9pZCI6Miwicm9sZXMiOlsiY3VyYXRvciIsInRlYWNoZXIiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.fExhRMqKTTegKRhPG8ICzAU1IQbD-0GxyjPjT6ySGCY', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQ5NzA1LCJpYXQiOjE3ODQ2NjMzMDUsImp0aSI6IjZkZTU4ZGU2OTM5NDQwNGY4ODdhNmZmMmY0YWI4MmVkIiwidXNlcl9pZCI6Miwicm9sZXMiOlsiY3VyYXRvciIsInRlYWNoZXIiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.fExhRMqKTTegKRhPG8ICzAU1IQbD-0GxyjPjT6ySGCY', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'keep-alive', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NzQ5NzA1LCJpYXQiOjE3ODQ2NjMzMDUsImp0aSI6IjZkZTU4ZGU2OTM5NDQwNGY4ODdhNmZmMmY0YWI4MmVkIiwidXNlcl9pZCI6Miwicm9sZXMiOlsiY3VyYXRvciIsInRlYWNoZXIiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.fExhRMqKTTegKRhPG8ICzAU1IQbD-0GxyjPjT6ySGCY', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; Chromium GOST) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"Not-A.Brand";v="24", "Chromium";v="146"', 'Sec-Ch-Ua-Mobile': '?0', 'Origin': 'http://localhost:5173', 'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'Accept-Language': 'ru-RU,ru;q=0.9'}[21/Jul/2026 22:48:31] "GET /api/teacher/statements/ HTTP/1.1" 200 77878

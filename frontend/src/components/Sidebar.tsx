@@ -83,21 +83,23 @@ export default function Sidebar({ role, onClose }: SidebarProps) {
   const menuItems = getMenuByRole();
 
   return (
-    <Box sx={{ width: 240, height: '100%', overflowY: 'auto', pt: 2, px: 1, bgcolor: 'background.paper' }}>
+    <Box sx={{ width: 240, height: '100%', overflowY: 'auto', overflowX: 'hidden', pt: 4, px: 2, bgcolor: 'background.paper' }}>
       <List sx={{ px: 0 }}>
         {menuItems.map((item) => {
           const isActive = location.pathname === item.path;
+          
+          // Формируем пропы для ListItem в зависимости от типа ссылки
+          const listItemProps = item.external 
+            ? { component: 'a', href: item.path, target: '_blank', rel: 'noopener noreferrer' }
+            : { component: Link, to: item.path };
+
           return (
             <ListItem
-              button
-              component={item.external ? 'a' : Link}
-              to={!item.external ? item.path : undefined}
-              href={item.external ? item.path : undefined}
-              target={item.external ? '_blank' : undefined}
+              {...listItemProps}
               onClick={onClose}
               key={item.path}
               sx={{
-                flexDirection: 'column', 
+                flexDirection: 'column',
                 alignItems: 'center',
                 textAlign: 'center',     
                 py: 2.5,
@@ -109,19 +111,24 @@ export default function Sidebar({ role, onClose }: SidebarProps) {
                   bgcolor: isActive ? 'primary.dark' : 'action.hover',
                 },
                 transition: 'all 0.2s',
+                cursor: 'pointer',
               }}
             >
               <Box sx={{ mb: 1, color: isActive ? 'inherit' : 'primary.main', transform: isActive ? 'scale(1.1)' : 'scale(1)', transition: 'transform 0.2s' }}>
                 {item.icon}
-            </Box>
+              </Box>
               <ListItemText 
-                primary={item.text} 
-                primaryTypographyProps={{ 
-                  variant: 'caption', 
-                  fontWeight: isActive ? 'bold' : 'medium',
-                  sx: { display: 'block', lineHeight: 1.2, fontSize: '0.75rem' }
-                }} 
-                sx={{ m: 0, textAlign: 'center' }}
+                primary={item.text}
+                sx={{ 
+                  m: 0, 
+                  '& .MuiTypography-root': { 
+                    textAlign: 'center',
+                    fontSize: '0.75rem',
+                    lineHeight: 1.2,
+                    fontWeight: isActive ? 'bold' : 'medium',
+                    display: 'block'
+                  } 
+                }}
               />
             </ListItem>
           );
