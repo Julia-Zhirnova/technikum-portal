@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = '/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -19,11 +19,11 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    
     // Обработка 403 Forbidden - роль не соответствует запрошенной
     if (error.response?.status === 403) {
       console.warn('403 Forbidden: сброс роли на student');
       localStorage.setItem('activeRole', 'student');
-      // Перенаправляем на студенческий дашборд
       if (window.location.pathname !== '/student') {
         window.location.href = '/student';
       }
@@ -54,6 +54,8 @@ api.interceptors.response.use(
   }
 );
 
+// --- Interfaces ---
+
 export interface LoginResponse {
   access: string;
   refresh: string;
@@ -62,6 +64,16 @@ export interface LoginResponse {
 export interface WhoAmIResponse {
   user_id: number;
   email: string;
+  full_name: string;
+  roles: string[];
+}
+
+export interface UserProfileData {
+  id_user: number;
+  email: string;
+  last_name: string;
+  first_name: string;
+  middle_name: string;
   full_name: string;
   roles: string[];
 }
@@ -99,10 +111,26 @@ export interface UserProfile {
   profile: any | null;
 }
 
+// --- APIs ---
+
 export const authAPI = {
   login: (email: string, password: string) =>
     api.post<LoginResponse>('/token/', { email, password }),
   whoami: () => api.get<WhoAmIResponse>('/whoami/'),
+};
+
+export const userAPI = {
+  getProfile: async () => {
+    try {
+      const response = await api.get<UserProfileData>('/user/profile/', {
+        timeout: 5000
+      });
+      return response;
+    } catch (error) {
+      console.error('Ошибка загрузки профиля:', error);
+      throw error;
+    }
+  },
 };
 
 export const referencesAPI = {
@@ -115,9 +143,29 @@ export const studentAPI = {
   getGrades: () => api.get('/student/grades/'),
 };
 
+export const requestsAPI = {
+  getList: () => api.get('/student/requests/'),
+  create: (data: any) => api.post('/student/requests/', data),
+};
+
+export const notificationsAPI = {
+  getList: () => api.get('/student/notifications/'),
+  markRead: (id: number) => api.post(`/student/notifications/${id}/read/`),
+};
+
+export const practiceAPI = {
+  getStudentPractice: () => api.get('/student/practice/'),
+  getCuratorPractice: () => api.get('/curator/practice/'),
+};
+
 export const curatorAPI = {
   getGroup: () => api.get('/curator/group/'),
   getStudent: (snils: string) => api.get(`/curator/students/${snils}/`),
+};
+
+export const curatorRequestsAPI = {
+  getList: () => api.get('/curator/requests/'),
+  update: (requestId: number, data: any) => api.patch(`/curator/requests/${requestId}/`, data),
 };
 
 export const teacherAPI = {
@@ -138,56 +186,10 @@ export const teacherAPI = {
     api.post(`/teacher/statements/${statementId}/generate-docx/?type=${type}`, {}, { responseType: 'blob' }),
 };
 
-export default api;
-
-
-export interface UserProfileData {
-  id_user: number;
-  email: string;
-  last_name: string;
-  first_name: string;
-  middle_name: string;
-  full_name: string;
-  roles: string[];
-}
-
-export const userAPI = {
-  getProfile: async () => {
-    try {
-      const response = await api.get<UserProfileData>('/user/profile/', {
-        timeout: 5000 // 5 секунд таймаут
-      });
-      return response;
-    } catch (error) {
-      console.error('Ошибка загрузки профиля:', error);
-      // Если профиль не загрузился, возвращаем заглушку или выбрасываем ошибку
-      throw error;
-    }
-  },
-};
-
-export const requestsAPI = {
-  getList: () => api.get('/student/requests/'),
-  create: (data: any) => api.post('/student/requests/', data),
-};
-
-export const notificationsAPI = {
-  getList: () => api.get('/student/notifications/'),
-  markRead: (id: number) => api.post(`/student/notifications/${id}/read/`),
-};
-
-export const curatorRequestsAPI = {
-  getList: () => api.get('/curator/requests/'),
-  update: (requestId: number, data: any) => api.patch(`/curator/requests/${requestId}/`, data),
-};
-
-export const practiceAPI = {
-  getStudentPractice: () => api.get('/student/practice/'),
-  getCuratorPractice: () => api.get('/curator/practice/'),
-};
-
 export const teacherPracticeAPI = {
   getStudents: () => api.get('/teacher/practice/students/'),
   updatePlace: (placeId: number, data: any) => api.patch(`/teacher/practice/place/${placeId}/`, data),
   approveDiaryEntry: (entryId: number) => api.patch(`/teacher/practice/diary/${entryId}/`, {}),
 };
+
+export default api;

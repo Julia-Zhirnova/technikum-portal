@@ -19,7 +19,19 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dev-key-change-in-producti
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,0.0.0.0').split(',')
+ALLOWED_HOSTS = [
+    'localhost', 
+    '127.0.0.1', 
+    '10.0.2.15',
+    '.lhr.life',  # Разрешает все поддомены localhost.run
+    '*'           # Временно разрешает ВСЕ хосты (только для разработки!)
+]
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'https://d17876ce249ab3.lhr.life',
+    'https://*.lhr.life'
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -152,6 +164,7 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
+    'https://d17876ce249ab3.lhr.life', # Твой текущий туннель
 ]
 CORS_ALLOW_CREDENTIALS = True
 

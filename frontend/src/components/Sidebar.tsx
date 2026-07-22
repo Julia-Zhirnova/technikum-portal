@@ -10,10 +10,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import AnalyticsIcon from '@mui/icons-material/Analytics';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import ReceiptIcon from '@mui/icons-material/Receipt';
 
 interface MenuItem {
   text: string;
@@ -54,15 +51,12 @@ const curatorMenu: MenuItem[] = [
 const adminMenu: MenuItem[] = [
   { text: 'Управление пользователями', path: '/admin/users', icon: <GroupsIcon /> },
   { text: 'Справочники', path: '/admin/references', icon: <MenuBookIcon /> },
-  { text: 'Приказы', path: '/admin/orders', icon: <ReceiptIcon /> },
-  { text: 'Аналитика', path: '/admin/analytics', icon: <AnalyticsIcon /> },
-  { text: 'Импорт/Экспорт', path: '/admin/import-export', icon: <UploadFileIcon /> },
   { text: 'Django Admin', path: '/admin/', icon: <AdminPanelSettingsIcon />, external: true },
 ];
 
 const mckMenu: MenuItem[] = [
   { text: 'Рабочие программы (РПД)', path: '/mck/rpd', icon: <MenuBookIcon /> },
-  { text: 'Мониторинг РПД', path: '/mck/monitoring', icon: <AnalyticsIcon /> },
+  { text: 'Мониторинг РПД', path: '/mck/monitoring', icon: <MenuBookIcon /> }, // Заменил Analytics на MenuBook для единообразия
   { text: 'Протоколы МЦК', path: '/mck/protocols', icon: <DescriptionIcon /> },
 ];
 
@@ -88,7 +82,6 @@ export default function Sidebar({ role, onClose }: SidebarProps) {
         {menuItems.map((item) => {
           const isActive = location.pathname === item.path;
           
-          // Формируем пропы для ListItem в зависимости от типа ссылки
           const listItemProps = item.external 
             ? { component: 'a', href: item.path, target: '_blank', rel: 'noopener noreferrer' }
             : { component: Link, to: item.path };

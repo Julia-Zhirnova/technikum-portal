@@ -6,8 +6,6 @@ import SchoolIcon from '@mui/icons-material/School';
 import GroupsIcon from '@mui/icons-material/Groups';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { authAPI } from '../services/api';
-import { useTheme as useAppTheme } from '../ThemeContext';
-
 const roles = [
   { label: 'Студент', desc: 'Личный кабинет, оценки, практика', icon: <PersonIcon sx={{ fontSize: 32 }} /> },
   { label: 'Преподаватель', desc: 'Журналы, ведомости, расписание', icon: <SchoolIcon sx={{ fontSize: 32 }} /> },
@@ -21,7 +19,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { mode } = useAppTheme();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,7 +99,7 @@ export default function LoginPage() {
             backgroundImage: 'url(/fon.png)', 
             backgroundSize: 'cover', 
             backgroundPosition: 'center',
-            opacity: mode === 'dark-gagarin' ? 0.15 : 0.1,
+            opacity: 'light' === 'dark-gagarin' ? 0.15 : 0.1,
             zIndex: 0
           }} 
         />

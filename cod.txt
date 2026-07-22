@@ -1,0 +1,2515 @@
+import { Typography, Box } from '@mui/material';
+import SchoolIcon from '@mui/icons-material/School'; // Та же иконка, что в сайдбаре
+
+export default function GradesPage() {
+  return (
+    <Box>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+        <SchoolIcon sx={{ fontSize: 40, color: 'primary.main', mr: 2 }} />
+        <Typography variant="h4" fontWeight="bold">Зачётная книжка</Typography>
+      </Box>
+      <Typography variant="body1" color="text.secondary">
+        Оценки, ведомости и средний балл
+      </Typography>
+      {/* Здесь будет контент зачётки */}
+    </Box>
+  );
+}
+import { useState, useEffect } from 'react';
+import {
+  Box, Typography, Card, CardContent, Grid, Chip, Table, TableBody, TableCell,
+  TableContainer, TableHead, TableRow, Paper, Button, Tabs, Tab, Divider, CircularProgress, Alert
+} from '@mui/material';
+import DescriptionIcon from '@mui/icons-material/Description';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PendingIcon from '@mui/icons-material/Pending';
+import { practiceAPI } from '../services/api';
+
+interface PracticeData {
+  id_place: number;
+  organization_name: string;
+  position: string;
+  status: string;
+  diary: Array<{
+    id_entry: number;
+    date: string;
+    work_content: string;
+    hours: number;
+    is_approved_by_org: boolean;
+  }>;
+  attestation?: {
+    id_attestation: number;
+    competencies_eval: string;
+    characteristic_text: string;
+    recommended_grade: string;
+    fill_date: string;
+  };
+}
+
+export default function PracticePage() {
+  const [tabValue, setTabValue] = useState(0);
+  const [practice, setPractice] = useState<PracticeData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    loadPractice();
+  }, []);
+
+  const loadPractice = async () => {
+    try {
+      setLoading(true);
+      const response = await practiceAPI.getStudentPractice();
+      setPractice(response.data);
+    } catch (err: any) {
+      console.error('Ошибка загрузки практики', err);
+      setError('Информация о практике не найдена');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error || !practice) {
+    return (
+      <Box sx={{ p: 3 }}>
+        <Alert severity="info">
+          {error || 'Информация о практике не найдена. Обратитесь к куратору.'}
+        </Alert>
+      </Box>
+    );
+  }
+
+  return (
+    <Box sx={{ p: 3 }}>
+      <Typography variant="h4" fontWeight="bold" gutterBottom>
+        💼 Моя практика
+      </Typography>
+
+      <Card sx={{ mb: 3 }}>
+        <CardContent>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Typography variant="h6" fontWeight="bold">
+              {practice.organization_name || 'Организация не указана'}
+            </Typography>
+            <Chip 
+              icon={<CheckCircleIcon />} 
+              label={practice.status || 'Неизвестно'} 
+              color={practice.status === 'Завершена' ? 'success' : 'warning'} 
+              variant="outlined" 
+            />
+          </Box>
+          <Divider sx={{ mb: 2 }} />
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Typography variant="body2" color="text.secondary">Должность:</Typography>
+              <Typography variant="body1" fontWeight="medium">{practice.position || 'Не указана'}</Typography>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+        <Tabs value={tabValue} onChange={handleTabChange}>
+          <Tab label="Дневник практики" />
+          <Tab label="Отчетность и документы" />
+        </Tabs>
+      </Box>
+
+      {tabValue === 0 && (
+        <TableContainer component={Paper} variant="outlined">
+          <Table>
+            <TableHead sx={{ bgcolor: 'grey.100' }}>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 'bold' }}>Дата</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>Содержание выполненных работ</TableCell>
+                <TableCell sx={{ fontWeight: 'bold', textAlign: 'right' }}>Часы</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {practice.diary && practice.diary.map((entry) => (
+                <TableRow key={entry.id_entry} hover>
+                  <TableCell>{new Date(entry.date).toLocaleDateString('ru-RU')}</TableCell>
+                  <TableCell>{entry.work_content}</TableCell>
+                  <TableCell sx={{ textAlign: 'right' }}>{entry.hours}</TableCell>
+                </TableRow>
+              ))}
+              <TableRow sx={{ bgcolor: 'grey.50', fontWeight: 'bold' }}>
+                <TableCell colSpan={2} align="right" sx={{ fontWeight: 'bold' }}>Итого:</TableCell>
+                <TableCell sx={{ textAlign: 'right', fontWeight: 'bold' }}>
+                  {practice.diary?.reduce((sum, item) => sum + item.hours, 0) || 0}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+
+      {tabValue === 1 && (
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <Card variant="outlined">
+              <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <DescriptionIcon color="primary" sx={{ fontSize: 40 }} />
+                <Box sx={{ flexGrow: 1 }}>
+                  <Typography variant="subtitle1" fontWeight="bold">Отчет по практике</Typography>
+                  <Typography variant="body2" color="text.secondary">PDF, 2.4 МБ • Загружен 23.12.2025</Typography>
+                </Box>
+                <Button variant="outlined" size="small">Скачать</Button>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Card variant="outlined">
+              <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <DescriptionIcon color="success" sx={{ fontSize: 40 }} />
+                <Box sx={{ flexGrow: 1 }}>
+                  <Typography variant="subtitle1" fontWeight="bold">Дневник практики (подписанный)</Typography>
+                  <Typography variant="body2" color="text.secondary">PDF, 1.1 МБ • Загружен 23.12.2025</Typography>
+                </Box>
+                <Button variant="outlined" size="small">Скачать</Button>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Card variant="outlined">
+              <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <PendingIcon color="warning" sx={{ fontSize: 40 }} />
+                <Box sx={{ flexGrow: 1 }}>
+                  <Typography variant="subtitle1" fontWeight="bold">Характеристика от руководителя</Typography>
+                  <Typography variant="body2" color="text.secondary">Ожидает загрузки от организации</Typography>
+                </Box>
+                <Button variant="contained" size="small">Загрузить</Button>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      )}
+    </Box>
+  );
+}
+import { useEffect, useState } from 'react';
+import {
+  Container, Typography, Card, CardContent, Button, TextField,
+  FormControl, InputLabel, Select, MenuItem, Box, Chip, CircularProgress, Alert, Dialog, DialogTitle, DialogContent, DialogActions
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { requestsAPI } from '../services/api';
+
+interface Request {
+  id_request: number;
+  request_type: string;
+  request_type_display: string;
+  description: string;
+  status: string;
+  status_display: string;
+  comment: string;
+  created_at: string;
+}
+
+export default function RequestsPage() {
+  const [requests, setRequests] = useState<Request[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [newRequest, setNewRequest] = useState({ request_type: 'academic_certificate', description: '' });
+
+  useEffect(() => {
+    loadRequests();
+  }, []);
+
+  const loadRequests = async () => {
+    try {
+      setLoading(true);
+      const response = await requestsAPI.getList();
+      const data = response.data;
+      // Безопасно извлекаем массив: проверяем, является ли data массивом, 
+      // или берем поле results (для пагинации DRF), или пустой массив
+      const requestsArray = Array.isArray(data) ? data : (data.results || []);
+      setRequests(requestsArray);
+    } catch (err) {
+      console.error('Ошибка загрузки заявок', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await requestsAPI.create(newRequest);
+      setOpenDialog(false);
+      setNewRequest({ request_type: 'academic_certificate', description: '' });
+      loadRequests();
+    } catch (err: any) {
+      alert('Ошибка создания заявки: ' + (err.response?.data?.error || err.message));
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'pending': return 'warning';
+      case 'approved': return 'info';
+      case 'rejected': return 'error';
+      case 'ready': return 'success';
+      default: return 'default';
+    }
+  };
+
+  if (loading) return <Box sx={{ textAlign: 'center', mt: 5 }}><CircularProgress /></Box>;
+
+  return (
+    <Container maxWidth="md" sx={{ py: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Typography variant="h5" fontWeight="bold">📨 Мои заявки</Typography>
+        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setOpenDialog(true)}>
+          Новая заявка
+        </Button>
+      </Box>
+
+      {requests.length === 0 ? (
+        <Card><CardContent><Typography color="text.secondary">У вас пока нет заявок.</Typography></CardContent></Card>
+      ) : (
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {requests.map((req) => (
+            <Card key={req.id_request} variant="outlined">
+              <CardContent>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                  <Typography variant="subtitle1" fontWeight="bold">{req.request_type_display}</Typography>
+                  <Chip label={req.status_display} color={getStatusColor(req.status) as any} size="small" />
+                </Box>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                  {new Date(req.created_at).toLocaleDateString('ru-RU')}
+                </Typography>
+                {req.description && <Typography variant="body2" sx={{ mb: 1 }}>Описание: {req.description}</Typography>}
+                {req.comment && (
+                  <Alert severity="info" sx={{ mt: 1 }}>
+                    <strong>Ответ администрации:</strong> {req.comment}
+                  </Alert>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
+      )}
+
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Создать новую заявку</DialogTitle>
+        <DialogContent>
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel>Тип заявки</InputLabel>
+            <Select
+              value={newRequest.request_type}
+              label="Тип заявки"
+              onChange={(e) => setNewRequest({ ...newRequest, request_type: e.target.value })}
+            >
+              <MenuItem value="academic_certificate">Академическая справка</MenuItem>
+              <MenuItem value="study_certificate">Справка с места учебы</MenuItem>
+              <MenuItem value="characteristic">Характеристика</MenuItem>
+              <MenuItem value="other">Другое</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            fullWidth
+            multiline
+            rows={4}
+            label="Описание / Дополнительная информация"
+            sx={{ mt: 2 }}
+            value={newRequest.description}
+            onChange={(e) => setNewRequest({ ...newRequest, description: e.target.value })}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialog(false)}>Отмена</Button>
+          <Button onClick={handleSubmit} variant="contained">Отправить</Button>
+        </DialogActions>
+      </Dialog>
+    </Container>
+  );
+}
+import { useEffect, useState } from 'react';
+import {
+  Container, Typography, Card, CardContent, Box, CircularProgress, Chip, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction
+} from '@mui/material';
+import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
+import { notificationsAPI } from '../services/api';
+
+interface Notification {
+  id_notification: number;
+  title: string;
+  message: string;
+  is_read: boolean;
+  created_at: string;
+}
+
+export default function NotificationsPage() {
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadNotifications();
+  }, []);
+
+  const loadNotifications = async () => {
+    try {
+      setLoading(true);
+      const response = await notificationsAPI.getList();
+      const data = response.data;
+      // Безопасно извлекаем массив
+      const notificationsArray = Array.isArray(data) ? data : (data.results || []);
+      setNotifications(notificationsArray);
+    } catch (err) {
+      console.error('Ошибка загрузки уведомлений', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleMarkRead = async (id: number) => {
+    try {
+      await notificationsAPI.markRead(id);
+      setNotifications(prev => prev.map(n => n.id_notification === id ? { ...n, is_read: true } : n));
+    } catch (err) {
+      console.error('Ошибка отметки прочтения', err);
+    }
+  };
+
+  if (loading) return <Box sx={{ textAlign: 'center', mt: 5 }}><CircularProgress /></Box>;
+
+  const unreadCount = notifications.filter(n => !n.is_read).length;
+
+  return (
+    <Container maxWidth="md" sx={{ py: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Typography variant="h5" fontWeight="bold">🔔 Уведомления</Typography>
+        {unreadCount > 0 && <Chip label={`${unreadCount} непрочитанных`} color="error" />}
+      </Box>
+
+      {notifications.length === 0 ? (
+        <Card><CardContent><Typography color="text.secondary">У вас нет новых уведомлений.</Typography></CardContent></Card>
+      ) : (
+        <Card variant="outlined">
+          <List>
+            {notifications.map((notif) => (
+              <ListItem 
+                key={notif.id_notification} 
+                sx={{ 
+                  bgcolor: notif.is_read ? 'transparent' : 'action.hover',
+                  borderBottom: '1px solid',
+                  borderColor: 'divider'
+                }}
+              >
+                <ListItemText
+                  primary={
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography variant="subtitle1" fontWeight={notif.is_read ? 'normal' : 'bold'}>
+                        {notif.title}
+                      </Typography>
+                      {!notif.is_read && <Chip label="Новое" color="primary" size="small" />}
+                    </Box>
+                  }
+                  secondary={
+                    <>
+                      <Typography variant="body2" sx={{ mt: 0.5 }}>{notif.message}</Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {new Date(notif.created_at).toLocaleString('ru-RU')}
+                      </Typography>
+                    </>
+                  }
+                />
+                {!notif.is_read && (
+                  <ListItemSecondaryAction>
+                    <IconButton edge="end" color="primary" onClick={() => handleMarkRead(notif.id_notification)} title="Отметить как прочитанное">
+                      <MarkEmailReadIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                )}
+              </ListItem>
+            ))}
+          </List>
+        </Card>
+      )}
+    </Container>
+  );
+}
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Container, Typography, Card, CardContent, Grid, Chip, Box,
+  CircularProgress, Alert, Button, AppBar, Toolbar, Avatar, LinearProgress,
+  Accordion, AccordionSummary, AccordionDetails, IconButton, Tabs, Tab,
+  TextField, FormControlLabel, Checkbox, Select, MenuItem, FormControl, InputLabel,
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import LogoutIcon from '@mui/icons-material/Logout';
+import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import { studentAPI, referencesAPI, type UserProfile } from '../services/api';
+import NotificationBell from '../components/NotificationBell';
+import RoleSwitcher from '../components/RoleSwitcher';
+import PracticePage from './PracticePage';
+import GradesPage from './GradesPage';
+import AttendancePage from './AttendancePage';
+import RequestsPage from './RequestsPage';
+import NotificationsPage from './NotificationsPage';
+
+const API_BASE_URL = 'http://localhost:8000';
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+  return (
+    <div role="tabpanel" hidden={value !== index} {...other}>
+      {value === index && <Box>{children}</Box>}
+    </div>
+  );
+}
+
+export default function ProfilePage() {
+  const navigate = useNavigate();
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState(0);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedData, setEditedData] = useState<any>({});
+  const [references, setReferences] = useState<any>({});
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [profileResponse, referencesResponse] = await Promise.all([
+          studentAPI.getProfile(),
+          referencesAPI.getReferences(),
+        ]);
+        setProfile(profileResponse.data);
+        setEditedData(profileResponse.data);
+        setReferences(referencesResponse.data);
+      } catch (err: any) {
+        setError(err.response?.data?.detail || 'Ошибка загрузки данных');
+        if (err.response?.status === 401) {
+          navigate('/login');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadData();
+  }, [navigate]);
+
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      await studentAPI.updateProfile(editedData);
+      setProfile(editedData);
+      setIsEditing(false);
+      alert('✅ Данные успешно сохранены!');
+    } catch (error: any) {
+      console.error('❌ Ошибка сохранения:', error);
+      console.error('📋 Детали ошибки:', error.response?.data);
+      alert(`❌ Ошибка при сохранении: ${JSON.stringify(error.response?.data || error.message)}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setEditedData(profile);
+    setIsEditing(false);
+  };
+
+  if (loading && !profile) {
+    return (
+      <Container maxWidth="md" sx={{ textAlign: 'center', mt: 10 }}>
+        <CircularProgress />
+        <Typography sx={{ mt: 2 }}>Загрузка профиля...</Typography>
+      </Container>
+    );
+  }
+
+  if (error || !profile) {
+    return (
+      <Container maxWidth="md" sx={{ mt: 5 }}>
+        <Alert severity="error">{error || 'Профиль не найден'}</Alert>
+      </Container>
+    );
+  }
+
+  const photoUrl = profile.photo_path ? `${API_BASE_URL}/media/${profile.photo_path}` : null;
+
+  return (
+    <>
+
+      <TabPanel value={activeTab} index={0}>
+        <Container maxWidth="md" sx={{ pb: 5, pt: 3 }}>
+          {/* Шапка профиля */}
+          <Card sx={{ mb: 3 }}>
+            <CardContent>
+              <Grid container spacing={3} alignItems="center">
+                <Grid item>
+                  <Box sx={{ position: 'relative' }}>
+                    <Avatar
+                      src={photoUrl || undefined}
+                      sx={{ width: 120, height: 120, fontSize: 48 }}
+                    >
+                      {profile.user.first_name[0]}{profile.user.last_name[0]}
+                    </Avatar>
+                  </Box>
+                </Grid>
+                <Grid item xs>
+                  <Typography variant="h5" fontWeight="bold">
+                    {profile.user.full_name}
+                  </Typography>
+                  <Typography color="text.secondary" sx={{ mt: 0.5 }}>
+                    Группа: <strong>{profile.group_name}</strong> • {profile.age} лет • {profile.age_status}
+                  </Typography>
+                  <Box sx={{ mt: 1, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                    <Chip label={profile.status} color="success" size="small" />
+                    <Chip label={`Учебный план: ${profile.study_plan}`} size="small" variant="outlined" />
+                    <Chip label={`Анкета: ${profile.completion_percentage}%`} color="primary" size="small" />
+                  </Box>
+                  <LinearProgress
+                    variant="determinate"
+                    value={profile.completion_percentage}
+                    sx={{ mt: 2, height: 8, borderRadius: 4 }}
+                  />
+                </Grid>
+                <Grid item>
+                  {isEditing ? (
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Button
+                        variant="contained"
+                        startIcon={<SaveIcon />}
+                        onClick={handleSave}
+                        color="success"
+                      >
+                        Сохранить
+                      </Button>
+                      <Button variant="outlined" onClick={handleCancel}>
+                        Отмена
+                      </Button>
+                    </Box>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      startIcon={<EditIcon />}
+                      onClick={() => setIsEditing(true)}
+                    >
+                      Редактировать
+                    </Button>
+                  )}
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+
+          {/* Блок 1.1: Основные документы */}
+          <Accordion defaultExpanded>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">📎 Основные документы</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="body2" color="text.secondary">СНИЛС (только чтение)</Typography>
+                  <Typography variant="body1">{profile.snils}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="body2" color="text.secondary">Email</Typography>
+                  <Typography variant="body1">{profile.user.email}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="body2" color="text.secondary">Телефон</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      value={editedData.phone || ''}
+                      onChange={(e) => setEditedData({...editedData, phone: e.target.value})}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.phone}</Typography>
+                  )}
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="body2" color="text.secondary">ИНН</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      value={editedData.inn || ''}
+                      onChange={(e) => setEditedData({...editedData, inn: e.target.value})}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.inn || '—'}</Typography>
+                  )}
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+
+          {/* Блок 1.2: Паспорт */}
+          {profile.passport && (
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="h6">📄 Паспорт</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Серия и номер</Typography>
+                    {isEditing ? (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        value={editedData.passport?.series_number || ''}
+                        onChange={(e) => setEditedData({
+                          ...editedData,
+                          passport: {...editedData.passport, series_number: e.target.value}
+                        })}
+                      />
+                    ) : (
+                      <Typography variant="body1">{profile.passport.series_number || '—'}</Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Дата выдачи</Typography>
+                    {isEditing ? (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        type="date"
+                        value={editedData.passport?.issue_date || ''}
+                        onChange={(e) => setEditedData({
+                          ...editedData,
+                          passport: {...editedData.passport, issue_date: e.target.value}
+                        })}
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    ) : (
+                      <Typography variant="body1">{profile.passport.issue_date || '—'}</Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="body2" color="text.secondary">Кем выдан</Typography>
+                    {isEditing ? (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        value={editedData.passport?.issuer || ''}
+                        onChange={(e) => setEditedData({
+                          ...editedData,
+                          passport: {...editedData.passport, issuer: e.target.value}
+                        })}
+                      />
+                    ) : (
+                      <Typography variant="body1">{profile.passport.issuer || '—'}</Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Код подразделения</Typography>
+                    {isEditing ? (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        value={editedData.passport?.unit_code || ''}
+                        onChange={(e) => setEditedData({
+                          ...editedData,
+                          passport: {...editedData.passport, unit_code: e.target.value}
+                        })}
+                      />
+                    ) : (
+                      <Typography variant="body1">{profile.passport.unit_code || '—'}</Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="body2" color="text.secondary">Адрес регистрации</Typography>
+                    {isEditing ? (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        value={editedData.passport?.address_detail || ''}
+                        onChange={(e) => setEditedData({
+                          ...editedData,
+                          passport: {...editedData.passport, address_detail: e.target.value}
+                        })}
+                      />
+                    ) : (
+                      <Typography variant="body1">{profile.passport.address_detail || '—'}</Typography>
+                    )}
+                  </Grid>
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
+          )}
+
+          {/* Блок 1.3: Здоровье */}
+          {profile.health && (
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="h6">🏥 Здоровье</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Состояние здоровья</Typography>
+                    {isEditing ? (
+                      <FormControl fullWidth size="small">
+                        <Select
+                          value={editedData.health?.status || ''}
+                          onChange={(e) => setEditedData({
+                            ...editedData,
+                            health: {...editedData.health, status: e.target.value}
+                          })}
+                        >
+                          {references.health_status?.map((option: any) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    ) : (
+                      <Typography variant="body1">{profile.health.status}</Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Полис ОМС</Typography>
+                    {isEditing ? (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        value={editedData.health?.oms_number || ''}
+                        onChange={(e) => setEditedData({
+                          ...editedData,
+                          health: {...editedData.health, oms_number: e.target.value}
+                        })}
+                      />
+                    ) : (
+                      <Typography variant="body1">{profile.health.oms_number || '—'}</Typography>
+                    )}
+                  </Grid>
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
+          )}
+
+          {/* Блок 1.4: Воинский учёт */}
+          {profile.military && (
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="h6">🎖️ Воинский учёт</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Номер приписного</Typography>
+                    {isEditing ? (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        value={editedData.military?.registration_number || ''}
+                        onChange={(e) => setEditedData({
+                          ...editedData,
+                          military: {...editedData.military, registration_number: e.target.value}
+                        })}
+                      />
+                    ) : (
+                      <Typography variant="body1">{profile.military.registration_number || '—'}</Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Категория годности</Typography>
+                    {isEditing ? (
+                      <FormControl fullWidth size="small">
+                        <Select
+                          value={editedData.military?.fitness_category || ''}
+                          onChange={(e) => setEditedData({
+                            ...editedData,
+                            military: {...editedData.military, fitness_category: e.target.value}
+                          })}
+                        >
+                          {references.fitness_category?.map((option: any) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    ) : (
+                      <Typography variant="body1">{profile.military.fitness_category || '—'}</Typography>
+                    )}
+                  </Grid>
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
+          )}
+
+          {/* Блок 1.5: Семья */}
+          {profile.family && (
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="h6">👨‍👩‍👧‍👦 Семья</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Статус семьи</Typography>
+                    {isEditing ? (
+                      <FormControl fullWidth size="small">
+                        <Select
+                          value={editedData.family?.status || ''}
+                          onChange={(e) => setEditedData({
+                            ...editedData,
+                            family: {...editedData.family, status: e.target.value}
+                          })}
+                        >
+                          {references.family_status?.map((option: any) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    ) : (
+                      <Typography variant="body1">{profile.family.status}</Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2" color="text.secondary">Тип жилья</Typography>
+                    {isEditing ? (
+                      <FormControl fullWidth size="small">
+                        <Select
+                          value={editedData.family?.housing_type || ''}
+                          onChange={(e) => setEditedData({
+                            ...editedData,
+                            family: {...editedData.family, housing_type: e.target.value}
+                          })}
+                        >
+                          {references.housing_type?.map((option: any) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    ) : (
+                      <Typography variant="body1">{profile.family.housing_type}</Typography>
+                    )}
+                  </Grid>
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
+          )}
+
+          {/* Блок 1.6: Образование */}
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">🎓 Предыдущее образование</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="body2" color="text.secondary">Учебное заведение</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      value={editedData.education?.name || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        education: {...editedData.education, name: e.target.value}
+                      })}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.education?.name || '—'}</Typography>
+                  )}
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="body2" color="text.secondary">Тип заведения</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      value={editedData.education?.type || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        education: {...editedData.education, type: e.target.value}
+                      })}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.education?.type || '—'}</Typography>
+                  )}
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="body2" color="text.secondary">Профиль класса</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      value={editedData.education?.profile || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        education: {...editedData.education, profile: e.target.value}
+                      })}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.education?.profile || '—'}</Typography>
+                  )}
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="body2" color="text.secondary">Дата окончания</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      type="date"
+                      value={editedData.education?.graduation_date || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        education: {...editedData.education, graduation_date: e.target.value}
+                      })}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.education?.graduation_date || '—'}</Typography>
+                  )}
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+
+          {/* Блок 1.7: Профиль студента */}
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">💼 Профиль и интересы</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography variant="body2" color="text.secondary">Языки программирования</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      multiline
+                      rows={2}
+                      value={editedData.profile?.programming_langs || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        profile: {...editedData.profile, programming_langs: e.target.value}
+                      })}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.profile?.programming_langs || '—'}</Typography>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body2" color="text.secondary">Хобби и увлечения</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      multiline
+                      rows={3}
+                      value={editedData.profile?.hobbies || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        profile: {...editedData.profile, hobbies: e.target.value}
+                      })}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.profile?.hobbies || '—'}</Typography>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body2" color="text.secondary">Дополнительное образование</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      multiline
+                      rows={2}
+                      value={editedData.profile?.extra_edu || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        profile: {...editedData.profile, extra_edu: e.target.value}
+                      })}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.profile?.extra_edu || '—'}</Typography>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body2" color="text.secondary">Спортивные разряды</Typography>
+                  {isEditing ? (
+                    <TextField
+                      size="small"
+                      fullWidth
+                      value={editedData.profile?.sports_ranks || ''}
+                      onChange={(e) => setEditedData({
+                        ...editedData,
+                        profile: {...editedData.profile, sports_ranks: e.target.value}
+                      })}
+                    />
+                  ) : (
+                    <Typography variant="body1">{profile.profile?.sports_ranks || '—'}</Typography>
+                  )}
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+        </Container>
+      </TabPanel>
+
+      <TabPanel value={activeTab} index={1}><PracticePage /></TabPanel>
+      <TabPanel value={activeTab} index={2}><GradesPage /></TabPanel>
+      <TabPanel value={activeTab} index={3}><AttendancePage /></TabPanel>
+      <TabPanel value={activeTab} index={4}><RequestsPage /></TabPanel>
+      <TabPanel value={activeTab} index={5}><NotificationsPage /></TabPanel>
+    </>
+  );
+}
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Container, Typography, Card, CardContent, Grid, Chip, Box,
+  CircularProgress, Alert, AppBar, Toolbar, Button, IconButton, Table,
+  TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
+  FormControl, InputLabel, Select, MenuItem,
+} from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PeopleIcon from '@mui/icons-material/People';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import SchoolIcon from '@mui/icons-material/School';
+import MailIcon from '@mui/icons-material/Mail';
+import { curatorAPI } from '../services/api';
+import NotificationBell from '../components/NotificationBell';
+import RoleSwitcher from '../components/RoleSwitcher';
+
+export default function CuratorDashboard() {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [groups, setGroups] = useState<any[]>([]);
+  const [selectedGroupIndex, setSelectedGroupIndex] = useState(0);
+
+  useEffect(() => {
+    const loadGroups = async () => {
+      try {
+        const response = await curatorAPI.getGroup();
+        console.log('Данные групп:', response.data);
+        
+        // API теперь возвращает массив без пагинации
+        const groupsData = Array.isArray(response.data) 
+          ? response.data 
+          : (response.data.results || [response.data]);
+        
+        console.log('Обработанные группы:', groupsData);
+        setGroups(groupsData);
+      } catch (err: any) {
+        console.error('Ошибка загрузки групп:', err);
+        setError(err.response?.data?.detail || 'Ошибка загрузки данных');
+        if (err.response?.status === 401) {
+          navigate('/login');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadGroups();
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    navigate('/login');
+  };
+
+  if (loading) {
+    return (
+      <Container maxWidth="md" sx={{ textAlign: 'center', mt: 10 }}>
+        <CircularProgress />
+        <Typography sx={{ mt: 2 }}>Загрузка...</Typography>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Container maxWidth="md" sx={{ mt: 5 }}>
+          <Alert severity="error">{error}</Alert>
+        </Container>
+      </>
+    );
+  }
+
+  if (groups.length === 0) {
+    return (
+      <>
+        <Container maxWidth="md" sx={{ mt: 5 }}>
+          <Alert severity="info">
+            У вас нет назначенных групп. Обратитесь к администратору.
+          </Alert>
+        </Container>
+      </>
+    );
+  }
+
+  const currentGroup = groups[selectedGroupIndex];
+  const totalStudents = groups.reduce((sum, g) => sum + (g.students?.length || 0), 0);
+
+  return (
+    <>
+
+      <Container maxWidth="lg" sx={{ pb: 5, pt: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Typography variant="h4" fontWeight="bold">
+          📊 Панель куратора
+        </Typography>
+        <Button 
+          variant="contained" 
+          color="primary"
+          startIcon={<MailIcon />}
+          onClick={() => navigate('/curator/requests')}
+        >
+          📨 Заявки студентов
+        </Button>
+      </Box>
+        {/* Выбор группы */}
+        {groups.length > 1 && (
+          <FormControl fullWidth sx={{ mb: 3 }}>
+            <InputLabel>Выберите группу</InputLabel>
+            <Select
+              value={selectedGroupIndex}
+              label="Выберите группу"
+              onChange={(e) => setSelectedGroupIndex(Number(e.target.value))}
+            >
+              {groups.map((g, idx) => (
+                <MenuItem key={g.id_group} value={idx}>
+                  {g.id_group} ({g.students?.length || 0} студентов)
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
+
+        <Typography variant="h4" gutterBottom fontWeight="bold">
+          📊 Группа: {currentGroup.id_group}
+          {currentGroup.curator_name && (
+            <Typography variant="subtitle1" color="text.secondary" component="span">
+              {' '}— куратор: {currentGroup.curator_name}
+            </Typography>
+          )}
+        </Typography>
+
+        {/* Карточки статистики */}
+        <Grid container spacing={3} sx={{ mb: 4 }}>
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent sx={{ textAlign: 'center' }}>
+                <PeopleIcon sx={{ fontSize: 60, color: 'primary.main', mb: 1 }} />
+                <Typography variant="h3" fontWeight="bold">
+                  {currentGroup.students?.length || 0}
+                </Typography>
+                <Typography color="text.secondary">Студентов в группе</Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent sx={{ textAlign: 'center' }}>
+                <SchoolIcon sx={{ fontSize: 60, color: 'success.main', mb: 1 }} />
+                <Typography variant="h3" fontWeight="bold">
+                  {totalStudents}
+                </Typography>
+                <Typography color="text.secondary">Всего студентов</Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent sx={{ textAlign: 'center' }}>
+                <AssignmentIcon sx={{ fontSize: 60, color: 'warning.main', mb: 1 }} />
+                <Typography variant="h3" fontWeight="bold">
+                  {groups.length}
+                </Typography>
+                <Typography color="text.secondary">Групп на кураторстве</Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+
+        {/* Таблица студентов */}
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              👥 Студенты группы ({currentGroup.students?.length || 0})
+            </Typography>
+            {currentGroup.students?.length > 0 ? (
+              <TableContainer component={Paper} variant="outlined">
+                <Table>
+                  <TableHead>
+                    <TableRow sx={{ bgcolor: 'grey.100' }}>
+                      <TableCell><strong>№</strong></TableCell>
+                      <TableCell><strong>ФИО</strong></TableCell>
+                      <TableCell><strong>СНИЛС</strong></TableCell>
+                      <TableCell><strong>Телефон</strong></TableCell>
+                      <TableCell><strong>Статус</strong></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {currentGroup.students.map((student: any, idx: number) => (
+                      <TableRow key={student.snils} hover>
+                        <TableCell>{idx + 1}</TableCell>
+                        <TableCell>{student.full_name}</TableCell>
+                        <TableCell>{student.snils}</TableCell>
+                        <TableCell>{student.phone || '—'}</TableCell>
+                        <TableCell>
+                          <Chip
+                            label={student.status}
+                            size="small"
+                            color={student.status.includes('обучается') ? 'success' : 'default'}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            ) : (
+              <Alert severity="info">В группе пока нет студентов</Alert>
+            )}
+          </CardContent>
+        </Card>
+      </Container>
+    </>
+  );
+}
+import { useEffect, useState } from 'react';
+import {
+  Container, Typography, Card, CardContent, Box, Chip, CircularProgress, 
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
+  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, FormControl, InputLabel, Select, MenuItem
+} from '@mui/material';
+import { curatorRequestsAPI } from '../services/api';
+
+interface Request {
+  id_request: number;
+  student_name: string;
+  request_type_display: string;
+  description: string;
+  status: string;
+  status_display: string;
+  comment: string;
+  created_at: string;
+}
+
+export default function CuratorRequestsPage() {
+  const [requests, setRequests] = useState<Request[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [updateData, setUpdateData] = useState({ status: 'pending', comment: '' });
+
+  useEffect(() => {
+    loadRequests();
+  }, []);
+
+  const loadRequests = async () => {
+    try {
+      setLoading(true);
+      const response = await curatorRequestsAPI.getList();
+      const data = response.data;
+      const requestsArray = Array.isArray(data) ? data : (data.results || []);
+      setRequests(requestsArray);
+    } catch (err) {
+      console.error('Ошибка загрузки заявок', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOpenDialog = (req: Request) => {
+    setSelectedRequest(req);
+    setUpdateData({ status: req.status, comment: req.comment || '' });
+    setOpenDialog(true);
+  };
+
+  const handleUpdate = async () => {
+    if (!selectedRequest) return;
+    try {
+      await curatorRequestsAPI.update(selectedRequest.id_request, updateData);
+      setOpenDialog(false);
+      loadRequests();
+    } catch (err: any) {
+      alert('Ошибка обновления: ' + (err.response?.data?.error || err.message));
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'pending': return 'warning';
+      case 'approved': return 'info';
+      case 'rejected': return 'error';
+      case 'ready': return 'success';
+      default: return 'default';
+    }
+  };
+
+  if (loading) return <Box sx={{ textAlign: 'center', mt: 5 }}><CircularProgress /></Box>;
+
+  return (
+    <Container maxWidth="lg" sx={{ py: 3 }}>
+      <Typography variant="h5" fontWeight="bold" gutterBottom>📨 Заявки студентов моей группы</Typography>
+
+      {requests.length === 0 ? (
+        <Card><CardContent><Typography color="text.secondary">Нет активных заявок от студентов вашей группы.</Typography></CardContent></Card>
+      ) : (
+        <TableContainer component={Paper} variant="outlined">
+          <Table>
+            <TableHead>
+              <TableRow sx={{ bgcolor: 'grey.100' }}>
+                <TableCell sx={{ fontWeight: 'bold' }}>Студент</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>Тип заявки</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>Описание</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>Дата</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>Статус</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>Действия</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {requests.map((req) => (
+                <TableRow key={req.id_request} hover>
+                  <TableCell>
+                    {req.student_name}
+                  </TableCell>
+                  <TableCell>{req.request_type_display}</TableCell>
+                  <TableCell>{req.description || '—'}</TableCell>
+                  <TableCell>{new Date(req.created_at).toLocaleDateString('ru-RU')}</TableCell>
+                  <TableCell>
+                    <Chip label={req.status_display} color={getStatusColor(req.status) as any} size="small" />
+                  </TableCell>
+                  <TableCell>
+                    <Button size="small" variant="outlined" onClick={() => handleOpenDialog(req)}>
+                      Ответить
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Обработка заявки</DialogTitle>
+        <DialogContent>
+          {selectedRequest && (
+            <>
+              <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 2 }}>
+                Студент: {selectedRequest.student_name}
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 2, p: 2, bgcolor: 'grey.100', borderRadius: 1 }}>
+                <strong>Описание:</strong> {selectedRequest.description || 'Нет описания'}
+              </Typography>
+              
+              <FormControl fullWidth sx={{ mb: 2 }}>
+                <InputLabel>Новый статус</InputLabel>
+                <Select
+                  value={updateData.status}
+                  label="Новый статус"
+                  onChange={(e) => setUpdateData({ ...updateData, status: e.target.value })}
+                >
+                  <MenuItem value="pending">В обработке</MenuItem>
+                  <MenuItem value="approved">Одобрено</MenuItem>
+                  <MenuItem value="rejected">Отклонено</MenuItem>
+                  <MenuItem value="ready">Готово к выдаче</MenuItem>
+                </Select>
+              </FormControl>
+
+              <TextField
+                fullWidth
+                multiline
+                rows={3}
+                label="Комментарий для студента"
+                value={updateData.comment}
+                onChange={(e) => setUpdateData({ ...updateData, comment: e.target.value })}
+              />
+            </>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialog(false)}>Отмена</Button>
+          <Button onClick={handleUpdate} variant="contained">Сохранить</Button>
+        </DialogActions>
+      </Dialog>
+    </Container>
+  );
+}
+import { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Container, Typography, Card, CardContent, Chip, Box,
+  CircularProgress, Alert, AppBar, Toolbar, IconButton, Table,
+  TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
+  Button, Select, MenuItem, FormControl, InputLabel, Dialog,
+  DialogTitle, DialogContent, DialogActions, Menu,
+} from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
+import EditIcon from '@mui/icons-material/Edit';
+import RestoreIcon from '@mui/icons-material/Restore';
+import LockIcon from '@mui/icons-material/Lock';
+import DownloadIcon from '@mui/icons-material/Download';
+import UploadIcon from '@mui/icons-material/Upload';
+import DescriptionIcon from '@mui/icons-material/Description';
+import { teacherAPI } from '../services/api';
+import RoleSwitcher from '../components/RoleSwitcher';
+
+interface Statement {
+  id_statement: number;
+  number: string;
+  group_name: string;
+  discipline_name: string;
+  status: string;
+  issue_date: string;
+  students_count: number;
+}
+
+interface Grade {
+  id_grade: number;
+  student_snils: string;
+  student_name: string;
+  grade: string;
+  date: string;
+  is_retake: boolean;
+}
+
+export default function TeacherDashboard() {
+  const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [statements, setStatements] = useState<Statement[]>([]);
+  const [selectedStatement, setSelectedStatement] = useState<Statement | null>(null);
+  const [grades, setGrades] = useState<Grade[]>([]);
+  const [gradesLoading, setGradesLoading] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editingGrade, setEditingGrade] = useState<Grade | null>(null);
+  const [newGradeValue, setNewGradeValue] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [exportMenuAnchor, setExportMenuAnchor] = useState<null | HTMLElement>(null);
+  const [docxMenuAnchor, setDocxMenuAnchor] = useState<null | HTMLElement>(null);
+
+  useEffect(() => {
+    loadStatements();
+  }, []);
+
+  const loadStatements = async () => {
+    try {
+      setLoading(true);
+      const response = await teacherAPI.getStatements();
+      const data = response.data.results || response.data;
+      setStatements(Array.isArray(data) ? data : []);
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Ошибка загрузки ведомостей');
+      setStatements([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSelectStatement = async (statement: Statement) => {
+    setSelectedStatement(statement);
+    setGradesLoading(true);
+    setError(null);
+    
+    try {
+      const response = await teacherAPI.getStatementGrades(statement.id_statement);
+      setGrades(Array.isArray(response.data) ? response.data : []);
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Ошибка загрузки оценок');
+      setGrades([]);
+    } finally {
+      setGradesLoading(false);
+    }
+  };
+
+  const normalizeGradeValue = (grade: string): string => {
+    const gradeMap: Record<string, string> = {
+      'Зачтено': 'зачтено',
+      'Не зачтено': 'не_зачтено',
+      'Неудовлетворительно': '2 (неудовлетворительно)',
+      'Удовлетворительно': '3 (удовлетворительно)',
+      'Хорошо': '4 (хорошо)',
+      'Отлично': '5 (отлично)',
+    };
+    return gradeMap[grade] || grade;
+  };
+
+  const handleEditGrade = (grade: Grade) => {
+    setEditingGrade(grade);
+    setNewGradeValue(normalizeGradeValue(grade.grade || ''));
+    setEditDialogOpen(true);
+  };
+
+  const handleSaveGrade = async () => {
+    if (!editingGrade) return;
+    
+    try {
+      setSaving(true);
+      await teacherAPI.updateGrade(editingGrade.id_grade, { grade: newGradeValue });
+      setEditDialogOpen(false);
+      if (selectedStatement) {
+        const response = await teacherAPI.getStatementGrades(selectedStatement.id_statement);
+        setGrades(Array.isArray(response.data) ? response.data : []);
+      }
+      alert('✅ Оценка сохранена');
+    } catch (err: any) {
+      alert('❌ ' + (err.response?.data?.error || err.message));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleRestoreStatement = async (statementId: number) => {
+    if (!confirm('Вернуть ведомость в работу?')) return;
+    try {
+      await teacherAPI.restoreStatement(statementId);
+      await loadStatements();
+      alert('✅ Ведомость возвращена в работу');
+    } catch (err: any) {
+      alert('❌ ' + (err.response?.data?.error || err.message));
+    }
+  };
+
+  const handleExport = async (format: string) => {
+    if (!selectedStatement) return;
+    setExportMenuAnchor(null);
+    
+    try {
+      const response = await teacherAPI.exportGrades(selectedStatement.id_statement, format);
+      const blob = new Blob([response.data]);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      
+      const ext = format === 'excel' ? 'xlsx' : format;
+      link.download = `${selectedStatement.number}.${ext}`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err: any) {
+      alert('❌ Ошибка экспорта: ' + (err.message || 'Неизвестная ошибка'));
+    }
+  };
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !selectedStatement) return;
+    
+    try {
+      const response = await teacherAPI.importGrades(selectedStatement.id_statement, file);
+      let msg = '✅ ' + response.data.message;
+      if (response.data.errors && response.data.errors.length > 0) {
+        msg += '\n\nОшибки:\n' + response.data.errors.join('\n');
+      }
+      alert(msg);
+      // Перезагружаем оценки
+      const gradesResponse = await teacherAPI.getStatementGrades(selectedStatement.id_statement);
+      setGrades(Array.isArray(gradesResponse.data) ? gradesResponse.data : []);
+    } catch (err: any) {
+      alert('❌ Ошибка импорта: ' + (err.response?.data?.error || err.message));
+    }
+    
+    // Очищаем input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleGenerateDocx = async (type: string) => {
+    if (!selectedStatement) return;
+    setDocxMenuAnchor(null);
+    
+    try {
+      const response = await teacherAPI.generateDocx(selectedStatement.id_statement, type);
+      const blob = new Blob([response.data]);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      
+      const docName = type === 'protocol' ? 'Протокол' : 'Зачетная_ведомость';
+      link.download = `${docName}_${selectedStatement.number}.docx`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err: any) {
+      alert('❌ Ошибка генерации: ' + (err.response?.data?.error || err.message));
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    navigate('/login');
+  };
+
+  const canEdit = (status: string): boolean => {
+    return status === 'в_работе';
+  };
+
+  const getGradeColor = (grade: string): any => {
+    if (!grade) return 'default';
+    const g = grade.toLowerCase();
+    if (g.includes('5') || g.includes('отлично') || g === 'зачтено') return 'success';
+    if (g.includes('4') || g.includes('хорошо')) return 'primary';
+    if (g.includes('3') || g.includes('удовлетворительно')) return 'warning';
+    if (g.includes('2') || g.includes('неудовлетворительно') || g === 'не_зачтено' || g.includes('не зачтено')) return 'error';
+    return 'default';
+  };
+
+  if (loading) {
+    return (
+      <Box sx={{ textAlign: 'center', mt: 10 }}>
+        <CircularProgress />
+        <Typography sx={{ mt: 2 }}>Загрузка...</Typography>
+      </Box>
+    );
+  }
+
+  return (
+    <>
+
+      <Container maxWidth="xl" sx={{ py: 3 }}>
+        <Typography variant="h4" gutterBottom fontWeight="bold">
+          📋 Мои ведомости
+        </Typography>
+
+        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          accept=".xlsx,.csv"
+          onChange={handleFileChange}
+        />
+
+        <Box sx={{ display: 'flex', gap: 3 }}>
+          {/* Список ведомостей */}
+          <Box sx={{ width: '380px', flexShrink: 0 }}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Ведомости ({statements.length})
+                </Typography>
+                <Box sx={{ maxHeight: '75vh', overflow: 'auto' }}>
+                  {statements.map((stmt) => (
+                    <Card
+                      key={stmt.id_statement}
+                      sx={{
+                        mb: 1,
+                        cursor: 'pointer',
+                        bgcolor: selectedStatement?.id_statement === stmt.id_statement ? 'primary.light' : 'background.paper',
+                        '&:hover': { bgcolor: 'action.hover' },
+                      }}
+                      onClick={() => handleSelectStatement(stmt)}
+                    >
+                      <CardContent sx={{ py: 1.5, '&:last-child': { pb: 1.5 } }}>
+                        <Typography variant="subtitle2" fontWeight="bold">
+                          {stmt.number}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {stmt.group_name} • {stmt.discipline_name}
+                        </Typography>
+                        <Box sx={{ display: 'flex', gap: 1, mt: 1, flexWrap: 'wrap', alignItems: 'center' }}>
+                          <Chip
+                            label={stmt.status === 'в_работе' ? 'В работе' : stmt.status === 'закрыта' ? 'Закрыта' : stmt.status}
+                            size="small"
+                            color={stmt.status === 'в_работе' ? 'success' : stmt.status === 'закрыта' ? 'warning' : 'default'}
+                          />
+                          {canEdit(stmt.status) && (
+                            <Chip label="✏️ Можно редактировать" size="small" color="success" variant="outlined" />
+                          )}
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </Box>
+              </CardContent>
+            </Card>
+          </Box>
+
+          {/* Таблица оценок */}
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            {selectedStatement ? (
+              <Card>
+                <CardContent>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2, flexWrap: 'wrap', gap: 1 }}>
+                    <Box>
+                      <Typography variant="h6">
+                        {selectedStatement.number} — {selectedStatement.discipline_name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Группа: {selectedStatement.group_name} | Статус: {selectedStatement.status} | Оценок: {grades.length}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                      {/* Кнопки экспорта */}
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<DownloadIcon />}
+                        onClick={(e) => setExportMenuAnchor(e.currentTarget)}
+                      >
+                        Экспорт
+                      </Button>
+                      <Menu
+                        anchorEl={exportMenuAnchor}
+                        open={Boolean(exportMenuAnchor)}
+                        onClose={() => setExportMenuAnchor(null)}
+                      >
+                        <MenuItem onClick={() => handleExport('excel')}>📊 Excel (.xlsx)</MenuItem>
+                        <MenuItem onClick={() => handleExport('csv')}>📄 CSV (.csv)</MenuItem>
+                        <MenuItem onClick={() => handleExport('txt')}>📝 TXT (.txt)</MenuItem>
+                      </Menu>
+
+                      {/* Кнопка импорта */}
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<UploadIcon />}
+                        onClick={handleImportClick}
+                        disabled={!canEdit(selectedStatement.status)}
+                      >
+                        Импорт
+                      </Button>
+
+                      {/* Кнопка генерации DOCX */}
+                      <Button
+                        variant="contained"
+                        size="small"
+                        startIcon={<DescriptionIcon />}
+                        onClick={(e) => setDocxMenuAnchor(e.currentTarget)}
+                      >
+                        Документ
+                      </Button>
+                      <Menu
+                        anchorEl={docxMenuAnchor}
+                        open={Boolean(docxMenuAnchor)}
+                        onClose={() => setDocxMenuAnchor(null)}
+                      >
+                        <MenuItem onClick={() => handleGenerateDocx('zachet')}>📋 Зачетная ведомость</MenuItem>
+                        <MenuItem onClick={() => handleGenerateDocx('protocol')}>📝 Протокол экзамена</MenuItem>
+                      </Menu>
+
+                      {canEdit(selectedStatement.status) ? (
+                        <Chip label="✏️ Режим редактирования" color="success" icon={<EditIcon />} />
+                      ) : (
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          startIcon={<RestoreIcon />}
+                          onClick={() => handleRestoreStatement(selectedStatement.id_statement)}
+                        >
+                          Вернуть в работу
+                        </Button>
+                      )}
+                    </Box>
+                  </Box>
+
+                  {gradesLoading ? (
+                    <Box sx={{ textAlign: 'center', py: 4 }}>
+                      <CircularProgress />
+                      <Typography sx={{ mt: 2 }}>Загрузка оценок...</Typography>
+                    </Box>
+                  ) : grades.length === 0 ? (
+                    <Alert severity="info" sx={{ mt: 2 }}>
+                      Нет оценок для этой ведомости
+                    </Alert>
+                  ) : (
+                    <TableContainer component={Paper} variant="outlined" sx={{ mt: 2, maxHeight: '65vh' }}>
+                      <Table stickyHeader size="small">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell sx={{ bgcolor: 'grey.200', fontWeight: 'bold' }}>№</TableCell>
+                            <TableCell sx={{ bgcolor: 'grey.200', fontWeight: 'bold' }}>ФИО студента</TableCell>
+                            <TableCell sx={{ bgcolor: 'grey.200', fontWeight: 'bold' }}>СНИЛС</TableCell>
+                            <TableCell sx={{ bgcolor: 'grey.200', fontWeight: 'bold' }}>Оценка</TableCell>
+                            <TableCell sx={{ bgcolor: 'grey.200', fontWeight: 'bold' }}>Дата</TableCell>
+                            <TableCell sx={{ bgcolor: 'grey.200', fontWeight: 'bold' }}>Пересдача</TableCell>
+                            <TableCell sx={{ bgcolor: 'grey.200', fontWeight: 'bold' }}>Действия</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {grades.map((grade, idx) => (
+                            <TableRow key={grade.id_grade || idx} hover>
+                              <TableCell>{idx + 1}</TableCell>
+                              <TableCell>{grade.student_name}</TableCell>
+                              <TableCell>{grade.student_snils}</TableCell>
+                              <TableCell>
+                                <Chip
+                                  label={grade.grade || '—'}
+                                  size="small"
+                                  color={getGradeColor(grade.grade)}
+                                />
+                              </TableCell>
+                              <TableCell>{grade.date || '—'}</TableCell>
+                              <TableCell>
+                                <Chip
+                                  label={grade.is_retake ? 'Да' : 'Нет'}
+                                  size="small"
+                                  color={grade.is_retake ? 'warning' : 'default'}
+                                />
+                              </TableCell>
+                              <TableCell>
+                                {canEdit(selectedStatement.status) ? (
+                                  <IconButton
+                                    size="small"
+                                    color="primary"
+                                    onClick={() => handleEditGrade(grade)}
+                                    title="Редактировать"
+                                  >
+                                    <EditIcon fontSize="small" />
+                                  </IconButton>
+                                ) : (
+                                  <LockIcon fontSize="small" color="disabled" />
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  )}
+                </CardContent>
+              </Card>
+            ) : (
+              <Card>
+                <CardContent>
+                  <Typography color="text.secondary" align="center" sx={{ py: 4 }}>
+                    Выберите ведомость из списка слева
+                  </Typography>
+                </CardContent>
+              </Card>
+            )}
+          </Box>
+        </Box>
+      </Container>
+
+      {/* Диалог редактирования оценки */}
+      <Dialog open={editDialogOpen} onClose={() => !saving && setEditDialogOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>✏️ Редактировать оценку</DialogTitle>
+        <DialogContent>
+          {editingGrade && (
+            <>
+              <Typography variant="body1" sx={{ mb: 1 }}>
+                <strong>Студент:</strong> {editingGrade.student_name}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                СНИЛС: {editingGrade.student_snils}
+              </Typography>
+              <FormControl fullWidth sx={{ mt: 2 }}>
+                <InputLabel>Оценка</InputLabel>
+                <Select
+                  value={newGradeValue}
+                  label="Оценка"
+                  onChange={(e) => setNewGradeValue(e.target.value)}
+                >
+                  <MenuItem value="5 (отлично)">5 (отлично)</MenuItem>
+                  <MenuItem value="4 (хорошо)">4 (хорошо)</MenuItem>
+                  <MenuItem value="3 (удовлетворительно)">3 (удовлетворительно)</MenuItem>
+                  <MenuItem value="2 (неудовлетворительно)">2 (неудовлетворительно)</MenuItem>
+                  <MenuItem value="н/а (не допущен)">н/а (не допущен)</MenuItem>
+                  <MenuItem value="зачтено">Зачтено</MenuItem>
+                  <MenuItem value="не_зачтено">Не зачтено</MenuItem>
+                </Select>
+              </FormControl>
+            </>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setEditDialogOpen(false)} disabled={saving}>Отмена</Button>
+          <Button onClick={handleSaveGrade} variant="contained" disabled={saving || !newGradeValue}>
+            {saving ? 'Сохранение...' : 'Сохранить'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+}
+import { useState, useEffect } from 'react';
+import {
+  Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, 
+  TableRow, Paper, Button, TextField, Select, MenuItem, FormControl, InputLabel, 
+  Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Tooltip, 
+  Alert, CircularProgress, Chip
+} from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import { teacherPracticeAPI } from '../services/api';
+
+interface PracticePlace {
+  id_place: number;
+  student_name: string;
+  organization_name: string;
+  position: string;
+  status: string;
+  diary: Array<{
+    id_entry: number;
+    date: string;
+    work_content: string;
+    hours: number;
+    is_approved_by_org: boolean;
+  }>;
+}
+
+export default function TeacherPracticePage() {
+  const [practices, setPractices] = useState<PracticePlace[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedPlace, setSelectedPlace] = useState<PracticePlace | null>(null);
+  const [editForm, setEditForm] = useState({ organization_name: '', position: '', status: '' });
+
+  useEffect(() => {
+    loadPractices();
+  }, []);
+
+  const loadPractices = async () => {
+    try {
+      setLoading(true);
+      const response = await teacherPracticeAPI.getStudents();
+      const data = response.data;
+      // Обрабатываем как массив, так и пагинированный ответ
+      const practicesData = Array.isArray(data) ? data : (data.results || []);
+      setPractices(practicesData);
+    } catch (err: any) {
+      console.error('Ошибка загрузки практики', err);
+      setError('Не удалось загрузить данные о практике');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEditClick = (place: PracticePlace) => {
+    setSelectedPlace(place);
+    setEditForm({
+      organization_name: place.organization_name || '',
+      position: place.position || '',
+      status: place.status || 'Назначена'
+    });
+    setEditDialogOpen(true);
+  };
+
+  const handleSaveEdit = async () => {
+    if (!selectedPlace) return;
+    try {
+      await teacherPracticeAPI.updatePlace(selectedPlace.id_place, editForm);
+      setEditDialogOpen(false);
+      loadPractices();
+    } catch (err: any) {
+      console.error('Ошибка обновления', err);
+      alert('Не удалось обновить данные');
+    }
+  };
+
+  if (loading) {
+    return <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}><CircularProgress /></Box>;
+  }
+
+  if (error) {
+    return <Box sx={{ p: 3 }}><Alert severity="error">{error}</Alert></Box>;
+  }
+
+  return (
+    <Box sx={{ p: 3 }}>
+      <Typography variant="h4" fontWeight="bold" gutterBottom>
+        Практика студентов
+      </Typography>
+
+      <TableContainer component={Paper} variant="outlined" sx={{ mt: 3 }}>
+        <Table>
+          <TableHead sx={{ bgcolor: 'primary.light' }}>
+            <TableRow>
+              <TableCell sx={{ fontWeight: 'bold' }}>Студент</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Организация</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Должность</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Статус</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Дневник</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Действия</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {practices.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={6} align="center">Нет данных о практике</TableCell>
+              </TableRow>
+            ) : (
+              practices.map((place) => (
+                <TableRow key={place.id_place} hover>
+                  <TableCell>{place.student_name || 'Неизвестно'}</TableCell>
+                  <TableCell>{place.organization_name || 'Не назначена'}</TableCell>
+                  <TableCell>{place.position || '-'}</TableCell>
+                  <TableCell>
+                    <Chip label={place.status || 'Неизвестно'} color={place.status === 'Завершена' ? 'success' : 'warning'} size="small" />
+                  </TableCell>
+                  <TableCell>
+                    {place.diary?.length || 0} записей
+                    {place.diary?.filter((d: any) => !d.is_approved_by_org).length > 0 && (
+                      <Chip label={`${place.diary.filter((d: any) => !d.is_approved_by_org).length} не одобрено`} color="error" size="small" sx={{ ml: 1 }} />
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <Tooltip title="Редактировать">
+                      <IconButton onClick={() => handleEditClick(place)} color="primary">
+                        <EditIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Редактировать место практики</DialogTitle>
+        <DialogContent>
+          <TextField fullWidth label="Организация" value={editForm.organization_name} onChange={(e) => setEditForm({...editForm, organization_name: e.target.value})} margin="normal" />
+          <TextField fullWidth label="Должность" value={editForm.position} onChange={(e) => setEditForm({...editForm, position: e.target.value})} margin="normal" />
+          <FormControl fullWidth margin="normal">
+            <InputLabel>Статус</InputLabel>
+            <Select value={editForm.status} label="Статус" onChange={(e) => setEditForm({...editForm, status: e.target.value})}>
+              <MenuItem value="Назначена">Назначена</MenuItem>
+              <MenuItem value="В процессе">В процессе</MenuItem>
+              <MenuItem value="Завершена">Завершена</MenuItem>
+            </Select>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setEditDialogOpen(false)}>Отмена</Button>
+          <Button onClick={handleSaveEdit} variant="contained" color="primary">Сохранить</Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
+  );
+}
+export default function AdminDashboard() {
+  return (
+    <div style={{ padding: '20px' }}>
+      <h1>Панель администратора</h1>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginTop: '20px' }}>
+        <div style={{ padding: '20px', backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
+          <h3>👥 Управление пользователями</h3>
+          <p>Создание, редактирование, сброс паролей.</p>
+        </div>
+        <div style={{ padding: '20px', backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
+          <h3>📚 Справочники</h3>
+          <p>Группы, специальности, дисциплины, организации.</p>
+        </div>
+        <div style={{ padding: '20px', backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
+          <h3>📥 Импорт / Экспорт</h3>
+          <p>Массовая загрузка данных из Excel/CSV.</p>
+        </div>
+        <div style={{ padding: '20px', backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
+          <h3>⚙️ Django Admin</h3>
+          <a href="/django-admin/" target="_blank" rel="noopener noreferrer" style={{ color: '#1976d2' }}>Перейти в стандартную админку →</a>
+        </div>
+      </div>
+    </div>
+  );
+}
+export default function MckDashboard() {
+  return (
+    <div style={{ padding: '20px' }}>
+      <h1>Кабинет Председателя МЦК</h1>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginTop: '20px' }}>
+        <div style={{ padding: '20px', backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
+          <h3>📖 Рабочие программы (РПД)</h3>
+          <p>Утверждение и проверка рабочих программ дисциплин.</p>
+        </div>
+        <div style={{ padding: '20px', backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
+          <h3>📅 Расписание аттестации</h3>
+          <p>Утверждение графиков экзаменов и зачетов.</p>
+        </div>
+        <div style={{ padding: '20px', backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
+          <h3>📊 Мониторинг качества</h3>
+          <p>Аналитика по методическим цикловым комиссиям.</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+import { useNavigate } from 'react-router-dom';
+import { Box, Typography, Grid, Card, CardContent, CardActionArea, Avatar } from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
+import SchoolIcon from '@mui/icons-material/School';
+import WorkIcon from '@mui/icons-material/Work';
+import MailIcon from '@mui/icons-material/Mail';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+
+export default function StudentDashboard() {
+  const navigate = useNavigate();
+
+  const menuItems = [
+    { 
+      title: 'Мой профиль', 
+      desc: 'Персональные данные, семья, здоровье', 
+      icon: <PersonIcon sx={{ fontSize: 40, color: '#1976d2' }} />, 
+      path: '/profile' 
+    },
+    { 
+      title: 'Зачётная книжка', 
+      desc: 'Оценки, ведомости и средний балл', 
+      icon: <SchoolIcon sx={{ fontSize: 40, color: '#2e7d32' }} />, 
+      path: '/student/grades' 
+    },
+    { 
+      title: 'Практика', 
+      desc: 'Место прохождения, дневник и отчеты', 
+      icon: <WorkIcon sx={{ fontSize: 40, color: '#ed6c02' }} />, 
+      path: '/student/practice' 
+    },
+    { 
+      title: 'Заявки', 
+      desc: 'Заказ справок и документов', 
+      icon: <MailIcon sx={{ fontSize: 40, color: '#9c27b0' }} />, 
+      path: '/student/requests' 
+    },
+    { 
+      title: 'Уведомления', 
+      desc: 'Оповещения от администрации и куратора', 
+      icon: <NotificationsIcon sx={{ fontSize: 40, color: '#d32f2f' }} />, 
+      path: '/student/notifications' 
+    },
+  ];
+
+  return (
+    <Box sx={{ p: 3 }}>
+      <Typography variant="h4" fontWeight="bold" gutterBottom sx={{ mb: 4 }}>
+        👋 Добро пожаловать в личный кабинет студента
+      </Typography>
+      
+      <Grid container spacing={3}>
+        {menuItems.map((item, index) => (
+          <Grid size={{ xs: 12 }} sm={6} md={4} key={index}>
+            <Card 
+              sx={{ 
+                height: '100%', 
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                '&:hover': { transform: 'translateY(-4px)', boxShadow: 6 }
+              }}
+            >
+              <CardActionArea onClick={() => navigate(item.path)} sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                <Avatar sx={{ bgcolor: 'transparent', mb: 2 }}>
+                  {item.icon}
+                </Avatar>
+                <Typography variant="h6" fontWeight="bold" gutterBottom>
+                  {item.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {item.desc}
+                </Typography>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  );
+}
+import { List, ListItem, ListItemText, Box } from '@mui/material';
+import { Link, useLocation } from 'react-router-dom';
+import PersonIcon from '@mui/icons-material/Person';
+import SchoolIcon from '@mui/icons-material/School';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import WorkIcon from '@mui/icons-material/Work';
+import DescriptionIcon from '@mui/icons-material/Description';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import GroupsIcon from '@mui/icons-material/Groups';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+
+interface MenuItem {
+  text: string;
+  path: string;
+  icon: React.ReactNode;
+  external?: boolean;
+}
+
+interface SidebarProps {
+  role: string;
+  onClose?: () => void;
+}
+
+const studentMenu: MenuItem[] = [
+  { text: 'Мой профиль', path: '/student/profile', icon: <PersonIcon /> },
+  { text: 'Зачётная книжка', path: '/student/grades', icon: <SchoolIcon /> },
+  { text: 'Практика', path: '/student/practice', icon: <WorkIcon /> },
+  { text: 'Заявки', path: '/student/requests', icon: <DescriptionIcon /> },
+  { text: 'Уведомления', path: '/student/notifications', icon: <NotificationsIcon /> },
+];
+
+const teacherMenu: MenuItem[] = [
+  { text: 'Мои ведомости', path: '/teacher/statements', icon: <AssignmentIcon /> },
+  { text: 'Расписание экзаменов', path: '/teacher/schedule', icon: <CalendarTodayIcon /> },
+  { text: 'Практика', path: '/teacher/practice', icon: <WorkIcon /> },
+  { text: 'Рабочие программы', path: '/teacher/rpd', icon: <MenuBookIcon /> },
+];
+
+const curatorMenu: MenuItem[] = [
+  { text: 'Моя группа', path: '/curator/group', icon: <GroupsIcon /> },
+  { text: 'Успеваемость', path: '/curator/grades', icon: <SchoolIcon /> },
+  { text: 'Посещаемость', path: '/curator/attendance', icon: <VisibilityIcon /> },
+  { text: 'Расписание', path: '/curator/schedule', icon: <CalendarTodayIcon /> },
+  { text: 'Заявки студентов', path: '/curator/requests', icon: <DescriptionIcon /> },
+  { text: 'Практика', path: '/curator/practice', icon: <WorkIcon /> },
+];
+
+const adminMenu: MenuItem[] = [
+  { text: 'Управление пользователями', path: '/admin/users', icon: <GroupsIcon /> },
+  { text: 'Справочники', path: '/admin/references', icon: <MenuBookIcon /> },
+  { text: 'Приказы', path: '/admin/orders', icon: <ReceiptIcon /> },
+  { text: 'Аналитика', path: '/admin/analytics', icon: <AnalyticsIcon /> },
+  { text: 'Импорт/Экспорт', path: '/admin/import-export', icon: <UploadFileIcon /> },
+  { text: 'Django Admin', path: '/admin/', icon: <AdminPanelSettingsIcon />, external: true },
+];
+
+const mckMenu: MenuItem[] = [
+  { text: 'Рабочие программы (РПД)', path: '/mck/rpd', icon: <MenuBookIcon /> },
+  { text: 'Мониторинг РПД', path: '/mck/monitoring', icon: <AnalyticsIcon /> },
+  { text: 'Протоколы МЦК', path: '/mck/protocols', icon: <DescriptionIcon /> },
+];
+
+export default function Sidebar({ role, onClose }: SidebarProps) {
+  const location = useLocation();
+
+  const getMenuByRole = (): MenuItem[] => {
+    switch (role) {
+      case 'student': return studentMenu;
+      case 'teacher': return teacherMenu;
+      case 'curator': return curatorMenu;
+      case 'admin': return adminMenu;
+      case 'mck_chairman': return mckMenu;
+      default: return [];
+    }
+  };
+
+  const menuItems = getMenuByRole();
+
+  return (
+    <Box sx={{ width: 240, height: '100%', overflowY: 'auto', overflowX: 'hidden', pt: 4, px: 2, bgcolor: 'background.paper' }}>
+      <List sx={{ px: 0 }}>
+        {menuItems.map((item) => {
+          const isActive = location.pathname === item.path;
+          
+          // Формируем пропы для ListItem в зависимости от типа ссылки
+          const listItemProps = item.external 
+            ? { component: 'a', href: item.path, target: '_blank', rel: 'noopener noreferrer' }
+            : { component: Link, to: item.path };
+
+          return (
+            <ListItem
+              {...listItemProps}
+              onClick={onClose}
+              key={item.path}
+              sx={{
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',     
+                py: 2.5,
+                mb: 1,
+                borderRadius: 3,
+                bgcolor: isActive ? 'primary.main' : 'transparent',
+                color: isActive ? 'primary.contrastText' : 'text.primary',
+                '&:hover': {
+                  bgcolor: isActive ? 'primary.dark' : 'action.hover',
+                },
+                transition: 'all 0.2s',
+                cursor: 'pointer',
+              }}
+            >
+              <Box sx={{ mb: 1, color: isActive ? 'inherit' : 'primary.main', transform: isActive ? 'scale(1.1)' : 'scale(1)', transition: 'transform 0.2s' }}>
+                {item.icon}
+              </Box>
+              <ListItemText 
+                primary={item.text}
+                sx={{ 
+                  m: 0, 
+                  '& .MuiTypography-root': { 
+                    textAlign: 'center',
+                    fontSize: '0.75rem',
+                    lineHeight: 1.2,
+                    fontWeight: isActive ? 'bold' : 'medium',
+                    display: 'block'
+                  } 
+                }}
+              />
+            </ListItem>
+          );
+        })}
+      </List>
+    </Box>
+  );
+}
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider } from './ThemeContext';
+import CssBaseline from '@mui/material/CssBaseline';
+
+// Страницы
+import LoginPage from './pages/LoginPage';
+import ChangePasswordPage from './pages/ChangePasswordPage';
+import ProfilePage from './pages/ProfilePage';
+import CuratorDashboard from './pages/CuratorDashboard';
+import CuratorRequestsPage from './pages/CuratorRequestsPage';
+import TeacherDashboard from './pages/TeacherDashboard';
+import TeacherPracticePage from './pages/TeacherPracticePage';
+import RequestsPage from './pages/RequestsPage';
+import NotificationsPage from './pages/NotificationsPage';
+import StudentDashboard from './pages/StudentDashboard';
+import PracticePage from './pages/PracticePage';
+import GradesPage from './pages/GradesPage';
+import AdminDashboard from './pages/AdminDashboard';
+import MckDashboard from './pages/MckDashboard';
+import ComingSoonPage from './pages/ComingSoonPage'; // Новая заглушка
+
+import DashboardLayout from './components/DashboardLayout';
+
+// Функция для безопасного декодирования JWT payload
+function parseJwt(token: string) {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    return null;
+  }
+}
+
+// Компонент умного редиректа после входа
+function SmartRedirect() {
+  const token = localStorage.getItem('access_token');
+  
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  const payload = parseJwt(token);
+  let targetPath = '/student/profile'; // Дефолтный путь
+
+  if (payload && payload.roles && Array.isArray(payload.roles)) {
+    const roles = payload.roles;
+    // Приоритет ролей: admin > mck_chairman > teacher > curator > student
+    if (roles.includes('admin')) targetPath = '/admin/users';
+    else if (roles.includes('mck_chairman')) targetPath = '/mck/rpd';
+    else if (roles.includes('teacher')) targetPath = '/teacher/statements';
+    else if (roles.includes('curator')) targetPath = '/curator/group';
+    else if (roles.includes('student')) targetPath = '/student/profile';
+  }
+
+  // Если требуется смена пароля
+  if (payload && payload.requires_password_change === true) {
+    return <Navigate to="/change-password" replace />;
+  }
+
+  return <Navigate to={targetPath} replace />;
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <CssBaseline />
+      <Router>
+        <Routes>
+          {/* Публичные маршруты */}
+          <Route path="/login" element={<LoginPage />} />
+          
+          {/* Корневой путь — умный редирект */}
+          <Route path="/" element={<SmartRedirect />} />
+          
+          {/* Защищенные маршруты внутри DashboardLayout */}
+          <Route element={<DashboardLayout />}>
+            <Route path="/change-password" element={<ChangePasswordPage />} />
+            
+            {/* Профиль доступен по короткому пути /profile */}
+            <Route path="/profile" element={<ProfilePage />} />
+            
+            {/* === СТУДЕНТ === */}
+            <Route path="/student/profile" element={<ProfilePage />} />
+            <Route path="/student/grades" element={<GradesPage />} />
+            <Route path="/student/practice" element={<PracticePage />} />
+            <Route path="/student/requests" element={<RequestsPage />} />
+            <Route path="/student/notifications" element={<NotificationsPage />} />
+            {/* Fallback для студента: если путь неизвестен, показываем заглушку */}
+            <Route path="/student/*" element={<ComingSoonPage />} />
+
+            {/* === ПРЕПОДАВАТЕЛЬ === */}
+            <Route path="/teacher/statements" element={<TeacherDashboard />} />
+            <Route path="/teacher/schedule" element={<TeacherDashboard />} />
+            <Route path="/teacher/practice" element={<TeacherPracticePage />} />
+            <Route path="/teacher/rpd" element={<TeacherDashboard />} />
+            <Route path="/teacher/*" element={<ComingSoonPage />} />
+
+            {/* === КУРАТОР === */}
+            <Route path="/curator/group" element={<CuratorDashboard />} />
+            <Route path="/curator/grades" element={<CuratorDashboard />} />
+            <Route path="/curator/attendance" element={<CuratorDashboard />} />
+            <Route path="/curator/schedule" element={<CuratorDashboard />} />
+            <Route path="/curator/requests" element={<CuratorRequestsPage />} />
+            <Route path="/curator/*" element={<ComingSoonPage />} />
+
+            {/* === АДМИНИСТРАТОР === */}
+            <Route path="/admin/users" element={<AdminDashboard />} />
+            <Route path="/admin/references" element={<AdminDashboard />} />
+            <Route path="/admin/*" element={<ComingSoonPage />} />
+
+            {/* === МЦК === */}
+            <Route path="/mck/rpd" element={<MckDashboard />} />
+            <Route path="/mck/monitoring" element={<MckDashboard />} />
+            <Route path="/mck/protocols" element={<MckDashboard />} />
+            <Route path="/mck/*" element={<ComingSoonPage />} />
+          </Route>
+          
+          {/* Все остальные пути — на логин */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
+  );
+}
+
+export default App;
