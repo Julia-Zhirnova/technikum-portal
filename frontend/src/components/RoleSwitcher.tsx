@@ -1,47 +1,51 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Button, Menu, MenuItem, Typography } from '@mui/material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { authAPI } from '../services/api';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button, Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import PersonIcon from '@mui/icons-material/Person';
+import SchoolIcon from '@mui/icons-material/School';
+import GroupsIcon from '@mui/icons-material/Groups';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import BusinessIcon from '@mui/icons-material/Business';
 
-export default function RoleSwitcher() {
-  const navigate = useNavigate();
-  const location = useLocation();
+interface RoleSwitcherProps {
+  roles: string[];
+  currentRole: string;
+  onRoleChange?: (role: string) => void;
+}
+
+const roleIcons: Record<string, JSX.Element> = {
+  student: <PersonIcon fontSize="small" />,
+  teacher: <SchoolIcon fontSize="small" />,
+  curator: <GroupsIcon fontSize="small" />,
+  admin: <AdminPanelSettingsIcon fontSize="small" />,
+  mck_chairman: <BusinessIcon fontSize="small" />,
+};
+
+const roleNames: Record<string, string> = {
+  student: 'Студент',
+  teacher: 'Преподаватель',
+  curator: 'Куратор',
+  admin: 'Администратор',
+  mck_chairman: 'МЦК',
+};
+
+const getDefaultRoute = (role: string) => {
+  switch (role) {
+    case 'admin': return '/admin/users';
+    case 'mck_chairman': return '/mck/rpd';
+    case 'teacher': return '/teacher/statements';
+    case 'curator': return '/curator/group';
+    case 'student': default: return '/student/profile';
+  }
+};
+
+export default function RoleSwitcher({ roles, currentRole, onRoleChange }: RoleSwitcherProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [activeRole, setActiveRole] = useState('student');
-  const [userRoles, setUserRoles] = useState<string[]>([]);
+  const navigate = useNavigate();
+  const open = Boolean(anchorEl);
 
-  useEffect(() => {
-    const loadRoles = async () => {
-      try {
-        const response = await authAPI.whoami();
-        console.log('Получены роли:', response.data.roles);
-        setUserRoles(response.data.roles);
-        
-        // Определяем активную роль по URL
-        const path = location.pathname;
-        if (path === '/profile') setActiveRole('student');
-        else if (path === '/curator') setActiveRole('curator');
-        else if (path === '/teacher') setActiveRole('teacher');
-        else if (response.data.roles.length > 0) setActiveRole(response.data.roles[0]);
-      } catch (err) {
-        console.error('Ошибка загрузки ролей:', err);
-      }
-    };
-    loadRoles();
-  }, [location.pathname]);
-
-  const roles = [
-    { id: 'student', label: '🎓 Студент', path: '/profile' },
-    { id: 'curator', label: '👨‍🏫 Куратор', path: '/curator' },
-    { id: 'teacher', label: '👨‍🏫 Преподаватель', path: '/teacher' },
-    { id: 'admin', label: '🔧 Администратор', path: '/admin' },
-  ];
-
-  // Показываем только те роли, которые есть у пользователя
-  const availableRoles = roles.filter(r => userRoles.includes(r.id));
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -49,45 +53,58 @@ export default function RoleSwitcher() {
     setAnchorEl(null);
   };
 
-  const handleRoleChange = (roleId: string, path: string) => {
-    setActiveRole(roleId);
-    handleClose();
+  const handleRoleChange = (newRole: string) => {
+    localStorage.setItem('activeRole', newRole);
     
-    if (roleId === 'admin') {
-      // Переход в Django admin
-      window.location.href = 'http://localhost:8000/admin/';
+    if (onRoleChange) {
+      onRoleChange(newRole);
     } else {
-      navigate(path);
+      navigate(getDefaultRoute(newRole));
     }
+    
+    handleClose();
   };
-
-  const currentRole = roles.find(r => r.id === activeRole);
-
-  // Не показываем переключатель, если только одна роль
-  if (availableRoles.length <= 1) {
-    return null;
-  }
 
   return (
     <>
       <Button
-        color="inherit"
+        id="role-switcher-button"
+        data-testid="role-switcher-button"
+        aria-controls={open ? 'role-switcher-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        endIcon={<ArrowDropDownIcon />}
-        sx={{ textTransform: 'none', mr: 2 }}
+        endIcon={<ExpandMoreIcon />}
+        sx={{ 
+          color: 'inherit', 
+          textTransform: 'none', 
+          fontWeight: 'bold',
+          borderColor: 'rgba(255, 255, 255, 0.5)',
+          '&:hover': { borderColor: 'white', bgcolor: 'rgba(255, 255, 255, 0.1)' }
+        }}
       >
-        <Typography variant="body2">
-          Роль: <strong>{currentRole?.label}</strong>
-        </Typography>
+        {roleNames[currentRole] || currentRole}
       </Button>
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-        {availableRoles.map(role => (
-          <MenuItem
-            key={role.id}
-            onClick={() => handleRoleChange(role.id, role.path)}
-            selected={role.id === activeRole}
+      <Menu
+        id="role-switcher-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{ 'aria-labelledby': 'role-switcher-button' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        {roles.map((role) => (
+          <MenuItem 
+            key={role} 
+            onClick={() => handleRoleChange(role)}
+            selected={role === currentRole}
+            sx={{ minWidth: 180 }}
           >
-            {role.label}
+            <ListItemIcon sx={{ color: role === currentRole ? 'primary.main' : 'inherit' }}>
+              {roleIcons[role] || <PersonIcon fontSize="small" />}
+            </ListItemIcon>
+            <ListItemText primary={roleNames[role] || role} />
           </MenuItem>
         ))}
       </Menu>

@@ -10,13 +10,11 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 interface MenuItem {
   text: string;
   path: string;
   icon: React.ReactNode;
-  external?: boolean;
 }
 
 interface SidebarProps {
@@ -48,18 +46,6 @@ const curatorMenu: MenuItem[] = [
   { text: 'Практика', path: '/curator/practice', icon: <WorkIcon /> },
 ];
 
-const adminMenu: MenuItem[] = [
-  { text: 'Управление пользователями', path: '/admin/users', icon: <GroupsIcon /> },
-  { text: 'Справочники', path: '/admin/references', icon: <MenuBookIcon /> },
-  { text: 'Django Admin', path: '/admin/', icon: <AdminPanelSettingsIcon />, external: true },
-];
-
-const mckMenu: MenuItem[] = [
-  { text: 'Рабочие программы (РПД)', path: '/mck/rpd', icon: <MenuBookIcon /> },
-  { text: 'Мониторинг РПД', path: '/mck/monitoring', icon: <MenuBookIcon /> }, // Заменил Analytics на MenuBook для единообразия
-  { text: 'Протоколы МЦК', path: '/mck/protocols', icon: <DescriptionIcon /> },
-];
-
 export default function Sidebar({ role, onClose }: SidebarProps) {
   const location = useLocation();
 
@@ -68,8 +54,6 @@ export default function Sidebar({ role, onClose }: SidebarProps) {
       case 'student': return studentMenu;
       case 'teacher': return teacherMenu;
       case 'curator': return curatorMenu;
-      case 'admin': return adminMenu;
-      case 'mck_chairman': return mckMenu;
       default: return [];
     }
   };
@@ -77,37 +61,47 @@ export default function Sidebar({ role, onClose }: SidebarProps) {
   const menuItems = getMenuByRole();
 
   return (
-    <Box sx={{ width: 240, height: '100%', overflowY: 'auto', overflowX: 'hidden', pt: 4, px: 2, bgcolor: 'background.paper' }}>
+    <Box 
+      data-testid="sidebar-content"
+      // 1.4.10: overflowX: 'hidden', 1.4.12: pt: 6 (достаточный отступ сверху, чтобы первый элемент был виден)
+      sx={{ 
+        width: 240, 
+        height: '100%', 
+        overflowY: 'auto', 
+        overflowX: 'hidden', 
+        pt: 6, 
+        pb: 4, 
+        px: 1, 
+        bgcolor: 'background.paper' 
+      }}
+    >
       <List sx={{ px: 0 }}>
         {menuItems.map((item) => {
           const isActive = location.pathname === item.path;
           
-          const listItemProps = item.external 
-            ? { component: 'a', href: item.path, target: '_blank', rel: 'noopener noreferrer' }
-            : { component: Link, to: item.path };
-
           return (
             <ListItem
-              {...listItemProps}
+              component={Link}
+              to={item.path}
               onClick={onClose}
               key={item.path}
+              data-testid={isActive ? 'active-menu-item' : 'menu-item'}
               sx={{
                 flexDirection: 'column',
                 alignItems: 'center',
-                textAlign: 'center',     
-                py: 2.5,
+                textAlign: 'center',
+                py: 2,
                 mb: 1,
-                borderRadius: 3,
+                borderRadius: 2,
                 bgcolor: isActive ? 'primary.main' : 'transparent',
                 color: isActive ? 'primary.contrastText' : 'text.primary',
                 '&:hover': {
                   bgcolor: isActive ? 'primary.dark' : 'action.hover',
                 },
                 transition: 'all 0.2s',
-                cursor: 'pointer',
               }}
             >
-              <Box sx={{ mb: 1, color: isActive ? 'inherit' : 'primary.main', transform: isActive ? 'scale(1.1)' : 'scale(1)', transition: 'transform 0.2s' }}>
+              <Box sx={{ mb: 0.5, color: isActive ? 'inherit' : 'primary.main' }}>
                 {item.icon}
               </Box>
               <ListItemText 
@@ -115,11 +109,8 @@ export default function Sidebar({ role, onClose }: SidebarProps) {
                 sx={{ 
                   m: 0, 
                   '& .MuiTypography-root': { 
-                    textAlign: 'center',
                     fontSize: '0.75rem',
-                    lineHeight: 1.2,
-                    fontWeight: isActive ? 'bold' : 'medium',
-                    display: 'block'
+                    fontWeight: isActive ? 'bold' : 'medium'
                   } 
                 }}
               />

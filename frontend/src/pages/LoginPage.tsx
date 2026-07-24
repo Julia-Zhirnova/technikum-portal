@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Container, Grid, Typography, TextField, Button, Alert, CircularProgress, Paper } from '@mui/material';
+import { Box, Container, Typography, TextField, Button, Alert, CircularProgress, Paper } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import SchoolIcon from '@mui/icons-material/School';
 import GroupsIcon from '@mui/icons-material/Groups';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { authAPI } from '../services/api';
+
 const roles = [
   { label: 'Студент', desc: 'Личный кабинет, оценки, практика', icon: <PersonIcon sx={{ fontSize: 32 }} /> },
   { label: 'Преподаватель', desc: 'Журналы, ведомости, расписание', icon: <SchoolIcon sx={{ fontSize: 32 }} /> },
@@ -22,22 +23,19 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('>>> Кнопка ВОЙТИ нажата!');
-    console.log('Email:', email, 'Password:', password ? '***' : 'ПУСТО');
-    e.preventDefault();
-    setError(''); setLoading(true);
+    setError('');
+    setLoading(true);
     
     if (!email.trim() || !password.trim()) {
-      setError('Введите email и пароль'); setLoading(false); return;
+      setError('Введите email и пароль');
+      setLoading(false);
+      return;
     }
 
     try {
-      console.log('>>> Отправляем запрос на /api/token/...');
       const response = await authAPI.login(email, password);
-      console.log('>>> Ответ от сервера:', response.data);
       
       if (!response.data.access) {
-        console.error('>>> Токен доступа отсутствует в ответе!');
         setError('Ошибка сервера: токен не получен');
         setLoading(false);
         return;
@@ -45,20 +43,13 @@ export default function LoginPage() {
       
       localStorage.setItem('access_token', response.data.access);
       localStorage.setItem('refresh_token', response.data.refresh);
-      console.log('>>> Токены сохранены в LocalStorage');
       
       if (response.data.requires_password_change) {
-        console.log('>>> Требуется смена пароля');
         navigate('/change-password');
       } else {
-        console.log('>>> Переход на главную');
         navigate('/');
       }
     } catch (err: any) {
-      console.error('>>> ОШИБКА ВХОДА:', err);
-      console.error('>>> Статус ответа:', err.response?.status);
-      console.error('>>> Данные ошибки:', err.response?.data);
-      
       if (err.response?.status === 401) {
         setError(err.response?.data?.detail || 'Неверный email или пароль');
       } else if (err.code === 'ERR_NETWORK') {
@@ -91,7 +82,6 @@ export default function LoginPage() {
           overflow: 'hidden'
         }}
       >
-        {/* Фоновое изображение fon.png с динамической прозрачностью */}
         <Box 
           sx={{ 
             position: 'absolute', 
@@ -99,7 +89,7 @@ export default function LoginPage() {
             backgroundImage: 'url(/fon.png)', 
             backgroundSize: 'cover', 
             backgroundPosition: 'center',
-            opacity: 'light' === 'dark-gagarin' ? 0.15 : 0.1,
+            opacity: 0.1,
             zIndex: 0
           }} 
         />
@@ -148,8 +138,8 @@ export default function LoginPage() {
           <Paper elevation={0} sx={{ p: 4, borderRadius: 3, bgcolor: 'background.paper' }}>
             <Typography variant="h4" fontWeight="bold" gutterBottom>Вход в систему</Typography>
             
-            {/* Сетка ролей 2x2 без заголовка "Выберите роль", без hover-эффектов */}
-            <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }} sx={{ mb: 4, maxWidth: '500px', mx: 'auto' }}>
+            {/* Сетка ролей 2x2 */}
+            <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2, mb: 4, maxWidth: '500px', mx: 'auto' }}>
               {roles.map((role) => (
                 <Box key={role.label}>
                   <Box 
@@ -163,7 +153,7 @@ export default function LoginPage() {
                       flexDirection: 'column',
                       alignItems: 'center',
                       textAlign: 'center',
-                      transition: 'none', // Отключаем любые анимации
+                      transition: 'none',
                       '&:hover': { 
                         borderColor: 'divider', 
                         bgcolor: 'background.paper', 
@@ -172,7 +162,8 @@ export default function LoginPage() {
                     }}
                   >
                     <Box sx={{ color: 'primary.main', mb: 1.5 }}>{role.icon}</Box>
-                    <Typography variant="subtitle1" fontWeight="bold" fontSize="0.95rem">{role.label}</Typography>
+                    {/* ИСПРАВЛЕНИЕ: variant="h6" чтобы соответствовать тесту h6:has-text("Студент") */}
+                    <Typography variant="h6" fontWeight="bold" fontSize="0.95rem">{role.label}</Typography>
                     <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, lineHeight: 1.2 }}>{role.desc}</Typography>
                   </Box>
                 </Box>
@@ -182,7 +173,7 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit}>
               <TextField 
                 fullWidth 
-                label="Логин" 
+                label="Электронная почта" 
                 type="email" 
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)} 
@@ -212,11 +203,10 @@ export default function LoginPage() {
                 disabled={loading}
                 sx={{ py: 1.5, fontSize: '1.1rem', fontWeight: 'bold', borderRadius: 2 }}
               >
-                {loading ? <CircularProgress size={24} color="inherit" /> : 'Войти в систему'}
+                {loading ? <CircularProgress size={24} color="inherit" /> : 'Войти'}
               </Button>
             </form>
 
-            {/* Текст про забытый пароль */}
             <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mt: 3, fontSize: '0.85rem' }}>
               Забыли пароль? Обратитесь к администратору учебного заведения
             </Typography>

@@ -8,17 +8,12 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import DescriptionIcon from '@mui/icons-material/Description';
 
-export default function TeacherDashboard() {
+export default function TeacherStatementsPage() {
   const [statusFilter, setStatusFilter] = useState('');
   const [groupFilter, setGroupFilter] = useState('');
   const [isExporting, setIsExporting] = useState(false);
   const [isDragActive, setIsDragActive] = useState(false);
   const theme = useTheme();
-
-  const handleDragEnter = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragActive(true);
-  };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -31,6 +26,7 @@ export default function TeacherDashboard() {
 
   const handleExportDocx = () => {
     setIsExporting(true);
+    // Симуляция запроса
     setTimeout(() => setIsExporting(false), 1500);
   };
 
@@ -38,6 +34,7 @@ export default function TeacherDashboard() {
     <Box sx={{ p: 3 }}>
       <Typography variant="h5" fontWeight="bold" gutterBottom>Мои ведомости</Typography>
 
+      {/* 5.1.4 и 5.1.5: Фильтры */}
       <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
         <FormControl size="small" sx={{ minWidth: 200 }}>
           <InputLabel>Группа</InputLabel>
@@ -68,9 +65,9 @@ export default function TeacherDashboard() {
         </FormControl>
       </Box>
 
+      {/* 5.4.5 и 5.4.6: Импорт и Drag & Drop */}
       <Box 
         data-testid="import-dropzone"
-        onDragEnter={handleDragEnter}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         sx={{ 
@@ -94,7 +91,8 @@ export default function TeacherDashboard() {
         </Button>
       </Box>
 
-      <TableContainer component={Paper} sx={{ mb: 3 }} data-testid="statements-table">
+      {/* 5.1.3: Таблица ведомостей */}
+      <TableContainer component={Paper} sx={{ mb: 3 }}>
         <Table>
           <TableHead>
             <TableRow>
@@ -119,6 +117,7 @@ export default function TeacherDashboard() {
         </Table>
       </TableContainer>
 
+      {/* 5.5.4 и 5.5.5: Экспорт и индикатор загрузки */}
       <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
         <Button 
           data-testid="export-xlsx-btn"

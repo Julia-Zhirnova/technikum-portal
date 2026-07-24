@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { 
-  AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer,
-  useMediaQuery, useTheme as useMuiTheme, MenuItem, Select, FormControl
-} from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
+import RoleSwitcher from './RoleSwitcher';
 import { userAPI } from '../services/api';
 
 const ROLE_LABELS: Record<string, string> = {
@@ -14,29 +12,7 @@ const ROLE_LABELS: Record<string, string> = {
   teacher: 'Преподаватель',
   curator: 'Куратор',
   admin: 'Администратор',
-  mck_chairman: 'Председатель МЦК'
-};
-
-const ROUTE_TITLES: Record<string, string> = {
-  '/student/profile': 'Мой профиль',
-  '/student/grades': 'Зачётная книжка',
-  '/student/practice': 'Практика',
-  '/student/requests': 'Заявки',
-  '/student/notifications': 'Уведомления',
-  '/teacher/statements': 'Мои ведомости',
-  '/teacher/schedule': 'Расписание экзаменов',
-  '/teacher/practice': 'Практика студентов',
-  '/teacher/rpd': 'Рабочие программы',
-  '/curator/group': 'Моя группа',
-  '/curator/grades': 'Успеваемость',
-  '/curator/attendance': 'Посещаемость',
-  '/curator/schedule': 'Расписание',
-  '/curator/requests': 'Заявки студентов',
-  '/admin/users': 'Управление пользователями',
-  '/admin/references': 'Справочники',
-  '/mck/rpd': 'Рабочие программы (РПД)',
-  '/mck/monitoring': 'Мониторинг РПД',
-  '/mck/protocols': 'Протоколы МЦК'
+  mck_chairman: 'МЦК'
 };
 
 export default function DashboardLayout() {
@@ -46,11 +22,7 @@ export default function DashboardLayout() {
   const [activeRole, setActiveRole] = useState<string>('student');
   const [userRoles, setUserRoles] = useState<string[]>([]);
   const [userName, setUserName] = useState<string>('');
-  const [loading, setLoading] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
-  
-  const muiTheme = useMuiTheme();
-  const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'));
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -65,39 +37,46 @@ export default function DashboardLayout() {
         
         if (data.roles && Array.isArray(data.roles)) {
           setUserRoles(data.roles);
-          
           const storedRole = localStorage.getItem('activeRole');
-          if (storedRole && data.roles.includes(storedRole)) {
-            setActiveRole(storedRole);
-          } else {
-            const firstRole = data.roles[0] || 'student';
-            setActiveRole(firstRole);
-            localStorage.setItem('activeRole', firstRole);
-          }
+          
+          let validRole = storedRole && data.roles.includes(storedRole) ? storedRole : (data.roles[0] || 'student');
+          setActiveRole(validRole);
+          localStorage.setItem('activeRole', validRole);
         }
       } catch (error) {
         console.error('Не удалось загрузить профиль:', error);
-        setUserName('Пользователь');
-      } finally {
-        setLoading(false);
       }
     };
-    
     fetchUserProfile();
-  }, []);
+  }, [navigate]);
+
+  useEffect(() => {
+    if (userRoles.length > 0 && activeRole) {
+      const path = location.pathname;
+      let targetPath = '';
+      
+      if (activeRole === 'student' && (path.startsWith('/teacher/') || path.startsWith('/admin/') || path.startsWith('/curator/'))) {
+        targetPath = '/student/profile';
+      } else if (activeRole === 'teacher' && (path.startsWith('/admin/') || path.startsWith('/curator/'))) {
+        targetPath = '/teacher/statements';
+      } else if (activeRole === 'curator' && path.startsWith('/admin/')) {
+        targetPath = '/curator/group';
+      }
+
+      if (targetPath && path !== targetPath) {
+        navigate(targetPath, { replace: true });
+      }
+    }
+  }, [activeRole, userRoles, location.pathname, navigate]);
 
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
   
   const handleRoleChange = (role: string) => {
     setActiveRole(role);
     localStorage.setItem('activeRole', role);
-    
     const roleRoutes: Record<string, string> = {
-      student: '/student/profile',
-      teacher: '/teacher/statements',
-      curator: '/curator/group',
-      admin: '/admin/users',
-      mck_chairman: '/mck/rpd'
+      student: '/student/profile', teacher: '/teacher/statements',
+      curator: '/curator/group', admin: '/admin/users', mck_chairman: '/mck/rpd'
     };
     navigate(roleRoutes[role] || '/student/profile');
   };
@@ -107,74 +86,48 @@ export default function DashboardLayout() {
     window.location.href = '/login';
   };
 
-  const getPageTitle = () => {
-    return ROUTE_TITLES[location.pathname] || 'Главная';
-  };
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { md: 'none' } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexGrow: 1 }}>
-            <img 
-              src="/logo.png" 
-              alt="Логотип" 
-              style={{ height: '40px', width: 'auto' }} 
-            />
-            <Typography variant="h6" noWrap component="div">
+        <Toolbar sx={{ justifyContent: 'space-between', px: { xs: 1, sm: 2 } }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexGrow: 1 }}>
+            <IconButton
+              color="inherit"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ display: { xs: 'block', md: 'none' }, mr: 1 }}
+              data-testid="burger-menu-button"
+            >
+              <MenuIcon data-testid="MenuIcon" />
+            </IconButton>
+
+            <Box component="img" src="/logo.png" alt="Логотип" sx={{ height: 45, width: 'auto', display: { xs: 'none', sm: 'block' } }} />
+            <Typography variant="body2" fontWeight="bold" sx={{ display: { xs: 'none', lg: 'block' }, lineHeight: 1.2, fontSize: '0.8rem' }}>
+              ГБПОУ МО<br/>Люберецкий техникум<br/>имени Героя Советского Союза,<br/>лётчика-космонавта Ю. А. Гагарина
+            </Typography>
+            <Typography variant="h6" fontWeight="900" sx={{ flexGrow: 1, textAlign: 'center', display: { xs: 'none', md: 'block' } }}>
               ТехноПортал
             </Typography>
           </Box>
 
-          {userRoles.length > 0 && (
-            <FormControl size="small" sx={{ mx: 2, minWidth: 140 }}>
-              <Select
-                value={activeRole}
-                onChange={(e) => handleRoleChange(e.target.value)}
-                renderValue={(selected) => ROLE_LABELS[selected] || selected}
-                sx={{ 
-                  color: '#000000', 
-                  fontWeight: 'bold',
-                  '.MuiOutlinedInput-notchedOutline': { borderColor: '#ccc' },
-                  '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#999' },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#757575' }
-                }}
-              >
-                {userRoles.map((role) => (
-                  <MenuItem key={role} value={role}>
-                    {ROLE_LABELS[role] || role}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          )}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 2 } }}>
+            {/* Показываем роль, если она одна, иначе показываем переключатель */}
+            {userRoles.length > 1 ? (
+              <RoleSwitcher roles={userRoles} currentRole={activeRole} onRoleChange={handleRoleChange} />
+            ) : (
+              <Typography variant="body2" fontWeight="bold" sx={{ whiteSpace: 'nowrap', textTransform: 'capitalize', mr: 1 }}>
+                {ROLE_LABELS[activeRole] || activeRole}
+              </Typography>
+            )}
+            
+            <Typography variant="body2" fontWeight="bold" sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', flexShrink: 0, display: { xs: 'none', sm: 'block' } }}>
+              {userName}
+            </Typography>
 
-          <Typography variant="body2" sx={{ mr: 2, color: '#000000', fontWeight: 'medium', display: { xs: 'none', sm: 'block' } }}>
-            {userName}
-          </Typography>
-
-          <Button 
-            size="small" 
-            onClick={handleLogout} 
-            sx={{ 
-              ml: 1, 
-              fontWeight: 'bold',
-              backgroundColor: '#e0e0e0',
-              color: '#000000',
-              '&:hover': { backgroundColor: '#bdbdbd' }
-            }}
-          >
-            ВЫХОД
-          </Button>
+            <Button size="small" onClick={handleLogout} title="Выйти из системы" sx={{ fontWeight: 'bold', color: '#fff', border: '1px solid rgba(255,255,255,0.5)' }}>
+              ВЫХОД
+            </Button>
+          </Box>
         </Toolbar>
       </AppBar>
 
@@ -185,10 +138,11 @@ export default function DashboardLayout() {
             width: 240,
             flexShrink: 0,
             display: { xs: 'none', md: 'block' },
-            '& .MuiDrawer-paper': { width: 240, boxSizing: 'border-box' },
+            zIndex: (theme) => theme.zIndex.drawer - 1,
+            '& .MuiDrawer-paper': { width: 240, boxSizing: 'border-box', borderRight: '1px solid rgba(0,0,0,0.12)' },
           }}
         >
-          <Toolbar />
+          <Toolbar /> 
           <Sidebar role={activeRole} />
         </Drawer>
 
@@ -202,27 +156,18 @@ export default function DashboardLayout() {
             '& .MuiDrawer-paper': { width: 240, boxSizing: 'border-box' },
           }}
         >
-          <Toolbar />
+          <Toolbar>
+            <IconButton onClick={handleDrawerToggle}>
+              <MenuIcon />
+            </IconButton>
+          </Toolbar>
           <Sidebar role={activeRole} onClose={handleDrawerToggle} />
         </Drawer>
 
-        <Box component="main" sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - 240px)` } }}>
-          <Toolbar /> 
-          
-          <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 'bold' }}>
-            {getPageTitle()}
-          </Typography>
-
-          {loading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-              <Typography>Загрузка данных...</Typography>
-            </Box>
-          ) : (
-            <Outlet context={{ activeRole, userName }} />
-          )}
+        <Box component="main" sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - 240px)` }, bgcolor: 'background.default', display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 64px)' }}>
+          <Outlet context={{ activeRole, userName }} />
         </Box>
       </Box>
-
       <Footer />
     </Box>
   );

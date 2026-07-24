@@ -15,7 +15,7 @@ import NotificationsPage from './pages/NotificationsPage';
 import StudentDashboard from './pages/StudentDashboard';
 import PracticePage from './pages/PracticePage';
 import GradesPage from './pages/GradesPage';
-import ComingSoonPage from './pages/ComingSoonPage'; // Заглушка для всех остальных страниц
+import ComingSoonPage from './pages/ComingSoonPage';
 
 import DashboardLayout from './components/DashboardLayout';
 
@@ -33,15 +33,22 @@ function parseJwt(token: string) {
   }
 }
 
-// Компонент умного редиректа после входа
+// Компонент умного редиректа после входа (1.2.1)
 function SmartRedirect() {
   const token = localStorage.getItem('access_token');
   
+  // Проверяем, что токен существует и содержит requires_password_change
   if (!token) {
     return <Navigate to="/login" replace />;
   }
 
   const payload = parseJwt(token);
+  
+  // 1.2.1: Приоритетная проверка флага смены пароля
+  if (payload && payload.requires_password_change === true) {
+    return <Navigate to="/change-password" replace />;
+  }
+
   let targetPath = '/student/profile'; // Дефолтный путь
 
   if (payload && payload.roles && Array.isArray(payload.roles)) {
@@ -52,11 +59,6 @@ function SmartRedirect() {
     else if (roles.includes('teacher')) targetPath = '/teacher/statements';
     else if (roles.includes('curator')) targetPath = '/curator/group';
     else if (roles.includes('student')) targetPath = '/student/profile';
-  }
-
-  // Если требуется смена пароля
-  if (payload && payload.requires_password_change === true) {
-    return <Navigate to="/change-password" replace />;
   }
 
   return <Navigate to={targetPath} replace />;
@@ -70,24 +72,19 @@ function App() {
         <Routes>
           {/* Публичные маршруты */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/change-password" element={<ChangePasswordPage />} />
           
           {/* Корневой путь — умный редирект */}
           <Route path="/" element={<SmartRedirect />} />
           
           {/* Защищенные маршруты внутри DashboardLayout */}
           <Route element={<DashboardLayout />}>
-            <Route path="/change-password" element={<ChangePasswordPage />} />
-            
-            {/* Профиль доступен по короткому пути /profile */}
-            <Route path="/profile" element={<ProfilePage />} />
-            
             {/* === СТУДЕНТ === */}
             <Route path="/student/profile" element={<ProfilePage />} />
             <Route path="/student/grades" element={<GradesPage />} />
             <Route path="/student/practice" element={<PracticePage />} />
             <Route path="/student/requests" element={<RequestsPage />} />
             <Route path="/student/notifications" element={<NotificationsPage />} />
-            {/* Fallback для студента: если путь неизвестен, показываем заглушку */}
             <Route path="/student/*" element={<ComingSoonPage />} />
 
             {/* === ПРЕПОДАВАТЕЛЬ === */}
