@@ -45,4 +45,4 @@ class TestUIThemeAndHeader:
         response = client.get('/api/campuses/')
         assert response.status_code == 200
         campuses = response.json()['data']
-        assert any(c['id_campus'] == 'TEST-CAMPUS' for c in campuses)
+        assert any(c['id'] == 'TEST-CAMPUS' for c in campuses)

@@ -1283,3 +1283,72 @@ class AdminUsersView(APIView):
             })
         
         return Response(data, status=status.HTTP_200_OK)
+
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from django.contrib.auth.hashers import check_password, make_password
+from core.models import Campus
+
+
+class ForcePasswordChangeView(APIView):
+    """Принудительная смена пароля"""
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        new_password = request.data.get('new_password')
+        confirm_password = request.data.get('confirm_password')
+        
+        errors = {}
+        
+        # Проверка совпадения паролей
+        if new_password != confirm_password:
+            errors['confirm_password'] = ['Пароли не совпадают']
+        
+        # Проверка сложности пароля
+        if len(new_password) < 8:
+            errors.setdefault('new_password', []).append('Пароль должен содержать минимум 8 символов')
+        
+        if not any(c.isupper() for c in new_password):
+            errors.setdefault('new_password', []).append('Пароль должен содержать хотя бы одну заглавную букву')
+        
+        if not any(c.isdigit() for c in new_password):
+            errors.setdefault('new_password', []).append('Пароль должен содержать хотя бы одну цифру')
+        
+        if not any(c in '!@#$%^&*()_+-=[]{}|;:,.<>?' for c in new_password):
+            errors.setdefault('new_password', []).append('Пароль должен содержать хотя бы один спецсимвол')
+        
+        # Проверка, что новый пароль не совпадает с текущим
+        if check_password(new_password, request.user.password):
+            errors.setdefault('new_password', []).append('Новый пароль не должен совпадать с текущим')
+        
+        # Если есть ошибки, возвращаем 400
+        if errors:
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Сохраняем новый пароль
+        request.user.password = make_password(new_password)
+        request.user.requires_password_change = False
+        request.user.save()
+        
+        return Response(
+            {'message': 'Пароль успешно изменён'},
+            status=status.HTTP_200_OK
+        )
+
+
+class CampusListView(APIView):
+    """Список корпусов техникума"""
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        campuses = Campus.objects.all()
+        data = [
+            {
+                'id': campus.id_campus,
+                'address': campus.address
+            }
+            for campus in campuses
+        ]
+        return Response({'data': data}, status=status.HTTP_200_OK)

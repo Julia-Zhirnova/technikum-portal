@@ -1,0 +1,2821 @@
+"""
+Django settings for technikum-portal project.
+"""
+
+from pathlib import Path
+import os
+from dotenv import load_dotenv
+from datetime import timedelta
+
+# Загружаем переменные окружения из .env файла
+load_dotenv()
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dev-key-change-in-production')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
+
+ALLOWED_HOSTS = [
+    'localhost', 
+    '127.0.0.1', 
+    '10.0.2.15',
+    '.lhr.life',  # Разрешает все поддомены localhost.run
+    '*'           # Временно разрешает ВСЕ хосты (только для разработки!)
+]
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'https://d17876ce249ab3.lhr.life',
+    'https://*.lhr.life'
+]
+
+# Application definition
+INSTALLED_APPS = [
+    'core.apps.CustomAdminConfig',  # ← ЗАМЕНИТЬ 'django.contrib.admin'
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # Third-party apps
+    'import_export',
+    'rest_framework',
+    'corsheaders',
+    # Local apps
+    'accounts.apps.AccountsConfig',
+    'core.apps.CoreConfig',
+]
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'core.middleware_debug.DebugMiddleware',  # Должен быть до CommonMiddleware
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+ROOT_URLCONF = 'config.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+WSGI_APPLICATION = 'config.wsgi.application'
+
+# Database
+# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME', 'technikum_db'),
+        'USER': os.getenv('DB_USER', 'technikum_user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', ''),
+        'HOST': os.getenv('DB_HOST', '127.0.0.1'),
+        'PORT': os.getenv('DB_PORT', '5432'),
+        'OPTIONS': {
+            'client_encoding': 'UTF8',
+        },
+    }
+}
+
+# Password validation
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {'min_length': 8}
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+# Internationalization
+LANGUAGE_CODE = 'ru-ru'
+TIME_ZONE = 'Europe/Moscow'
+USE_I18N = True
+USE_TZ = True
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
+# Media files
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Django REST Framework
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+}
+# Настройки JWT-аутентификации
+SIMPLE_JWT = {
+    "TOKEN_OBTAIN_SERIALIZER": "accounts.serializers.CustomTokenObtainPairSerializer",
+    'USER_ID_FIELD': 'id_user',  # Поле первичного ключа в модели User
+    'USER_ID_CLAIM': 'user_id',  # Как это поле будет называться в токене
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # Время жизни access-токена
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Время жизни refresh-токена
+}
+
+# CORS settings (для React frontend)
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'https://d17876ce249ab3.lhr.life', # Твой текущий туннель
+]
+CORS_ALLOW_CREDENTIALS = True
+
+# Email settings (будем настраивать позже)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.yandex.ru')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', '465'))
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER', 'technikum@yandex.ru')
+
+# SMS settings (будем настраивать позже)
+SMS_API_KEY = os.getenv('SMS_API_KEY', '')
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
+
+AUTH_USER_MODEL = 'core.User' # Замените 'core' на имя вашего приложения
+
+
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from accounts import views as account_views
+from core import api_views
+from core.views_restore_statement import RestoreStatementView
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', account_views.hello, name='hello'),
+    path('api/campuses/', account_views.api_campuses, name='api_campuses'),
+    
+    # JWT аутентификация
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/auth/force-change-password/', account_views.ForceChangePasswordView.as_view(), name='force-change-password'),
+    
+    # Универсальные
+    path('api/whoami/', api_views.WhoAmIView.as_view(), name='whoami'),
+    
+    # Студент
+    path('api/student/profile/', api_views.StudentProfileView.as_view(), name='student_profile'),
+    path('api/student/profile/update/', api_views.StudentProfileUpdateView.as_view(), name='student_profile_update'),
+    path('api/student/grades/', api_views.StudentGradesView.as_view(), name='student_grades'),
+    path('api/student/requests/', api_views.StudentRequestView.as_view(), name='student_requests'),
+    path('api/student/notifications/', api_views.NotificationView.as_view(), name='student_notifications'),
+    path('api/student/notifications/<int:notification_id>/read/', api_views.MarkNotificationReadView.as_view(), name='mark_notification_read'),
+    
+    path('api/references/', api_views.ReferencesView.as_view(), name='references'),
+    path('api/user/profile/', api_views.UserProfileView.as_view(), name='user_profile'),
+    
+    # Куратор
+    path('api/curator/group/', api_views.CuratorGroupView.as_view(), name='curator_group'),
+    path('api/curator/students/<str:snils>/', api_views.CuratorStudentDetailView.as_view(), name='curator_student_detail'),
+    path('api/curator/requests/', api_views.CuratorStudentRequestsView.as_view(), name='curator_requests'),
+    path('api/curator/requests/<int:request_id>/', api_views.CuratorUpdateRequestView.as_view(), name='curator_update_request'),
+    
+    # Практика студента
+    path('api/student/practice/', api_views.StudentPracticeView.as_view(), name='student_practice'),
+    path('api/curator/practice/', api_views.CuratorStudentPracticeView.as_view(), name='curator_practice'),
+    
+    # Практика для преподавателя
+    path('api/teacher/practice/students/', api_views.TeacherPracticeStudentsView.as_view(), name='teacher_practice_students'),
+    path('api/teacher/practice/place/<int:place_id>/', api_views.TeacherUpdatePracticePlaceView.as_view(), name='teacher_update_practice_place'),
+    path('api/teacher/practice/diary/<int:entry_id>/', api_views.TeacherApproveDiaryEntryView.as_view(), name='teacher_approve_diary_entry'),
+    
+    # Преподаватель
+    path('api/teacher/statements/', api_views.TeacherStatementsView.as_view(), name='teacher_statements'),
+    
+    # Session auth (для тестирования через браузер)
+    path('api/auth/', include('rest_framework.urls')),
+    
+    path('api/teacher/grades/<int:grade_id>/', api_views.UpdateGradeView.as_view(), name='update-grade'),
+    path('api/teacher/statements/<int:statement_id>/restore/', RestoreStatementView.as_view(), name='restore-statement'),
+    path('api/teacher/statements/<int:statement_id>/grades/', api_views.TeacherStatementGradesView.as_view(), name='teacher-statement-grades'),
+    path('api/teacher/statements/<int:statement_id>/export/', api_views.StatementGradesExportView.as_view(), name='teacher-statement-export'),
+    path('api/teacher/statements/<int:statement_id>/debug-export/', api_views.debug_export_fbv, name='debug-export'),
+    path('api/teacher/statements/<int:statement_id>/test-export/', api_views.TestExportView.as_view(), name='test-export'),
+    path('api/teacher/statements/<int:statement_id>/import/', api_views.StatementGradesImportView.as_view(), name='teacher-statement-import'),
+    path('api/teacher/statements/<int:statement_id>/generate-docx/', api_views.StatementGenerateDocxView.as_view(), name='teacher-statement-generate-docx'),
+    
+    # Админ (Функция 1.5)
+    path('api/admin/users/', api_views.AdminUsersView.as_view(), name='admin_users'),
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.utils.translation import gettext_lazy as _
+
+
+# ==============================================================================
+# МЕНЕДЖЕР ПОЛЬЗОВАТЕЛЕЙ
+# ==============================================================================
+
+class UserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError(_('Email обязателен'))
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(email, password, **extra_fields)
+
+
+# ==============================================================================
+# БЛОК 1: ЯДРО СИСТЕМЫ
+# ==============================================================================
+
+class Role(models.Model):
+    id_role = models.CharField(_('ID роли'), max_length=50, primary_key=True, help_text="Только латиница и _")
+    name = models.CharField(_('Название'), max_length=100)
+
+    class Meta:
+        verbose_name = _('Роль')
+        verbose_name_plural = _('Роли')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.name
+
+
+class User(AbstractBaseUser, PermissionsMixin):
+    id_user = models.AutoField(_('ID пользователя'), primary_key=True)
+    last_name = models.CharField(_('Фамилия'), max_length=100, blank=True, null=True)
+    first_name = models.CharField(_('Имя'), max_length=100, blank=True, null=True)
+    middle_name = models.CharField(_('Отчество'), max_length=100, blank=True, null=True)
+    email = models.EmailField(_('Электронная почта'), unique=True)
+    email_confirmed = models.BooleanField(_('Email подтвержден'), default=False)
+    requires_password_change = models.BooleanField(_('Требует смены пароля'), default=True)
+    esia_id = models.CharField(_('ESIA ID (Госуслуги)'), max_length=100, blank=True, null=True, unique=True)
+    
+    is_staff = models.BooleanField(_('Статус персонала'), default=False)
+    is_active = models.BooleanField(_('Активен'), default=True)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    class Meta:
+        verbose_name = _('Пользователь')
+        verbose_name_plural = _('Пользователи')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"{self.last_name} {self.first_name} ({self.email})"
+    
+    def get_full_name(self):
+        """Возвращает ФИО пользователя."""
+        parts = [self.last_name, self.first_name, self.middle_name]
+        return ' '.join(filter(None, parts)).strip()
+    
+    def get_short_name(self):
+        """Возвращает Фамилия И.О."""
+        parts = [self.last_name]
+        if self.first_name:
+            parts.append(f"{self.first_name[0]}.")
+        if self.middle_name:
+            parts.append(f"{self.middle_name[0]}.")
+        return ' '.join(parts)
+
+
+class UserRole(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Пользователь'))
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name=_('Роль'))
+
+    class Meta:
+        verbose_name = _('Роль пользователя')
+        verbose_name_plural = _('Роли пользователей')
+        unique_together = ('user', 'role')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"{self.user} - {self.role}"
+
+
+class Campus(models.Model):
+    id_campus = models.CharField(_('ID корпуса'), max_length=100, primary_key=True)
+    address = models.CharField(_('Полный адрес'), max_length=255, unique=True)
+
+    class Meta:
+        verbose_name = _('Корпус')
+        verbose_name_plural = _('Корпуса')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.id_campus
+
+
+class Specialty(models.Model):
+    id_specialty = models.CharField(_('Код ФГОС'), max_length=20, primary_key=True)
+    name = models.CharField(_('Наименование'), max_length=255)
+    level = models.CharField(_('Уровень'), max_length=50, choices=[
+        ('специальность', 'Специальность'),
+        ('профессия', 'Профессия')
+    ], null=True, blank=True)
+
+    class Meta:
+        verbose_name = _('Специальность')
+        verbose_name_plural = _('Специальности')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"{self.id_specialty} {self.name}"
+
+
+class Qualification(models.Model):
+    id_qualification = models.AutoField(_('ID квалификации'), primary_key=True)
+    specialty = models.ForeignKey(Specialty, on_delete=models.PROTECT, verbose_name=_('Специальность'))
+    name = models.CharField(_('Квалификация'), max_length=255)
+    professionalitet_role = models.CharField(_('Роль в профессионалитете'), max_length=50, choices=[
+        ('ядро', 'Ядро'),
+        ('сеть', 'Сеть'),
+        ('нет', 'Нет'),
+    ], null=True, blank=True)
+
+    class Meta:
+        verbose_name = _('Квалификация')
+        verbose_name_plural = _('Квалификации')
+        unique_together = ('specialty', 'name')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.name
+
+
+class Setting(models.Model):
+    id_setting = models.AutoField(_('ID настройки'), primary_key=True)
+    field_name = models.CharField(_('Название поля'), max_length=100, unique=True)
+    value = models.TextField(_('Значение'))
+    description = models.TextField(_('Описание'), blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Настройка техникума')
+        verbose_name_plural = _('Настройки техникума')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.field_name
+
+
+class Order(models.Model):
+    id_order = models.CharField(_('ID приказа (НОМЕР-ГОД)'), max_length=100, primary_key=True)
+    number = models.CharField(_('Номер'), max_length=50)
+    date = models.DateField(_('Дата'), help_text="Формат: ДД.ММ.ГГГГ")
+    name = models.CharField(_('Название'), max_length=255)
+    file_path = models.FileField(_('Файл приказа'), upload_to='orders/', blank=True, null=True)
+    type = models.CharField(_('Тип'), max_length=50, choices=[
+        ('зачисление', 'Зачисление'),
+        ('отчисление', 'Отчисление'),
+        ('перевод', 'Перевод'),
+        ('иное', 'Иное')
+    ])
+
+    class Meta:
+        verbose_name = _('Приказ')
+        verbose_name_plural = _('Приказы')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.id_order
+
+
+class Group(models.Model):
+    id_group = models.CharField(_('ID группы'), max_length=50, primary_key=True)
+    qualification = models.ForeignKey(Qualification, on_delete=models.PROTECT, verbose_name=_('Квалификация'))
+    year_start = models.IntegerField(_('Год поступления'))
+    year_end = models.IntegerField(_('Год окончания'))
+    duration = models.CharField(_('Срок обучения'), max_length=50, choices=[
+        ('1 год 10 месяцев', '1 год 10 месяцев'),
+        ('2 года', '2 года'),
+        ('2 года 6 месяцев', '2 года 6 месяцев'),
+        ('2 года 10 месяцев', '2 года 10 месяцев'),
+        ('3 года 10 месяцев', '3 года 10 месяцев'),
+        ('4 года 10 месяцев', '4 года 10 месяцев'),
+    ])
+    form = models.CharField(_('Форма обучения'), max_length=50, choices=[
+        ('очная', 'Очная'),
+        ('очно-заочная', 'Очно-заочная'),
+        ('заочная', 'Заочная'),
+    ])
+    financing = models.CharField(_('Финансирование'), max_length=50, choices=[
+        ('бюджет', 'Бюджет'),
+        ('внебюджет', 'Внебюджет'),
+    ])
+    campus = models.ForeignKey(Campus, on_delete=models.PROTECT, verbose_name=_('Корпус'))
+    curator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Куратор'))
+
+    class Meta:
+        verbose_name = _('Группа')
+        verbose_name_plural = _('Группы')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.id_group
+
+
+# ==============================================================================
+# БЛОК 2: ПЕРСОНАЛЬНЫЕ ДАННЫЕ
+# ==============================================================================
+
+class DocumentType(models.Model):
+    code = models.CharField(_('Код'), max_length=50, primary_key=True)
+    name = models.CharField(_('Название'), max_length=255)
+
+    class Meta:
+        verbose_name = _('Тип документа')
+        verbose_name_plural = _('Типы документов')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.name
+
+
+class FinancialAidGround(models.Model):
+    id_ground = models.AutoField(_('ID основания'), primary_key=True)
+    name = models.TextField(_('Название'))
+    requires_mo = models.BooleanField(_('Требует проживания в МО'), default=False)
+    required_docs = models.JSONField(_('Необходимые документы (коды)'), help_text="JSON-массив кодов из Типы_документов")
+
+    class Meta:
+        verbose_name = _('Основание мат. помощи')
+        verbose_name_plural = _('Основания мат. помощи')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.name
+
+
+class Passport(models.Model):
+    id_passport = models.AutoField(_('ID паспорта'), primary_key=True)
+    is_foreigner = models.BooleanField(_('Иностранный гражданин'), default=False)
+    citizenship = models.CharField(_('Гражданство'), max_length=100, blank=True, null=True)
+    series_number = models.CharField(_('Серия и номер'), max_length=20, blank=True, null=True)
+    issue_date = models.DateField(_('Дата выдачи'), blank=True, null=True)
+    issuer = models.CharField(_('Кем выдан'), max_length=255, blank=True, null=True)
+    unit_code = models.CharField(_('Код подразделения'), max_length=10, blank=True, null=True)
+    region_city = models.CharField(_('Регион и город'), max_length=255, blank=True, null=True)
+    address_detail = models.CharField(_('Адрес детально'), max_length=255, blank=True, null=True)
+    fact_region = models.CharField(_('Фактический регион'), max_length=255, blank=True, null=True)
+    fact_detail = models.CharField(_('Фактический адрес детально'), max_length=255, blank=True, null=True)
+    temp_reg = models.BooleanField(_('Временная прописка'), default=False)
+    absence_reason = models.TextField(_('Причина отсутствия'), blank=True, null=True)
+    file_path = models.FileField(_('Скан паспорта'), upload_to='docs/passports/', blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Паспорт')
+        verbose_name_plural = _('Паспорта')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.series_number or f"Паспорт #{self.id_passport}"
+
+
+class Health(models.Model):
+    id_health = models.AutoField(_('ID здоровья'), primary_key=True)
+    status = models.CharField(_('Состояние'), max_length=100, choices=[
+        ('практически_здоров', 'Практически здоров'),
+        ('практически_здоров', 'Практически здоров'),
+        ('здоров', 'Здоров'),
+        ('часто_болею', 'Часто болею простудными заболеваниями'),
+        ('хронические_заболевания', 'Имею хронические заболевания'),
+        ('инвалидность', 'Имею инвалидность'),
+    ], default='практически_здоров')
+    diagnosis = models.TextField(_('Диагноз (шифруется)'), blank=True, null=True)
+    diagnosis_scan = models.FileField(_('Скан диагноза'), upload_to='docs/health/', blank=True, null=True)
+    oms_number = models.CharField(_('Номер полиса ОМС'), max_length=20, blank=True, null=True)
+    oms_date = models.DateField(_('Дата выдачи ОМС'), blank=True, null=True)
+    oms_issuer = models.CharField(_('Кем выдан ОМС'), max_length=255, blank=True, null=True)
+    oms_scan = models.FileField(_('Скан полиса'), upload_to='docs/health/', blank=True, null=True)
+    oms_absence_reason = models.TextField(_('Причина отсутствия полиса'), blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Здоровье')
+        verbose_name_plural = _('Здоровье')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"Мед. карта #{self.id_health}"
+
+
+class Military(models.Model):
+    id_military = models.AutoField(_('ID ВУ'), primary_key=True)
+    registration_number = models.CharField(_('Номер приписного'), max_length=50, blank=True, null=True)
+    commissariat = models.CharField(_('Военкомат'), max_length=255, blank=True, null=True)
+    issue_date = models.DateField(_('Дата выдачи'), blank=True, null=True)
+    fitness_category = models.CharField(_('Категория годности'), max_length=10, choices=[
+        ('А', 'А'), ('Б', 'Б'), ('В', 'В'), ('Г', 'Г'), ('Д', 'Д')
+    ], blank=True, null=True)
+    absence_reason = models.TextField(_('Причина отсутствия'), blank=True, null=True)
+    file_path = models.FileField(_('Скан ВУ'), upload_to='docs/military/', blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Воинский учет')
+        verbose_name_plural = _('Воинский учет')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.registration_number or f"ВУ #{self.id_military}"
+
+
+class Family(models.Model):
+    id_family = models.AutoField(_('ID семьи'), primary_key=True)
+    minors_count = models.IntegerField(_('Кол-во несовершеннолетних'), blank=True, null=True)
+    adults_count = models.IntegerField(_('Кол-во совершеннолетних'), blank=True, null=True)
+    status = models.CharField(_('Статус семьи'), max_length=100, choices=[
+        ('полная', 'Полная'), ('родители_в_разводе', 'Родители в разводе'),
+        ('полная', 'Полная'), ('родители_в_разводе', 'Родители в разводе'),
+        ('родители в разводе', 'Родители в разводе'),  # Для совместимости с БД
+        ('малообеспеченная', 'Малообеспеченная'), ('многодетная', 'Многодетная'),
+        ('потеря_кормильца', 'Потеря кормильца'), ('мать_одиночка', 'Мать-одиночка'),
+        ('отец_одиночка', 'Отец-одиночка'), ('ребенок_инвалид', 'Ребенок-инвалид'),
+        ('ребенок_сирота', 'Ребенок-сирота'), ('под_опекой', 'Под опекой'),
+        ('приёмная_семья', 'Приёмная семья'), ('повторный_брак', 'Повторный брак'),
+    ])
+    housing_type = models.CharField(_('Тип жилья'), max_length=100, choices=[
+        ('в_собственном_жилье_с_родителями', 'В собственном жилье с родителями'),
+        ('собственное жилье', 'Собственное жилье'),  # Для совместимости с БД
+        ('с родителями', 'С родителями'),  # Для совместимости с БД
+        ('в_съёмном_жилье_с_родителями', 'В съёмном жилье с родителями'),
+        ('отдельно_от_родителей', 'Отдельно от родителей'),
+        ('другое', 'Другое'),
+    ])
+    fin_aid_ground = models.ForeignKey(FinancialAidGround, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Основание мат. помощи'))
+
+    class Meta:
+        verbose_name = _('Семья')
+        verbose_name_plural = _('Семьи')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"Семья #{self.id_family}"
+
+
+class FamilyMember(models.Model):
+    id_member = models.AutoField(_('ID члена семьи'), primary_key=True)
+    family = models.ForeignKey(Family, on_delete=models.CASCADE, verbose_name=_('Семья'))
+    relation = models.CharField(_('Степень родства'), max_length=100, choices=[
+        ('мать', 'Мать'), ('отец', 'Отец'), ('брат', 'Брат'), ('сестра', 'Сестра'),
+        ('опекун', 'Опекун'), ('мачеха', 'Мачеха'), ('отчим', 'Отчим'),
+        ('бабушка', 'Бабушка'), ('дедушка', 'Дедушка'), ('другое', 'Другое'),
+    ])
+    full_name = models.CharField(_('ФИО'), max_length=255)
+    birth_date = models.DateField(_('Дата рождения'), blank=True, null=True)
+    education = models.CharField(_('Образование'), max_length=255, blank=True, null=True)
+    workplace = models.CharField(_('Место работы'), max_length=255, blank=True, null=True)
+    phone = models.CharField(_('Телефон'), max_length=20, blank=True, null=True)
+    is_pensioner = models.BooleanField(_('Пенсионер'), default=False)
+    is_svo = models.BooleanField(_('На СВО'), default=False)
+    is_priority_contact = models.BooleanField(_('Приоритетный контакт'), default=False)
+
+    class Meta:
+        verbose_name = _('Член семьи')
+        verbose_name_plural = _('Члены семьи')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"{self.relation}: {self.full_name}"
+
+
+class Profile(models.Model):
+    id_profile = models.AutoField(_('ID профиля'), primary_key=True)
+    it_skills = models.JSONField(_('IT-навыки'), blank=True, null=True)
+    programming_langs = models.TextField(_('Языки программирования'), blank=True, null=True)
+    creative_skills = models.JSONField(_('Творческие навыки'), blank=True, null=True)
+    school_participation = models.JSONField(_('Участие в школе'), blank=True, null=True)
+    college_participation = models.JSONField(_('Участие в техникуме'), blank=True, null=True)
+    achievements = models.JSONField(_('Достижения'), blank=True, null=True)
+    hobbies = models.TextField(_('Хобби'), blank=True, null=True)
+    extra_edu = models.TextField(_('Дополнительное образование'), blank=True, null=True)
+    social_networks = models.JSONField(_('Соцсети'), blank=True, null=True)
+    motivation_college = models.JSONField(_('Мотивация техникум'), blank=True, null=True)
+    motivation_specialty = models.JSONField(_('Мотивация специальность'), blank=True, null=True)
+    desired_participation = models.JSONField(_('Желаемое участие'), blank=True, null=True)
+    foreign_langs = models.JSONField(_('Иностранные языки'), blank=True, null=True)
+    drivers_license = models.JSONField(_('Водительские права'), blank=True, null=True)
+    sports_ranks = models.TextField(_('Спортивные разряды'), blank=True, null=True)
+    character_behavior = models.TextField(_('Характер и поведение'), blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Профиль студента')
+        verbose_name_plural = _('Профили студентов')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"Профиль #{self.id_profile}"
+
+
+class EducationInstitution(models.Model):
+    id_institution = models.AutoField(_('ID учреждения'), primary_key=True)
+    name = models.CharField(_('Наименование'), max_length=255)
+    type = models.CharField(_('Тип'), max_length=100, choices=[
+        ('общеобразовательная_средняя', 'Общеобразовательная средняя'),
+        ('лицей', 'Лицей'),
+        ('гимназия', 'Гимназия'),
+        ('техникум', 'Техникум'),
+        ('колледж', 'Колледж'),
+        ('ПТУ', 'ПТУ'),
+        ('другое', 'Другое'),
+    ])
+    profile = models.CharField(_('Профиль класса'), max_length=100, blank=True, null=True)
+    graduation_date = models.DateField(_('Дата окончания'), blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Учебное заведение')
+        verbose_name_plural = _('Учебные заведения')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.name
+
+
+class Student(models.Model):
+    snils = models.CharField(_('СНИЛС'), max_length=20, primary_key=True, help_text="Формат: XXX-XXX-XXX XX")
+    snils_file = models.FileField(_('Скан СНИЛС'), upload_to='docs/students/', blank=True, null=True)
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Пользователь'))
+    group = models.ForeignKey(Group, on_delete=models.PROTECT, verbose_name=_('Группа'))
+    order = models.ForeignKey(Order, on_delete=models.PROTECT, verbose_name=_('Приказ о зачислении'))
+    birth_date = models.DateField(_('Дата рождения'))
+    gender = models.CharField(_('Пол'), max_length=10, choices=[('мужской', 'Мужской'), ('женский', 'Женский')])
+    birth_place = models.CharField(_('Место рождения'), max_length=255)
+    phone = models.CharField(_('Телефон'), max_length=20)
+    inn = models.CharField(_('ИНН'), max_length=12, blank=True, null=True)
+    inn_file = models.FileField(_('Скан ИНН'), upload_to='docs/students/', blank=True, null=True)
+    pd_consent = models.BooleanField(_('Согласие на ПДн'), default=False)
+    pd_consent_date = models.DateField(_('Дата согласия'), blank=True, null=True)
+    status = models.CharField(_('Статус обучения'), max_length=100, choices=[
+        ('обучается (студент)', 'Обучается (студент)'),
+        ('обучается (студент)', 'Обучается (студент)'),
+        ('не завершил обучение: академический отпуск', 'Академический отпуск'),
+        ('не завершил обучение: отчислен по собственному желанию', 'Отчислен по собственному желанию'),
+        ('не завершил обучение: отчислен в связи с неуспеваемостью', 'Отчислен в связи с неуспеваемостью'),
+        ('завершил обучение (выпускник)', 'Завершил обучение (выпускник)'),
+    ])
+    last_change = models.DateTimeField(_('Дата последнего изменения'), auto_now=True)
+    
+    passport = models.OneToOneField(Passport, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Паспорт'))
+    health = models.OneToOneField(Health, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Здоровье'))
+    military = models.OneToOneField(Military, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Воинский учет'))
+    family = models.OneToOneField(Family, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Семья'))
+    education = models.OneToOneField(EducationInstitution, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Учебное заведение'))
+    profile = models.OneToOneField(Profile, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Профиль'))
+    
+    photo_path = models.CharField(_('Путь к фото СКУД'), max_length=255, blank=True, null=True)
+    study_plan = models.CharField(_('Учебный план'), max_length=50, choices=[('стандартный', 'Стандартный'), ('иуп', 'ИУП')], default='стандартный')
+    dual_edu = models.BooleanField(_('Дуальное обучение'), default=False)
+    target_contract = models.ForeignKey('TargetContract', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Целевой договор'), related_name='students')
+
+    class Meta:
+        verbose_name = _('Студент')
+        verbose_name_plural = _('Студенты')
+        app_label = 'core'
+
+    def __str__(self):
+        name = f"{self.user.last_name} {self.user.first_name}" if self.user else "Без ФИО"
+        return f"{name} ({self.snils})"
+
+
+# ==============================================================================
+# БЛОК 3: ТРУДОУСТРОЙСТВО И ПРАКТИКА
+# ==============================================================================
+
+class Industry(models.Model):
+    id_industry = models.AutoField(_('ID отрасли'), primary_key=True)
+    name = models.CharField(_('Название'), max_length=255, unique=True)
+
+    class Meta:
+        verbose_name = _('Отрасль')
+        verbose_name_plural = _('Отрасли')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.name
+
+
+class Country(models.Model):
+    id_country = models.CharField(_('Код страны'), max_length=10, primary_key=True)
+    name = models.CharField(_('Название'), max_length=100, unique=True)
+
+    class Meta:
+        verbose_name = _('Страна')
+        verbose_name_plural = _('Страны')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.name
+
+
+class Region(models.Model):
+    id_region = models.AutoField(_('ID области'), primary_key=True)
+    name = models.CharField(_('Название'), max_length=255, unique=True)
+
+    class Meta:
+        verbose_name = _('Область')
+        verbose_name_plural = _('Области')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.name
+
+
+class CityDistrict(models.Model):
+    id_district = models.AutoField(_('ID округа'), primary_key=True)
+    name = models.CharField(_('Название'), max_length=255, unique=True)
+
+    class Meta:
+        verbose_name = _('Городской округ')
+        verbose_name_plural = _('Городские округа')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.name
+
+
+class EmploymentType(models.Model):
+    id_type = models.AutoField(_('ID формы'), primary_key=True)
+    name = models.CharField(_('Название'), max_length=255, unique=True)
+
+    class Meta:
+        verbose_name = _('Форма занятости')
+        verbose_name_plural = _('Формы занятости')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.name
+
+
+class TargetContract(models.Model):
+    id_contract = models.CharField(_('ID договора'), max_length=100, primary_key=True, help_text="Формат: №НОМЕР от ДД.ММ.ГГГГ")
+    student = models.OneToOneField(Student, on_delete=models.CASCADE, verbose_name=_('Студент'))
+    has_contract = models.BooleanField(_('Наличие договора'), default=False)
+    format = models.CharField(_('Формат'), max_length=50, choices=[
+        ('оформлен_на_рвр', 'Оформлен на РвР'),
+        ('в_бумажном_виде', 'В бумажном виде'),
+    ], blank=True, null=True)
+    number = models.CharField(_('Номер'), max_length=50, blank=True, null=True)
+    date = models.DateField(_('Дата'), blank=True, null=True)
+    company_name = models.CharField(_('Предприятие'), max_length=255, blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Целевой договор')
+        verbose_name_plural = _('Целевые договоры')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.id_contract
+
+
+class Organization(models.Model):
+    inn = models.CharField(_('ИНН'), max_length=12, primary_key=True)
+    legal_name = models.CharField(_('Юридическое название'), max_length=255)
+    short_name = models.CharField(_('Сокращенное название'), max_length=255, blank=True, null=True)
+    kpp = models.CharField(_('КПП'), max_length=9, blank=True, null=True)
+    ogrn = models.CharField(_('ОГРН'), max_length=15, blank=True, null=True)
+    rusprofile_link = models.URLField(_('Ссылка Rusprofile'), blank=True, null=True)
+    index = models.CharField(_('Индекс'), max_length=10, blank=True, null=True)
+    region = models.CharField(_('Субъект РФ'), max_length=100, blank=True, null=True)
+    city = models.CharField(_('Населенный пункт'), max_length=100, blank=True, null=True)
+    street = models.CharField(_('Улица'), max_length=100, blank=True, null=True)
+    building = models.CharField(_('Дом'), max_length=50, blank=True, null=True)
+    extra_info = models.CharField(_('Доп. информация'), max_length=255, blank=True, null=True)
+    fact_address = models.CharField(_('Фактический адрес'), max_length=255, blank=True, null=True)
+    
+    director_name = models.CharField(_('ФИО директора'), max_length=255, blank=True, null=True)
+    director_position = models.CharField(_('Должность директора'), max_length=100, blank=True, null=True)
+    director_phone = models.CharField(max_length=100, blank=True, null=True, verbose_name='Телефон директора')
+    email = models.EmailField(_('Email организации'), blank=True, null=True)
+    
+    responsible_name = models.CharField(_('ФИО ответственного'), max_length=255, blank=True, null=True)
+    responsible_position = models.CharField(_('Должность ответственного'), max_length=100, blank=True, null=True)
+    responsible_phone = models.CharField(max_length=100, blank=True, null=True, verbose_name='Телефон ответственного')
+    
+    mentor_name = models.CharField(_('ФИО наставника ОО'), max_length=255, blank=True, null=True)
+    mentor_position = models.CharField(_('Должность наставника ОО'), max_length=100, blank=True, null=True)
+    mentor_phone = models.CharField(max_length=100, blank=True, null=True, verbose_name='Телефон наставника')
+    
+    bank_name = models.CharField(_('Название банка'), max_length=255, blank=True, null=True)
+    account = models.CharField(_('Расчетный счет'), max_length=50, blank=True, null=True)
+    corr_account = models.CharField(_('Корр. счет'), max_length=50, blank=True, null=True)
+    bik = models.CharField(_('БИК'), max_length=20, blank=True, null=True)
+    basis = models.TextField(_('Основание действий'), max_length=255, blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Организация')
+        verbose_name_plural = _('Организации')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.short_name or self.legal_name
+
+
+class Employment(models.Model):
+    id_employment = models.AutoField(_('ID трудоустройства'), primary_key=True)
+    student = models.OneToOneField(Student, on_delete=models.CASCADE, verbose_name=_('Студент'))
+    organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Организация'))
+    employment_type = models.ForeignKey(EmploymentType, on_delete=models.PROTECT, verbose_name=_('Форма занятости'))
+    is_cluster_partner = models.BooleanField(_('Труд. у партнера кластера'), default=False)
+    industry = models.ForeignKey(Industry, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Отрасль'))
+    city_district = models.ForeignKey(CityDistrict, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Городской округ'))
+    is_by_profession = models.BooleanField(_('Трудоустройство по профессии'), default=False)
+    position = models.CharField(_('Должность'), max_length=255, blank=True, null=True)
+    update_date = models.DateTimeField(_('Дата обновления'), auto_now=True)
+    
+    scan_szv_td = models.FileField(_('Скан СЗВ-ТД'), upload_to='docs/employment/', blank=True, null=True)
+    scan_self_employed = models.FileField(_('Скан самозанятости'), upload_to='docs/employment/', blank=True, null=True)
+    scan_ip = models.FileField(_('Скан ИП'), upload_to='docs/employment/', blank=True, null=True)
+    scan_self_employed_tax = models.FileField(_('Скан налогов самозанятого'), upload_to='docs/employment/', blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Трудоустройство')
+        verbose_name_plural = _('Трудоустройства')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"Трудоустройство: {self.student}"
+
+
+class PracticeOrder(models.Model):
+    id_order = models.CharField(_('ID приказа практики'), max_length=100, primary_key=True, help_text="Формат: №НОМЕР от ДД.ММ.ГГГГ")
+    number = models.CharField(_('Номер'), max_length=50)
+    date = models.DateField(_('Дата'))
+    start_date = models.DateField(_('Дата начала'))
+    end_date = models.DateField(_('Дата окончания'))
+    report_date = models.DateField(_('Дата сдачи отчета'), blank=True, null=True)
+    type = models.CharField(_('Вид практики'), max_length=50, choices=[
+        ('учебная', 'Учебная'),
+        ('производственная', 'Производственная'),
+        ('преддипломная', 'Преддипломная'),
+    ])
+    group = models.ForeignKey(Group, on_delete=models.PROTECT, verbose_name=_('Группа'))
+    file_path = models.FileField(_('Файл приказа'), upload_to='docs/practice_orders/', blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Приказ о практике')
+        verbose_name_plural = _('Приказы о практике')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.id_order
+
+
+class Module(models.Model):
+    id_module = models.CharField(_('ID модуля'), max_length=100, primary_key=True, help_text="Формат: КОД_МОДУЛЯ_ГРУППА")
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name=_('Группа'))
+    code = models.CharField(_('Код модуля'), max_length=50)
+    name = models.TextField(_('Название модуля'))
+
+    class Meta:
+        verbose_name = _('Модуль')
+        verbose_name_plural = _('Модули')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"{self.code} ({self.group})"
+
+
+class PracticeOrderModule(models.Model):
+    order = models.ForeignKey(PracticeOrder, on_delete=models.CASCADE, verbose_name=_('Приказ практики'))
+    module = models.ForeignKey(Module, on_delete=models.CASCADE, verbose_name=_('Модуль'))
+
+    class Meta:
+        verbose_name = _('Модуль в приказе')
+        verbose_name_plural = _('Модули в приказах')
+        unique_together = ('order', 'module')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"{self.order} - {self.module}"
+
+
+class StudentPracticePlace(models.Model):
+    id_place = models.AutoField(_('ID места практики'), primary_key=True)
+    order = models.ForeignKey(PracticeOrder, on_delete=models.PROTECT, verbose_name=_('Приказ практики'))
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name=_('Студент'))
+    organization = models.ForeignKey(Organization, on_delete=models.PROTECT, verbose_name=_('Организация'))
+    position = models.CharField(_('Должность студента'), max_length=100, blank=True, null=True)
+    status = models.CharField(_('Статус'), max_length=50, choices=[
+        ('назначен', 'Назначен'),
+        ('назначен', 'Назначен'),
+        ('проходит', 'Проходит'),
+        ('завершил', 'Завершил'),
+        ('не_назначен', 'Не назначен'),
+        ('отчислен', 'Отчислен'),
+    ], default='назначен')
+    teacher1 = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='practice_teacher1', verbose_name=_('Руководитель 1'))
+    teacher2 = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='practice_teacher2', verbose_name=_('Руководитель 2'))
+
+    class Meta:
+        verbose_name = _('Место практики студента')
+        verbose_name_plural = _('Места практик студентов')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"{self.student} - {self.organization}"
+
+
+class DocumentGenerationType(models.Model):
+    code = models.CharField(_('Код'), max_length=100, primary_key=True)
+    name = models.CharField(_('Название'), max_length=255)
+    description = models.TextField(_('Описание'))
+    template_path = models.CharField(_('Путь к шаблон DOCX'), max_length=255)
+
+    class Meta:
+        verbose_name = _('Тип документа для генерации')
+        verbose_name_plural = _('Типы документов для генерации')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.name
+
+
+# ==============================================================================
+# БЛОК 4: ОТЧЕТЫ ПО ПРАКТИКЕ
+# ==============================================================================
+
+class PracticeTask(models.Model):
+    id_task = models.AutoField(_('ID задания'), primary_key=True)
+    practice_place = models.ForeignKey(StudentPracticePlace, on_delete=models.CASCADE, verbose_name=_('Место практики'))
+    topic_number = models.CharField(_('Номер темы'), max_length=50, blank=True, null=True)
+    topic_name = models.TextField(_('Название темы'))
+    work_types = models.TextField(_('Виды работ'))
+    competencies = models.TextField(_('Формируемые компетенции'))
+    hours = models.IntegerField(_('Количество часов'))
+
+    class Meta:
+        verbose_name = _('Задание практики')
+        verbose_name_plural = _('Задания практики')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"Задание {self.topic_number}: {self.topic_name}"
+
+
+class PracticeDiary(models.Model):
+    id_entry = models.AutoField(_('ID записи'), primary_key=True)
+    practice_place = models.ForeignKey(StudentPracticePlace, on_delete=models.CASCADE, verbose_name=_('Место практики'))
+    date = models.DateField(_('Дата'))
+    work_content = models.TextField(_('Содержание работы'))
+    hours = models.IntegerField(_('Количество часов'))
+    is_approved_by_org = models.BooleanField(_('Отметка руководителя орг.'), default=False)
+
+    class Meta:
+        verbose_name = _('Запись дневника практики')
+        verbose_name_plural = _('Дневник практики')
+        ordering = ['date']
+        app_label = 'core'
+
+    def __str__(self):
+        return f"{self.date}: {self.work_content[:50]}..."
+
+
+class PracticeControlPoint(models.Model):
+    id_point = models.AutoField(_('ID точки'), primary_key=True)
+    practice_place = models.ForeignKey(StudentPracticePlace, on_delete=models.CASCADE, verbose_name=_('Место практики'))
+    control_date = models.DateField(_('Дата контроля'))
+    work_done = models.TextField(_('Выполненная работа'))
+    is_signed_by_org = models.BooleanField(_('Подпись руководителя орг.'), default=False)
+
+    class Meta:
+        verbose_name = _('Контрольная точка')
+        verbose_name_plural = _('Контрольные точки')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"Контроль {self.control_date}"
+
+
+class PracticeAttestation(models.Model):
+    id_attestation = models.AutoField(_('ID аттестации'), primary_key=True)
+    practice_place = models.OneToOneField(StudentPracticePlace, on_delete=models.CASCADE, verbose_name=_('Место практики'))
+    competencies_eval = models.JSONField(_('Оценка компетенций'), blank=True, null=True)
+    characteristic_text = models.TextField(_('Текст характеристики'), blank=True, null=True)
+    recommended_grade = models.CharField(_('Рекомендуемая оценка'), max_length=50, choices=[
+        ('отлично', 'Отлично'),
+        ('хорошо', 'Хорошо'),
+        ('удовлетворительно', 'Удовлетворительно'),
+        ('неудовлетворительно', 'Неудовлетворительно'),
+    ], blank=True, null=True)
+    fill_date = models.DateField(_('Дата заполнения'))
+
+    class Meta:
+        verbose_name = _('Аттестация практики')
+        verbose_name_plural = _('Аттестации практики')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"Аттестация: {self.practice_place.student}"
+
+
+# ==============================================================================
+# БЛОК 5: ОЦЕНКИ, ЗАЧЕТКА, ПРОТОКОЛЫ
+# ==============================================================================
+
+class MCK(models.Model):
+    id_mck = models.AutoField(_('ID МЦК'), primary_key=True)
+    name = models.CharField(_('Наименование'), max_length=255)
+    short_name = models.CharField(_('Сокращенное наименование'), max_length=100, blank=True, null=True)
+    chairman = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Председатель'))
+
+    class Meta:
+        verbose_name = _('Методическая цикловая комиссия')
+        verbose_name_plural = _('Методические цикловые комиссии')
+        app_label = 'core'
+
+    def __str__(self):
+        return self.short_name or self.name
+
+
+class DisciplineReference(models.Model):
+    code = models.CharField(_('Код дисциплины'), max_length=50, primary_key=True)
+    name = models.TextField(_('Наименование'))
+    type = models.CharField(_('Тип'), max_length=100, choices=[
+        ('общеобразовательный', 'Общеобразовательный'),
+        ('общепрофессиональный', 'Общепрофессиональный'),
+        ('профессиональный_модуль', 'Профессиональный модуль'),
+        ('мдк', 'МДК'),
+        ('практика', 'Практика'),
+        ('гиа', 'ГИА'),
+    ])
+
+    class Meta:
+        verbose_name = _('Справочник дисциплин')
+        verbose_name_plural = _('Справочник дисциплин')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"{self.code} {self.name}"
+
+
+class DisciplineInGroup(models.Model):
+    id_record = models.AutoField(_('ID записи'), primary_key=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name=_('Группа'))
+    discipline_ref = models.ForeignKey(DisciplineReference, on_delete=models.PROTECT, verbose_name=_('Дисциплина'))
+    semester = models.IntegerField(_('Семестр'))
+    assessment_form = models.CharField(_('Форма аттестации'), max_length=50, choices=[
+        ('экзамен', 'Экзамен'),
+        ('дифференцированный_зачет', 'Дифференцированный зачет'),
+        ('зачет', 'Зачет'),
+        ('курсовая_работа', 'Курсовая работа'),
+    ])
+    hours = models.IntegerField(_('Объем часов'), blank=True, null=True)
+    mck = models.ForeignKey(MCK, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('МЦК'))
+
+    class Meta:
+        verbose_name = _('Дисциплина в группе')
+        verbose_name_plural = _('Дисциплины в группе')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"{self.discipline_ref.code} ({self.group})"
+
+
+# ==============================================================================
+# РАСПИСАНИЕ АТТЕСТАЦИИ (с поддержкой нескольких преподавателей через M2M)
+# ==============================================================================
+
+class AssessmentTeacher(models.Model):
+    """
+    Промежуточная модель для связи расписания аттестации с преподавателями.
+    Реализует Many-to-Many через 'through' с указанием роли (основной/со-преподаватель).
+    """
+    
+    ROLE_CHOICES = [
+        ('primary', 'Основной преподаватель'),
+        ('co', 'Со-преподаватель'),
+    ]
+    
+    id_assessment_teacher = models.AutoField(
+        primary_key=True,
+        verbose_name='ID записи'
+    )
+    
+    schedule = models.ForeignKey(
+        'AssessmentSchedule',
+        on_delete=models.CASCADE,
+        related_name='assessment_teachers',
+        verbose_name='Запись расписания'
+    )
+    
+    teacher = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='assessment_teaching',
+        verbose_name='Преподаватель'
+    )
+    
+    role = models.CharField(
+        max_length=20,
+        choices=ROLE_CHOICES,
+        default='primary',
+        verbose_name='Роль'
+    )
+    
+    class Meta:
+        verbose_name = 'Преподаватель в расписании'
+        verbose_name_plural = 'Преподаватели в расписании'
+        unique_together = ('schedule', 'teacher')
+        ordering = ['-role', 'teacher__last_name']
+    
+    def __str__(self):
+        role_label = self.get_role_display()
+        return f"{self.teacher} ({role_label})"
+
+
+class AssessmentSchedule(models.Model):
+    """
+    Расписание аттестации (зачёты и экзамены).
+    
+    Поддерживает нескольких преподавателей через M2M с промежуточной моделью AssessmentTeacher.
+    Один преподаватель назначается основным (role='primary'), остальные — со-преподавателями (role='co').
+    """
+    
+    id_schedule = models.AutoField(
+        primary_key=True,
+        verbose_name='ID расписания'
+    )
+    
+    group = models.ForeignKey(
+        'Group',
+        on_delete=models.CASCADE,
+        related_name='assessments',
+        verbose_name='Группа'
+    )
+    
+    discipline_in_group = models.ForeignKey(
+        'DisciplineInGroup',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='assessments',
+        verbose_name='Дисциплина в группе'
+    )
+    
+    date = models.DateField(verbose_name='Дата проведения')
+    time = models.TimeField(null=True, blank=True, verbose_name='Время начала')
+    
+    room = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name='Аудитория'
+    )
+    
+    # Many-to-Many через промежуточную модель AssessmentTeacher
+    teachers = models.ManyToManyField(
+        User,
+        through='AssessmentTeacher',
+        related_name='assessment_schedules',
+        verbose_name='Преподаватели',
+        help_text='Основной преподаватель и со-преподаватели'
+    )
+    
+    retake_date = models.DateField(null=True, blank=True, verbose_name='Дата пересдачи')
+    retake_time = models.TimeField(null=True, blank=True, verbose_name='Время пересдачи')
+    
+    class Meta:
+        verbose_name = 'Запись расписания аттестации'
+        verbose_name_plural = 'Расписание аттестации'
+        ordering = ['date', 'time', 'group']
+    
+    def __str__(self):
+        primary = self.get_primary_teacher()
+        teacher_name = primary.get_full_name() if primary else '—'
+        discipline = self.discipline_in_group.discipline_ref.name if self.discipline_in_group else '—'
+        return f"{self.group} | {discipline} | {self.date} | {teacher_name}"
+    
+    def get_primary_teacher(self):
+        """Возвращает основного преподавателя или None."""
+        try:
+            at = self.assessment_teachers.select_related('teacher').get(role='primary')
+            return at.teacher
+        except AssessmentTeacher.DoesNotExist:
+            return None
+    
+    def get_co_teachers(self):
+        """Возвращает QuerySet со-преподавателей."""
+        return User.objects.filter(
+            assessment_teaching__schedule=self,
+            assessment_teaching__role='co'
+        )
+    
+    def get_all_teachers(self):
+        """Возвращает QuerySet всех преподавателей (основной + со-преподаватели)."""
+        return User.objects.filter(assessment_teaching__schedule=self)
+    
+    def set_primary_teacher(self, user):
+        """Устанавливает основного преподавателя (удаляя предыдущего)."""
+        self.assessment_teachers.filter(role='primary').delete()
+        if user:
+            AssessmentTeacher.objects.create(
+                schedule=self,
+                teacher=user,
+                role='primary'
+            )
+    
+    def add_co_teacher(self, user):
+        """Добавляет со-преподавателя."""
+        AssessmentTeacher.objects.get_or_create(
+            schedule=self,
+            teacher=user,
+            defaults={'role': 'co'}
+        )
+
+
+class Statement(models.Model):
+    id_statement = models.AutoField(_('ID ведомости'), primary_key=True)
+    number = models.CharField(_('Номер ведомости'), max_length=50, unique=True)
+    group = models.ForeignKey(Group, on_delete=models.PROTECT, verbose_name=_('Группа'))
+    discipline_in_group = models.ForeignKey(DisciplineInGroup, on_delete=models.PROTECT, verbose_name=_('Дисциплина'))
+    teacher = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name=_('Преподаватель'))
+    issue_date = models.DateField(_('Дата выдачи'))
+    return_date = models.DateField(_('Дата возврата'), blank=True, null=True)
+    status = models.CharField(_('Статус'), max_length=50, choices=[
+        ('в_работе', 'В работе'),
+        ('закрыта', 'Закрыта'),
+        ('сдана_в_архив', 'Сдана в архив'),
+    ], default='в_работе')
+
+    class Meta:
+        verbose_name = _('Ведомость')
+        verbose_name_plural = _('Ведомости')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"Ведомость {self.number}"
+
+
+class StatementGrade(models.Model):
+    id_grade = models.AutoField(_('ID оценки'), primary_key=True)
+    statement = models.ForeignKey(Statement, on_delete=models.CASCADE, verbose_name=_('Ведомость'))
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name=_('Студент'))
+    grade = models.CharField(_('Оценка'), max_length=50, choices=[
+        ('5 (отлично)', '5 (отлично)'),
+        ('4 (хорошо)', '4 (хорошо)'),
+        ('3 (удовлетворительно)', '3 (удовлетворительно)'),
+        ('2 (неудовлетворительно)', '2 (неудовлетворительно)'),
+        ('н/а (не допущен)', 'н/а (не допущен)'),
+        ('зачтено', 'Зачтено'),
+        ('не_зачтено', 'Не зачтено'),
+    ], blank=True, null=True)
+    date = models.DateField(_('Дата сдачи'), blank=True, null=True)
+    is_retake = models.BooleanField(_('Является пересдачей'), default=False)
+
+    class Meta:
+        verbose_name = _('Оценка в ведомости')
+        verbose_name_plural = _('Оценки в ведомости')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"{self.student} - {self.grade}"
+
+
+class GEKProtocol(models.Model):
+    id_protocol = models.AutoField(_('ID протокола'), primary_key=True)
+    number = models.CharField(_('Номер протокола'), max_length=50)
+    group = models.ForeignKey(Group, on_delete=models.PROTECT, verbose_name=_('Группа'))
+    date = models.DateField(_('Дата проведения'))
+    gia_type = models.CharField(_('Тип ГИА'), max_length=50, choices=[
+        ('только_дэ', 'Только ДЭ'),
+        ('только_диплом', 'Только диплом'),
+        ('дэ_и_диплом', 'ДЭ и диплом'),
+    ])
+    chairman = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name=_('Председатель'))
+
+    class Meta:
+        verbose_name = _('Протокол ГЭК')
+        verbose_name_plural = _('Протоколы ГЭК')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"Протокол {self.number} ({self.group})"
+
+
+class GEKMember(models.Model):
+    protocol = models.ForeignKey(GEKProtocol, on_delete=models.CASCADE, verbose_name=_('Протокол'))
+    user = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name=_('Пользователь'))
+    role = models.CharField(_('Роль в комиссии'), max_length=50, choices=[
+        ('зам_председателя', 'Зам. председателя'),
+        ('член_комиссии', 'Член комиссии'),
+        ('секретарь', 'Секретарь'),
+    ])
+
+    class Meta:
+        verbose_name = _('Член ГЭК')
+        verbose_name_plural = _('Члены ГЭК')
+        unique_together = ('protocol', 'user')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"{self.user} - {self.role}"
+
+
+class GIAResult(models.Model):
+    id_result = models.AutoField(_('ID результата'), primary_key=True)
+    protocol = models.ForeignKey(GEKProtocol, on_delete=models.CASCADE, verbose_name=_('Протокол'))
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name=_('Студент'))
+    de_score = models.IntegerField(_('Балл ДЭ'), blank=True, null=True)
+    de_grade = models.CharField(_('Оценка ДЭ'), max_length=50, choices=[
+        ('отлично', 'Отлично'), ('хорошо', 'Хорошо'), ('удовл.', 'Удовлетворительно'), ('неуд.', 'Неудовлетворительно')
+    ], blank=True, null=True)
+    diploma_topic = models.TextField(_('Тема диплома'), blank=True, null=True)
+    diploma_supervisor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='supervised_diplomas', verbose_name=_('Руководитель диплома'))
+    diploma_grade = models.CharField(_('Оценка диплома'), max_length=50, choices=[
+        ('отлично', 'Отлично'), ('хорошо', 'Хорошо'), ('удовл.', 'Удовлетворительно'), ('неуд.', 'Неудовлетворительно')
+    ], blank=True, null=True)
+    final_gia_grade = models.CharField(_('Итоговая оценка ГИА'), max_length=50, choices=[
+        ('отлично', 'Отлично'), ('хорошо', 'Хорошо'), ('удовл.', 'Удовлетворительно'), ('неуд.', 'Неудовлетворительно')
+    ])
+
+    class Meta:
+        verbose_name = _('Результат ГИА')
+        verbose_name_plural = _('Результаты ГИА')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"ГИА: {self.student} - {self.final_gia_grade}"
+
+
+class GIADefenseQuestion(models.Model):
+    id_question = models.AutoField(_('ID вопроса'), primary_key=True)
+    gia_result = models.ForeignKey(GIAResult, on_delete=models.CASCADE, verbose_name=_('Результат ГИА'))
+    question_number = models.IntegerField(_('Номер вопроса'))
+    question_text = models.TextField(_('Текст вопроса'))
+    expert = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name=_('Эксперт'))
+    student_answer = models.TextField(_('Ответ студента'), blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Вопрос на защите')
+        verbose_name_plural = _('Вопросы на защите')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"Вопрос {self.question_number} для {self.gia_result.student}"
+
+
+class AttendanceTable(models.Model):
+    id_table = models.AutoField(_('ID табеля'), primary_key=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name=_('Группа'))
+    month = models.IntegerField(_('Месяц'))
+    year = models.IntegerField(_('Год'))
+    curator = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name=_('Куратор'))
+
+    class Meta:
+        verbose_name = _('Табель посещаемости')
+        verbose_name_plural = _('Табели посещаемости')
+        unique_together = ('group', 'month', 'year')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"Табель: {self.group} ({self.month}/{self.year})"
+
+
+class AttendanceTableRow(models.Model):
+    id_row = models.AutoField(_('ID строки'), primary_key=True)
+    table = models.ForeignKey(AttendanceTable, on_delete=models.CASCADE, verbose_name=_('Табель'))
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name=_('Студент'))
+    study_days = models.IntegerField(_('Учебные дни'), default=0)
+    sick_leave = models.IntegerField(_('Больничный'), default=0)
+    practice = models.IntegerField(_('Практика'), default=0)
+    truancy = models.IntegerField(_('Прогулы'), default=0)
+
+    class Meta:
+        verbose_name = _('Строка табеля')
+        verbose_name_plural = _('Строки табеля')
+        app_label = 'core'
+
+    def __str__(self):
+        return f"{self.student} в табеле {self.table}"
+
+
+# ==============================================================================
+# ЗАЯВКИ И УВЕДОМЛЕНИЯ СТУДЕНТА
+# ==============================================================================
+
+class StudentRequest(models.Model):
+    REQUEST_TYPES = [
+        ('academic_certificate', 'Академическая справка'),
+        ('study_certificate', 'Справка с места учебы'),
+        ('characteristic', 'Характеристика'),
+        ('other', 'Другое'),
+    ]
+    
+    STATUS_CHOICES = [
+        ('pending', 'В обработке'),
+        ('approved', 'Одобрено'),
+        ('rejected', 'Отклонено'),
+        ('ready', 'Готово к выдаче'),
+    ]
+
+    id_request = models.AutoField(_('ID заявки'), primary_key=True)
+    student = models.ForeignKey('Student', on_delete=models.CASCADE, verbose_name=_('Студент'), related_name='requests')
+    request_type = models.CharField(_('Тип заявки'), max_length=50, choices=REQUEST_TYPES)
+    description = models.TextField(_('Описание / Дополнительная информация'), blank=True, null=True)
+    status = models.CharField(_('Статус'), max_length=20, choices=STATUS_CHOICES, default='pending')
+    comment = models.TextField(_('Комментарий куратора/администратора'), blank=True, null=True)
+    created_at = models.DateTimeField(_('Дата создания'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Дата обновления'), auto_now=True)
+
+    class Meta:
+        verbose_name = _('Заявка студента')
+        verbose_name_plural = _('Заявки студентов')
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Заявка #{self.id_request} - {self.get_request_type_display()} ({self.student.user.get_full_name()})"
+
+
+class Notification(models.Model):
+    id_notification = models.AutoField(_('ID уведомления'), primary_key=True)
+    student = models.ForeignKey('Student', on_delete=models.CASCADE, verbose_name=_('Студент'), related_name='notifications')
+    title = models.CharField(_('Заголовок'), max_length=200)
+    message = models.TextField(_('Текст уведомления'))
+    is_read = models.BooleanField(_('Прочитано'), default=False)
+    link = models.CharField(_('Ссылка (опционально)'), max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(_('Дата создания'), auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Уведомление')
+        verbose_name_plural = _('Уведомления')
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Уведомление для {self.student.user.get_full_name()}: {self.title}"
+from django.shortcuts import render
+
+# Create your views here.
+from rest_framework import serializers
+from .models import (
+    User, Student, Group, Statement, StatementGrade,
+    StudentRequest, Notification,
+    Passport, Health, Military, Family, FamilyMember, Profile,
+    EducationInstitution,
+    StudentPracticePlace, PracticeDiary, PracticeAttestation,
+)
+
+# ==============================================================================
+# СЕРИАЛИЗАТОРЫ ДЛЯ ПРОФИЛЯ СТУДЕНТА
+# ==============================================================================
+
+class PassportSerializer(serializers.ModelSerializer):
+    """Сериализатор паспорта."""
+    class Meta:
+        model = Passport
+        fields = (
+            'id_passport', 'is_foreigner', 'citizenship', 'series_number',
+            'issue_date', 'issuer', 'unit_code', 'region_city',
+            'address_detail', 'fact_region', 'fact_detail', 'temp_reg',
+            'absence_reason', 'file_path',
+        )
+        read_only_fields = ('id_passport',)
+
+
+class HealthSerializer(serializers.ModelSerializer):
+    """Сериализатор здоровья."""
+    class Meta:
+        model = Health
+        fields = (
+            'id_health', 'status', 'diagnosis', 'diagnosis_scan',
+            'oms_number', 'oms_date', 'oms_issuer', 'oms_scan',
+            'oms_absence_reason',
+        )
+        read_only_fields = ('id_health',)
+
+
+class MilitarySerializer(serializers.ModelSerializer):
+    """Сериализатор воинского учёта."""
+    class Meta:
+        model = Military
+        fields = (
+            'id_military', 'registration_number', 'commissariat',
+            'issue_date', 'fitness_category', 'absence_reason', 'file_path',
+        )
+        read_only_fields = ('id_military',)
+
+
+class FamilyMemberSerializer(serializers.ModelSerializer):
+    """Сериализатор члена семьи."""
+    class Meta:
+        model = FamilyMember
+        fields = (
+            'id_member', 'relation', 'full_name', 'birth_date',
+            'education', 'workplace', 'phone', 'is_pensioner',
+            'is_svo', 'is_priority_contact',
+        )
+        read_only_fields = ('id_member',)
+
+
+class FamilySerializer(serializers.ModelSerializer):
+    """Сериализатор семьи с членами."""
+    members = FamilyMemberSerializer(source='familymember_set', many=True, read_only=True)
+    
+    class Meta:
+        model = Family
+        fields = (
+            'id_family', 'minors_count', 'adults_count',
+            'status', 'housing_type', 'members',
+        )
+        read_only_fields = ('id_family',)
+
+
+class EducationInstitutionSerializer(serializers.ModelSerializer):
+    """Сериализатор предыдущего образования."""
+    class Meta:
+        model = EducationInstitution
+        fields = (
+            'id_institution', 'name', 'type', 'profile', 'graduation_date',
+        )
+        read_only_fields = ('id_institution',)
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    """Сериализатор профиля студента (хобби, навыки и т.д.)."""
+    class Meta:
+        model = Profile
+        fields = (
+            'id_profile', 'it_skills', 'programming_langs', 'creative_skills',
+            'school_participation', 'college_participation', 'achievements',
+            'hobbies', 'extra_edu', 'social_networks', 'motivation_college',
+            'motivation_specialty', 'desired_participation', 'foreign_langs',
+            'drivers_license', 'sports_ranks', 'character_behavior',
+        )
+        read_only_fields = ('id_profile',)
+
+
+class UserSerializer(serializers.ModelSerializer):
+    """Сериализатор пользователя (только публичные поля)."""
+    full_name = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = User
+        fields = (
+            'id_user', 'email', 'last_name', 'first_name', 'middle_name',
+            'full_name',
+        )
+        read_only_fields = ('id_user', 'email')
+    
+    def get_full_name(self, obj):
+        return obj.get_full_name()
+
+
+class StudentProfileSerializer(serializers.ModelSerializer):
+    """
+    Полный сериализатор студента для личного кабинета.
+    Возвращает все связанные данные одним запросом.
+    """
+    user = UserSerializer(read_only=True)
+    group_name = serializers.CharField(source='group.id_group', read_only=True)
+    passport = PassportSerializer(read_only=True)
+    health = HealthSerializer(read_only=True)
+    military = MilitarySerializer(read_only=True)
+    family = FamilySerializer(read_only=True)
+    education = EducationInstitutionSerializer(read_only=True)
+    profile = ProfileSerializer(read_only=True)
+    
+    # Вычисляемые поля
+    age = serializers.SerializerMethodField()
+    age_status = serializers.SerializerMethodField()
+    completion_percentage = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Student
+        fields = (
+            'snils', 'user', 'group_name', 'birth_date', 'gender',
+            'birth_place', 'phone', 'inn', 'pd_consent', 'pd_consent_date',
+            'status', 'last_change', 'photo_path', 'study_plan', 'dual_edu',
+            'snils_file', 'inn_file',
+            'passport', 'health', 'military', 'family', 'education', 'profile',
+            'age', 'age_status', 'completion_percentage',
+        )
+        read_only_fields = (
+            'snils', 'status', 'last_change', 'group_name',
+        )
+    
+    def get_age(self, obj):
+        """Вычисляем возраст студента."""
+        if not obj.birth_date:
+            return None
+        from datetime import date
+        today = date.today()
+        age = today.year - obj.birth_date.year
+        if (today.month, today.day) < (obj.birth_date.month, obj.birth_date.day):
+            age -= 1
+        return age
+    
+    def get_age_status(self, obj):
+        """Совершеннолетний или нет."""
+        age = self.get_age(obj)
+        if age is None:
+            return None
+        return "Совершеннолетний" if age >= 18 else "Несовершеннолетний"
+    
+    def get_completion_percentage(self, obj):
+        """Вычисляем процент заполненности анкеты."""
+        total_fields = 0
+        filled_fields = 0
+        
+        # Основные поля студента
+        student_fields = [
+            obj.phone, obj.inn, obj.birth_place, obj.photo_path,
+        ]
+        total_fields += len(student_fields)
+        filled_fields += sum(1 for f in student_fields if f)
+        
+        # Паспорт
+        if obj.passport:
+            passport_fields = [
+                obj.passport.series_number, obj.passport.issue_date,
+                obj.passport.issuer, obj.passport.address_detail,
+            ]
+            total_fields += len(passport_fields)
+            filled_fields += sum(1 for f in passport_fields if f)
+        
+        # Здоровье
+        if obj.health:
+            total_fields += 1
+            if obj.health.oms_number:
+                filled_fields += 1
+        
+        # Семья
+        if obj.family:
+            total_fields += 1
+            if obj.family.status:
+                filled_fields += 1
+        
+        # Профиль
+        if obj.profile:
+            profile_fields = [
+                obj.profile.it_skills, obj.profile.hobbies,
+                obj.profile.social_networks,
+            ]
+            total_fields += len(profile_fields)
+            filled_fields += sum(1 for f in profile_fields if f)
+        
+        if total_fields == 0:
+            return 0
+        return round((filled_fields / total_fields) * 100)
+
+
+# ==============================================================================
+# СЕРИАЛИЗАТОРЫ ДЛЯ КУРАТОРА
+# ==============================================================================
+
+class StudentBriefSerializer(serializers.ModelSerializer):
+    """Краткая информация о студенте для куратора."""
+    full_name = serializers.SerializerMethodField()
+    group_name = serializers.CharField(source='group.id_group', read_only=True)
+    
+    class Meta:
+        model = Student
+        fields = ('snils', 'full_name', 'group_name', 'phone', 'status', 'birth_date')
+    
+    def get_full_name(self, obj):
+        if obj.user:
+            return obj.user.get_full_name()
+        return "Без ФИО"
+
+
+class GroupWithStudentsSerializer(serializers.ModelSerializer):
+    """Группа со списком студентов для куратора."""
+    students = StudentBriefSerializer(source='student_set', many=True, read_only=True)
+    curator_name = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Group
+        fields = ('id_group', 'year_start', 'year_end', 'curator_name', 'students')
+    
+    def get_curator_name(self, obj):
+        if obj.curator:
+            return obj.curator.get_full_name()
+        return "Не назначен"
+
+
+# ==============================================================================
+# СЕРИАЛИЗАТОРЫ ДЛЯ ПРЕПОДАВАТЕЛЯ
+# ==============================================================================
+
+class StatementGradeSerializer(serializers.ModelSerializer):
+    """Оценка студента в ведомости."""
+    student_name = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = StatementGrade
+        fields = ('id_grade', 'student_name', 'grade', 'date', 'is_retake')
+    
+    def get_student_name(self, obj):
+        if obj.student and obj.student.user:
+            return obj.student.user.get_full_name()
+        return "Без ФИО"
+
+
+class StatementSerializer(serializers.ModelSerializer):
+    """Ведомость с оценками для преподавателя."""
+    group_name = serializers.CharField(source='group.id_group', read_only=True)
+    discipline_name = serializers.SerializerMethodField()
+    grades = StatementGradeSerializer(source='statementgrade_set', many=True, read_only=True)
+    teacher_name = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Statement
+        fields = (
+            'id_statement', 'number', 'group_name', 'discipline_name',
+            'teacher_name', 'issue_date', 'return_date', 'status', 'grades',
+        )
+    
+    def get_discipline_name(self, obj):
+        if obj.discipline_in_group and obj.discipline_in_group.discipline_ref:
+            return obj.discipline_in_group.discipline_ref.name
+        return "—"
+    
+    def get_teacher_name(self, obj):
+        if obj.teacher:
+            return obj.teacher.get_full_name()
+        return "—"
+
+
+# ==============================================================================
+# СЕРИАЛИЗАТОР ДЛЯ ПОЛЬЗОВАТЕЛЯ (КУРАТОР/ПРЕПОДАВАТЕЛЬ/АДМИН)
+# ==============================================================================
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    """Сериализатор для кураторов/преподавателей/админов (без данных Student)."""
+    full_name = serializers.SerializerMethodField()
+    roles = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = User
+        fields = (
+            'id_user', 'email', 'last_name', 'first_name', 'middle_name',
+            'full_name', 'roles',
+        )
+        read_only_fields = ('id_user', 'email')
+    
+    def get_full_name(self, obj):
+        return obj.get_full_name()
+    
+    def get_roles(self, obj):
+        from .models import UserRole
+        user_roles = UserRole.objects.filter(user=obj).select_related('role')
+        return [ur.role.id_role for ur in user_roles]
+
+
+# ==============================================================================
+# СЕРИАЛИЗАТОРЫ ДЛЯ ОБНОВЛЕНИЯ ПРОФИЛЯ
+# ==============================================================================
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    """Сериализатор для обновления данных пользователя."""
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'middle_name', 'email']
+
+
+class PassportUpdateSerializer(serializers.ModelSerializer):
+    """Сериализатор для обновления паспорта."""
+    class Meta:
+        model = Passport
+        fields = [
+            'is_foreigner', 'citizenship', 'series_number', 'issue_date',
+            'issuer', 'unit_code', 'region_city', 'address_detail',
+            'fact_region', 'fact_detail', 'temp_reg', 'absence_reason'
+        ]
+
+
+class HealthUpdateSerializer(serializers.ModelSerializer):
+    """Сериализатор для обновления здоровья."""
+    class Meta:
+        model = Health
+        fields = [
+            'status', 'diagnosis', 'oms_number', 'oms_date',
+            'oms_issuer', 'oms_absence_reason'
+        ]
+
+
+class MilitaryUpdateSerializer(serializers.ModelSerializer):
+    """Сериализатор для обновления воинского учета."""
+    class Meta:
+        model = Military
+        fields = [
+            'registration_number', 'commissariat', 'issue_date',
+            'fitness_category', 'absence_reason'
+        ]
+
+
+class FamilyMemberUpdateSerializer(serializers.ModelSerializer):
+    """Сериализатор для обновления члена семьи."""
+    class Meta:
+        model = FamilyMember
+        fields = [
+            'id_member', 'relation', 'full_name', 'birth_date',
+            'education', 'workplace', 'phone', 'is_pensioner',
+            'is_svo', 'is_priority_contact'
+        ]
+
+
+class FamilyUpdateSerializer(serializers.ModelSerializer):
+    """Сериализатор для обновления семьи."""
+    members = FamilyMemberUpdateSerializer(many=True, required=False)
+    
+    class Meta:
+        model = Family
+        fields = [
+            'minors_count', 'adults_count', 'status', 'housing_type', 'members'
+        ]
+    
+    def update(self, instance, validated_data):
+        members_data = validated_data.pop('members', None)
+        
+        # Обновляем основные поля семьи
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        
+        # Обновляем членов семьи
+        if members_data is not None:
+            # Удаляем старых членов семьи
+            instance.familymember_set.all().delete()
+            
+            # Создаем новых
+            for member_data in members_data:
+                FamilyMember.objects.create(family=instance, **member_data)
+        
+        return instance
+
+
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+    """Сериализатор для обновления профиля."""
+    class Meta:
+        model = Profile
+        fields = [
+            'it_skills', 'programming_langs', 'creative_skills',
+            'school_participation', 'college_participation', 'achievements',
+            'hobbies', 'extra_edu', 'social_networks', 'motivation_college',
+            'motivation_specialty', 'desired_participation', 'foreign_langs',
+            'drivers_license', 'sports_ranks', 'character_behavior'
+        ]
+
+
+class EducationUpdateSerializer(serializers.ModelSerializer):
+    """Сериализатор для обновления образования."""
+    class Meta:
+        model = EducationInstitution
+        fields = ['name', 'type', 'profile', 'graduation_date']
+
+
+from rest_framework import serializers
+from .models import (
+    Student, User, Passport, Health, Military, Family, FamilyMember, Profile,
+    EducationInstitution
+)
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'middle_name', 'email']
+
+
+class PassportUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Passport
+        fields = [
+            'is_foreigner', 'citizenship', 'series_number', 'issue_date',
+            'issuer', 'unit_code', 'region_city', 'address_detail',
+            'fact_region', 'fact_detail', 'temp_reg', 'absence_reason'
+        ]
+
+
+class HealthUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Health
+        fields = [
+            'status', 'diagnosis', 'oms_number', 'oms_date',
+            'oms_issuer', 'oms_absence_reason'
+        ]
+
+
+class MilitaryUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Military
+        fields = [
+            'registration_number', 'commissariat', 'issue_date',
+            'fitness_category', 'absence_reason'
+        ]
+
+
+class FamilyMemberUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FamilyMember
+        fields = [
+            'id_member', 'relation', 'full_name', 'birth_date',
+            'education', 'workplace', 'phone', 'is_pensioner',
+            'is_svo', 'is_priority_contact'
+        ]
+
+
+class FamilyUpdateSerializer(serializers.ModelSerializer):
+    members = FamilyMemberUpdateSerializer(many=True, required=False)
+    
+    class Meta:
+        model = Family
+        fields = [
+            'minors_count', 'adults_count', 'status', 'housing_type', 'members'
+        ]
+
+
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = [
+            'it_skills', 'programming_langs', 'creative_skills',
+            'school_participation', 'college_participation', 'achievements',
+            'hobbies', 'extra_edu', 'social_networks', 'motivation_college',
+            'motivation_specialty', 'desired_participation', 'foreign_langs',
+            'drivers_license', 'sports_ranks', 'character_behavior'
+        ]
+
+
+class EducationUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EducationInstitution
+        fields = ['name', 'type', 'profile', 'graduation_date']
+
+
+class StudentProfileUpdateSerializer(serializers.Serializer):
+    user = UserUpdateSerializer(required=False)
+    phone = serializers.CharField(required=False, allow_blank=True)
+    inn = serializers.CharField(required=False, allow_blank=True)
+    birth_place = serializers.CharField(required=False, allow_blank=True)
+    passport = PassportUpdateSerializer(required=False)
+    health = HealthUpdateSerializer(required=False)
+    military = MilitaryUpdateSerializer(required=False)
+    family = FamilyUpdateSerializer(required=False)
+    profile = ProfileUpdateSerializer(required=False)
+    education = EducationUpdateSerializer(required=False)
+    
+    def update(self, instance, validated_data):
+        # Обновляем данные пользователя
+        user_data = validated_data.pop('user', None)
+        if user_data:
+            user = instance.user
+            for attr, value in user_data.items():
+                setattr(user, attr, value)
+            user.save()
+        
+        # Обновляем основные поля студента
+        for attr in ['phone', 'inn', 'birth_place']:
+            if attr in validated_data:
+                setattr(instance, attr, validated_data.pop(attr))
+        
+        # Обновляем паспорт
+        passport_data = validated_data.pop('passport', None)
+        if passport_data and instance.passport:
+            passport = instance.passport
+            for attr, value in passport_data.items():
+                setattr(passport, attr, value)
+            passport.save()
+            print(f"✅ Паспорт обновлен: {passport.series_number}")
+        
+        # Обновляем здоровье
+        health_data = validated_data.pop('health', None)
+        if health_data and instance.health:
+            health = instance.health
+            for attr, value in health_data.items():
+                setattr(health, attr, value)
+            health.save()
+            print(f"✅ Здоровье обновлено: {health.status}")
+        
+        # Обновляем воинский учет
+        military_data = validated_data.pop('military', None)
+        if military_data and instance.military:
+            military = instance.military
+            for attr, value in military_data.items():
+                setattr(military, attr, value)
+            military.save()
+            print(f"✅ Военный учет обновлен: {military.registration_number}")
+        
+        # Обновляем семью
+        family_data = validated_data.pop('family', None)
+        if family_data and instance.family:
+            family = instance.family
+            # Обновляем основные поля семьи
+            for attr in ['minors_count', 'adults_count', 'status', 'housing_type']:
+                if attr in family_data:
+                    setattr(family, attr, family_data[attr])
+            
+            # Обновляем членов семьи
+            members_data = family_data.get('members', [])
+            if members_data:
+                # Удаляем старых членов семьи
+                family.familymember_set.all().delete()
+                # Создаем новых
+                for member_data in members_data:
+                    member_data.pop('id_member', None)  # Удаляем id, если есть
+                    FamilyMember.objects.create(family=family, **member_data)
+            
+            family.save()
+            print(f"✅ Семья обновлена")
+        
+        # Обновляем профиль
+        profile_data = validated_data.pop('profile', None)
+        if profile_data and instance.profile:
+            profile = instance.profile
+            for attr, value in profile_data.items():
+                setattr(profile, attr, value)
+            profile.save()
+            print(f"✅ Профиль обновлен")
+        
+        # Обновляем образование
+        education_data = validated_data.pop('education', None)
+        if education_data and instance.education:
+            education = instance.education
+            for attr, value in education_data.items():
+                setattr(education, attr, value)
+            education.save()
+            print(f"✅ Образование обновлено")
+        
+        instance.save()
+        print(f"✅ Студент сохранен")
+        return instance
+
+
+# ==============================================================================
+# СЕРИАЛИЗАТОРЫ ДЛЯ ЗАЯВОК И УВЕДОМЛЕНИЙ
+# ==============================================================================
+
+class StudentRequestSerializer(serializers.ModelSerializer):
+    """Сериализатор заявок студента."""
+    request_type_display = serializers.CharField(source='get_request_type_display', read_only=True)
+    status_display = serializers.CharField(source='get_status_display', read_only=True)
+    student_name = serializers.CharField(source='student.user.get_full_name', read_only=True)
+
+    class Meta:
+        model = StudentRequest
+        fields = ['id_request', 'student_name', 'request_type', 'request_type_display', 'description', 
+                  'status', 'status_display', 'comment', 'created_at', 'updated_at']
+        read_only_fields = ['id_request', 'student_name', 'request_type_display', 'status_display', 'created_at', 'updated_at']
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    """Сериализатор уведомлений."""
+    class Meta:
+        model = Notification
+        fields = ['id_notification', 'title', 'message', 'is_read', 'link', 'created_at']
+
+
+# ==============================================================================
+# СЕРИАЛИЗАТОРЫ ДЛЯ ПРАКТИКИ
+# ==============================================================================
+
+class PracticeDiarySerializer(serializers.ModelSerializer):
+    """Сериализатор дневника практики."""
+    class Meta:
+        model = PracticeDiary
+        fields = ['id_entry', 'date', 'work_content', 'hours', 'is_approved_by_org']
+
+
+class PracticeAttestationSerializer(serializers.ModelSerializer):
+    """Сериализатор аттестации практики."""
+    class Meta:
+        model = PracticeAttestation
+        fields = ['id_attestation', 'competencies_eval', 'characteristic_text', 'recommended_grade', 'fill_date']
+
+
+class StudentPracticePlaceSerializer(serializers.ModelSerializer):
+    """Сериализатор места прохождения практики."""
+    organization_name = serializers.CharField(source='organization.name', read_only=True)
+    student_name = serializers.CharField(source='student.user.get_full_name', read_only=True)
+    diary = PracticeDiarySerializer(source='practicediary_set', many=True, read_only=True)
+    attestation = PracticeAttestationSerializer(source='practiceattestation', read_only=True)
+    
+    class Meta:
+        model = StudentPracticePlace
+        fields = ['id_place', 'student_name', 'organization_name', 'position', 'status', 'diary', 'attestation']
+from django.http import JsonResponse, HttpResponse
+from core.models import Campus
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from .serializers import ForceChangePasswordSerializer
+
+
+def hello(request):
+    """Главная страница портала."""
+    campuses = Campus.objects.all()
+    sp = ''.join([
+        f'<li><b>🏢 {k.id_campus}</b><br><small>📍 {k.address}</small></li>'
+        for k in campuses
+    ])
+    return HttpResponse(f"""
+<html>
+<head>
+<meta charset="utf-8">
+<title>ТехноПортал — Люберецкий техникум</title>
+</head>
+<body style="font-family: Arial; max-width: 900px; margin: 40px auto; padding: 20px;">
+<h1>🚀 ТехноПортал работает!</h1>
+<p><b>ГБПОУ МО «Люберецкий техникум имени Ю. А. Гагарина»</b></p>
+<h2>🏢 Корпуса техникума ({campuses.count()} шт.):</h2>
+<ul>{sp}</ul>
+</body>
+</html>
+""")
+
+
+def api_campuses(request):
+    """API эндпоинт со списком корпусов."""
+    campuses = Campus.objects.values('id_campus', 'address')
+    return JsonResponse({
+        'success': True,
+        'count': len(campuses),
+        'data': list(campuses)
+    }, json_dumps_params={'ensure_ascii': False})
+
+
+class ForceChangePasswordView(APIView):
+    """Принудительная смена пароля (Функция 1.2)."""
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = ForceChangePasswordSerializer(
+            data=request.data,
+            context={'request': request}
+        )
+        if serializer.is_valid():
+            user = request.user
+            user.set_password(serializer.validated_data['new_password'])
+            user.requires_password_change = False
+            user.save()
+            return Response(
+                {"detail": "Пароль успешно изменен."},
+                status=status.HTTP_200_OK
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+from rest_framework import permissions
+from core.models import UserRole
+
+
+class HasActiveRolePermission(permissions.BasePermission):
+    """
+    Проверяет, что пользователь аутентифицирован,
+    и указанная в заголовке X-Active-Role роль действительно принадлежит этому пользователю.
+    """
+    message = "У вас нет доступа к этому разделу с выбранной ролью."
+
+    def has_permission(self, request, view):
+        if not request.user or not request.user.is_authenticated:
+            return False
+        
+        # Получаем роль из заголовка (DRF преобразует X-Active-Role в HTTP_X_ACTIVE_ROLE)
+        active_role = request.META.get('HTTP_X_ACTIVE_ROLE')
+        
+        if not active_role:
+            # Если заголовок не передан — разрешаем (для совместимости)
+            return True
+        
+        # Получаем все роли пользователя из БД
+        user_roles = list(UserRole.objects.filter(user=request.user).values_list('role__id_role', flat=True))
+        
+        # Разрешаем доступ, только если запрошенная роль есть у пользователя
+        return active_role in user_roles
+
+
+class RequireRole(permissions.BasePermission):
+    """
+    Проверяет, что активная роль пользователя совпадает с требуемой для View.
+    Использование: permission_classes = [RequireRole]
+    required_role = 'admin'  # или 'curator', 'teacher', 'student'
+    """
+    message = "У вас нет доступа к этому разделу."
+
+    def has_permission(self, request, view):
+        if not request.user or not request.user.is_authenticated:
+            return False
+        
+        active_role = request.META.get('HTTP_X_ACTIVE_ROLE')
+        required_role = getattr(view, 'required_role', None)
+        
+        if not required_role:
+            return True
+        
+        if not active_role:
+            return False
+        
+        # Проверяем, что активная роль совпадает с требуемой И есть у пользователя
+        if active_role != required_role:
+            return False
+        
+        user_roles = list(UserRole.objects.filter(user=request.user).values_list('role__id_role', flat=True))
+        return required_role in user_roles
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider } from './ThemeContext';
+import CssBaseline from '@mui/material/CssBaseline';
+
+// Страницы
+import LoginPage from './pages/LoginPage';
+import ChangePasswordPage from './pages/ChangePasswordPage';
+import ProfilePage from './pages/ProfilePage';
+import CuratorDashboard from './pages/CuratorDashboard';
+import CuratorRequestsPage from './pages/CuratorRequestsPage';
+import TeacherDashboard from './pages/TeacherDashboard';
+import TeacherPracticePage from './pages/TeacherPracticePage';
+import RequestsPage from './pages/RequestsPage';
+import NotificationsPage from './pages/NotificationsPage';
+import StudentDashboard from './pages/StudentDashboard';
+import PracticePage from './pages/PracticePage';
+import GradesPage from './pages/GradesPage';
+import ComingSoonPage from './pages/ComingSoonPage'; // Заглушка для всех остальных страниц
+
+import DashboardLayout from './components/DashboardLayout';
+
+// Функция для безопасного декодирования JWT payload
+function parseJwt(token: string) {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    return null;
+  }
+}
+
+// Компонент умного редиректа после входа
+function SmartRedirect() {
+  const token = localStorage.getItem('access_token');
+  
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  const payload = parseJwt(token);
+  let targetPath = '/student/profile'; // Дефолтный путь
+
+  if (payload && payload.roles && Array.isArray(payload.roles)) {
+    const roles = payload.roles;
+    // Приоритет ролей: admin > mck_chairman > teacher > curator > student
+    if (roles.includes('admin')) targetPath = '/admin/users';
+    else if (roles.includes('mck_chairman')) targetPath = '/mck/rpd';
+    else if (roles.includes('teacher')) targetPath = '/teacher/statements';
+    else if (roles.includes('curator')) targetPath = '/curator/group';
+    else if (roles.includes('student')) targetPath = '/student/profile';
+  }
+
+  // Если требуется смена пароля
+  if (payload && payload.requires_password_change === true) {
+    return <Navigate to="/change-password" replace />;
+  }
+
+  return <Navigate to={targetPath} replace />;
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <CssBaseline />
+      <Router>
+        <Routes>
+          {/* Публичные маршруты */}
+          <Route path="/login" element={<LoginPage />} />
+          
+          {/* Корневой путь — умный редирект */}
+          <Route path="/" element={<SmartRedirect />} />
+          
+          {/* Защищенные маршруты внутри DashboardLayout */}
+          <Route element={<DashboardLayout />}>
+            <Route path="/change-password" element={<ChangePasswordPage />} />
+            
+            {/* Профиль доступен по короткому пути /profile */}
+            <Route path="/profile" element={<ProfilePage />} />
+            
+            {/* === СТУДЕНТ === */}
+            <Route path="/student/profile" element={<ProfilePage />} />
+            <Route path="/student/grades" element={<GradesPage />} />
+            <Route path="/student/practice" element={<PracticePage />} />
+            <Route path="/student/requests" element={<RequestsPage />} />
+            <Route path="/student/notifications" element={<NotificationsPage />} />
+            {/* Fallback для студента: если путь неизвестен, показываем заглушку */}
+            <Route path="/student/*" element={<ComingSoonPage />} />
+
+            {/* === ПРЕПОДАВАТЕЛЬ === */}
+            <Route path="/teacher/statements" element={<TeacherDashboard />} />
+            <Route path="/teacher/schedule" element={<ComingSoonPage />} />
+            <Route path="/teacher/practice" element={<TeacherPracticePage />} />
+            <Route path="/teacher/rpd" element={<ComingSoonPage />} />
+            <Route path="/teacher/*" element={<ComingSoonPage />} />
+
+            {/* === КУРАТОР === */}
+            <Route path="/curator/group" element={<CuratorDashboard />} />
+            <Route path="/curator/grades" element={<ComingSoonPage />} />
+            <Route path="/curator/attendance" element={<ComingSoonPage />} />
+            <Route path="/curator/schedule" element={<ComingSoonPage />} />
+            <Route path="/curator/requests" element={<CuratorRequestsPage />} />
+            <Route path="/curator/*" element={<ComingSoonPage />} />
+
+            {/* === АДМИНИСТРАТОР === */}
+            <Route path="/admin/users" element={<ComingSoonPage />} />
+            <Route path="/admin/references" element={<ComingSoonPage />} />
+            <Route path="/admin/*" element={<ComingSoonPage />} />
+
+            {/* === МЦК === */}
+            <Route path="/mck/rpd" element={<ComingSoonPage />} />
+            <Route path="/mck/monitoring" element={<ComingSoonPage />} />
+            <Route path="/mck/protocols" element={<ComingSoonPage />} />
+            <Route path="/mck/*" element={<ComingSoonPage />} />
+          </Route>
+          
+          {/* Все остальные пути — на логин */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
+  );
+}
+
+export default App;
+import { List, ListItem, ListItemText, Box } from '@mui/material';
+import { Link, useLocation } from 'react-router-dom';
+import PersonIcon from '@mui/icons-material/Person';
+import SchoolIcon from '@mui/icons-material/School';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import WorkIcon from '@mui/icons-material/Work';
+import DescriptionIcon from '@mui/icons-material/Description';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import GroupsIcon from '@mui/icons-material/Groups';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+
+interface MenuItem {
+  text: string;
+  path: string;
+  icon: React.ReactNode;
+  external?: boolean;
+}
+
+interface SidebarProps {
+  role: string;
+  onClose?: () => void;
+}
+
+const studentMenu: MenuItem[] = [
+  { text: 'Мой профиль', path: '/student/profile', icon: <PersonIcon /> },
+  { text: 'Зачётная книжка', path: '/student/grades', icon: <SchoolIcon /> },
+  { text: 'Практика', path: '/student/practice', icon: <WorkIcon /> },
+  { text: 'Заявки', path: '/student/requests', icon: <DescriptionIcon /> },
+  { text: 'Уведомления', path: '/student/notifications', icon: <NotificationsIcon /> },
+];
+
+const teacherMenu: MenuItem[] = [
+  { text: 'Мои ведомости', path: '/teacher/statements', icon: <AssignmentIcon /> },
+  { text: 'Расписание экзаменов', path: '/teacher/schedule', icon: <CalendarTodayIcon /> },
+  { text: 'Практика', path: '/teacher/practice', icon: <WorkIcon /> },
+  { text: 'Рабочие программы', path: '/teacher/rpd', icon: <MenuBookIcon /> },
+];
+
+const curatorMenu: MenuItem[] = [
+  { text: 'Моя группа', path: '/curator/group', icon: <GroupsIcon /> },
+  { text: 'Успеваемость', path: '/curator/grades', icon: <SchoolIcon /> },
+  { text: 'Посещаемость', path: '/curator/attendance', icon: <VisibilityIcon /> },
+  { text: 'Расписание', path: '/curator/schedule', icon: <CalendarTodayIcon /> },
+  { text: 'Заявки студентов', path: '/curator/requests', icon: <DescriptionIcon /> },
+  { text: 'Практика', path: '/curator/practice', icon: <WorkIcon /> },
+];
+
+const adminMenu: MenuItem[] = [
+  { text: 'Управление пользователями', path: '/admin/users', icon: <GroupsIcon /> },
+  { text: 'Справочники', path: '/admin/references', icon: <MenuBookIcon /> },
+  { text: 'Django Admin', path: '/admin/', icon: <AdminPanelSettingsIcon />, external: true },
+];
+
+const mckMenu: MenuItem[] = [
+  { text: 'Рабочие программы (РПД)', path: '/mck/rpd', icon: <MenuBookIcon /> },
+  { text: 'Мониторинг РПД', path: '/mck/monitoring', icon: <MenuBookIcon /> }, // Заменил Analytics на MenuBook для единообразия
+  { text: 'Протоколы МЦК', path: '/mck/protocols', icon: <DescriptionIcon /> },
+];
+
+export default function Sidebar({ role, onClose }: SidebarProps) {
+  const location = useLocation();
+
+  const getMenuByRole = (): MenuItem[] => {
+    switch (role) {
+      case 'student': return studentMenu;
+      case 'teacher': return teacherMenu;
+      case 'curator': return curatorMenu;
+      case 'admin': return adminMenu;
+      case 'mck_chairman': return mckMenu;
+      default: return [];
+    }
+  };
+
+  const menuItems = getMenuByRole();
+
+  return (
+    <Box sx={{ width: 240, height: '100%', overflowY: 'auto', overflowX: 'hidden', pt: 4, px: 2, bgcolor: 'background.paper' }}>
+      <List sx={{ px: 0 }}>
+        {menuItems.map((item) => {
+          const isActive = location.pathname === item.path;
+          
+          const listItemProps = item.external 
+            ? { component: 'a', href: item.path, target: '_blank', rel: 'noopener noreferrer' }
+            : { component: Link, to: item.path };
+
+          return (
+            <ListItem
+              {...listItemProps}
+              onClick={onClose}
+              key={item.path}
+              sx={{
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',     
+                py: 2.5,
+                mb: 1,
+                borderRadius: 3,
+                bgcolor: isActive ? 'primary.main' : 'transparent',
+                color: isActive ? 'primary.contrastText' : 'text.primary',
+                '&:hover': {
+                  bgcolor: isActive ? 'primary.dark' : 'action.hover',
+                },
+                transition: 'all 0.2s',
+                cursor: 'pointer',
+              }}
+            >
+              <Box sx={{ mb: 1, color: isActive ? 'inherit' : 'primary.main', transform: isActive ? 'scale(1.1)' : 'scale(1)', transition: 'transform 0.2s' }}>
+                {item.icon}
+              </Box>
+              <ListItemText 
+                primary={item.text}
+                sx={{ 
+                  m: 0, 
+                  '& .MuiTypography-root': { 
+                    textAlign: 'center',
+                    fontSize: '0.75rem',
+                    lineHeight: 1.2,
+                    fontWeight: isActive ? 'bold' : 'medium',
+                    display: 'block'
+                  } 
+                }}
+              />
+            </ListItem>
+          );
+        })}
+      </List>
+    </Box>
+  );
+}
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  AppBar, Toolbar, Typography, Box, IconButton, Avatar, Tooltip
+} from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
+import NotificationBell from './NotificationBell';
+import RoleSwitcher from './RoleSwitcher';
+import { authAPI } from '../services/api';
+
+export default function TopNavbar() {
+  const [user, setUser] = useState<any>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    loadUser();
+  }, []);
+
+  const loadUser = async () => {
+    try {
+      const token = localStorage.getItem('access_token');
+      console.log('TopNavbar: токен', token ? 'найден' : 'не найден');
+      
+      const response = await authAPI.whoami();
+      console.log('TopNavbar: данные пользователя', response.data);
+      setUser(response.data);
+    } catch (err: any) {
+      console.error('TopNavbar: ошибка загрузки пользователя:', err);
+      console.error('Status:', err.response?.status);
+      console.error('Data:', err.response?.data);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    navigate('/login');
+  };
+
+  if (!user) return null;
+
+  // API возвращает full_name, либо собираем из отдельных полей
+  const fullName = user.full_name || `${user.last_name || ''} ${user.first_name || ''}`.trim() || 'Пользователь';
+  
+  // Роли могут быть массивом строк ['curator', 'admin'] или массивом объектов [{name: 'curator'}]
+  const roles = Array.isArray(user.roles) 
+    ? user.roles.map((r: any) => typeof r === 'string' ? r : (r.name || r)).join(', ') 
+    : 'Пользователь';
+
+  return (
+    <AppBar position="static" color="primary" elevation={2}>
+      <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Typography variant="h6" component="div" fontWeight="bold" sx={{ display: { xs: 'none', sm: 'block' } }}>
+            🎓 Люберецкий техникум
+          </Typography>
+        </Box>
+
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 2 } }}>
+          <NotificationBell />
+          <RoleSwitcher />
+          
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 1 }}>
+            <Avatar sx={{ width: 32, height: 32, bgcolor: 'secondary.main', fontSize: '0.9rem' }}>
+              {user.first_name?.[0]}{user.last_name?.[0]}
+            </Avatar>
+            <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+              <Typography variant="body2" fontWeight="bold" sx={{ lineHeight: 1.2 }}>
+                {fullName || 'Пользователь'}
+              </Typography>
+              <Typography variant="caption" sx={{ opacity: 0.8, lineHeight: 1 }}>
+                {roles}
+              </Typography>
+            </Box>
+          </Box>
+
+          <Tooltip title="Выйти из системы">
+            <IconButton color="inherit" onClick={handleLogout} sx={{ ml: 1 }}>
+              <LogoutIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </Toolbar>
+    </AppBar>
+  );
+}
+import axios from 'axios';
+
+const API_BASE_URL = '/api';
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: { 'Content-Type': 'application/json' },
+});
+
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('access_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    
+    // Обработка 403 Forbidden - роль не соответствует запрошенной
+    if (error.response?.status === 403) {
+      console.warn('403 Forbidden: сброс роли на student');
+      localStorage.setItem('activeRole', 'student');
+      if (window.location.pathname !== '/student') {
+        window.location.href = '/student';
+      }
+      return Promise.reject(error);
+    }
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const refreshToken = localStorage.getItem('refresh_token');
+      if (refreshToken) {
+        try {
+          const response = await axios.post(`${API_BASE_URL}/token/refresh/`, {
+            refresh: refreshToken,
+          });
+          const newAccessToken = response.data.access;
+          localStorage.setItem('access_token', newAccessToken);
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+          return api(originalRequest);
+        } catch (refreshError) {
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          window.location.href = '/login';
+          return Promise.reject(refreshError);
+        }
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
+// --- Interfaces ---
+
+export interface LoginResponse {
+  access: string;
+  refresh: string;
+}
+
+export interface WhoAmIResponse {
+  user_id: number;
+  email: string;
+  full_name: string;
+  roles: string[];
+}
+
+export interface UserProfileData {
+  id_user: number;
+  email: string;
+  last_name: string;
+  first_name: string;
+  middle_name: string;
+  full_name: string;
+  roles: string[];
+}
+
+export interface UserProfile {
+  snils: string;
+  user: {
+    id_user: number;
+    email: string;
+    last_name: string;
+    first_name: string;
+    middle_name: string;
+    full_name: string;
+  };
+  group_name: string;
+  birth_date: string;
+  gender: string;
+  birth_place: string;
+  phone: string;
+  inn: string | null;
+  pd_consent: boolean;
+  pd_consent_date: string | null;
+  status: string;
+  photo_path: string | null;
+  study_plan: string;
+  dual_edu: boolean;
+  age: number | null;
+  age_status: string | null;
+  completion_percentage: number;
+  passport: any | null;
+  health: any | null;
+  military: any | null;
+  family: any | null;
+  education: any | null;
+  profile: any | null;
+}
+
+// --- APIs ---
+
+export const authAPI = {
+  login: (email: string, password: string) =>
+    api.post<LoginResponse>('/token/', { email, password }),
+  whoami: () => api.get<WhoAmIResponse>('/whoami/'),
+};
+
+export const userAPI = {
+  getProfile: async () => {
+    try {
+      const response = await api.get<UserProfileData>('/user/profile/', {
+        timeout: 5000
+      });
+      return response;
+    } catch (error) {
+      console.error('Ошибка загрузки профиля:', error);
+      throw error;
+    }
+  },
+};
+
+export const referencesAPI = {
+  getReferences: () => api.get('/references/'),
+};
+
+export const studentAPI = {
+  getProfile: () => api.get<UserProfile>('/student/profile/'),
+  updateProfile: (data: any) => api.patch('/student/profile/update/', data),
+  getGrades: () => api.get('/student/grades/'),
+};
+
+export const requestsAPI = {
+  getList: () => api.get('/student/requests/'),
+  create: (data: any) => api.post('/student/requests/', data),
+};
+
+export const notificationsAPI = {
+  getList: () => api.get('/student/notifications/'),
+  markRead: (id: number) => api.post(`/student/notifications/${id}/read/`),
+};
+
+export const practiceAPI = {
+  getStudentPractice: () => api.get('/student/practice/'),
+  getCuratorPractice: () => api.get('/curator/practice/'),
+};
+
+export const curatorAPI = {
+  getGroup: () => api.get('/curator/group/'),
+  getStudent: (snils: string) => api.get(`/curator/students/${snils}/`),
+};
+
+export const curatorRequestsAPI = {
+  getList: () => api.get('/curator/requests/'),
+  update: (requestId: number, data: any) => api.patch(`/curator/requests/${requestId}/`, data),
+};
+
+export const teacherAPI = {
+  getStatements: () => api.get('/teacher/statements/'),
+  getStatementGrades: (statementId: number) => api.get(`/teacher/statements/${statementId}/grades/`),
+  updateGrade: (gradeId: number, data: { grade: string }) => api.patch(`/teacher/grades/${gradeId}/`, data),
+  restoreStatement: (statementId: number) => api.post(`/teacher/statements/${statementId}/restore/`),
+  exportGrades: (statementId: number, format: string = 'excel') => 
+    api.get(`/teacher/statements/${statementId}/export/?export_format=${format}`, { responseType: 'blob' }),
+  importGrades: (statementId: number, file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return api.post(`/teacher/statements/${statementId}/import/`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+  },
+  generateDocx: (statementId: number, type: string = 'zachet') => 
+    api.post(`/teacher/statements/${statementId}/generate-docx/?type=${type}`, {}, { responseType: 'blob' }),
+};
+
+export const teacherPracticeAPI = {
+  getStudents: () => api.get('/teacher/practice/students/'),
+  updatePlace: (placeId: number, data: any) => api.patch(`/teacher/practice/place/${placeId}/`, data),
+  approveDiaryEntry: (entryId: number) => api.patch(`/teacher/practice/diary/${entryId}/`, {}),
+};
+
+export default api;

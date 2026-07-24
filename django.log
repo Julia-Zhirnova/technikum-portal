@@ -1,8 +1,2191 @@
 Watching for file changes with StatReloader
 Watching for file changes with StatReloader
-[22/Jul/2026 17:20:32] "POST /api/token/ HTTP/1.1" 200 714
-[22/Jul/2026 17:20:35] "GET /api/user/profile/ HTTP/1.1" 200 223
-[22/Jul/2026 17:20:39] "GET /api/user/profile/ HTTP/1.1" 200 223
-[22/Jul/2026 17:20:44] "GET /api/teacher/statements/ HTTP/1.1" 200 77878
-[22/Jul/2026 17:20:53] "GET /api/teacher/statements/ HTTP/1.1" 200 77878
-[22/Jul/2026 17:21:36] "GET /api/teacher/statements/56/grades/ HTTP/1.1" 200 5014
+[24/Jul/2026 09:26:20] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:26:20] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:26:20] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:26:20] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:20] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:26:20] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:26:20] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:20] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:20] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:22] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:26:22] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:26:22] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:26:22] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:22] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:26:22] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:26:23] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:23] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:24] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:26:25] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:26:25] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:26:25] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:26:25] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:25] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:26:25] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:26:25] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:25] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:25] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:27] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:26:28] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:28] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:26:28] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:26:28] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:26:28] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:26:28] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:26:28] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:28] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:29] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:26:29] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:26:29] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:29] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:26:29] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 09:26:30] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:26:30] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 09:26:30] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:26:30] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 09:26:30] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:26:30] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 09:26:30] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 09:26:31] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 09:26:31] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 09:26:31] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:26:31] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 09:26:31] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:26:31] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:26:31] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 09:26:31] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 09:26:32] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:26:32] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:26:32] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:32] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:26:32] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:26:34] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:26:34] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:26:34] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:26:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:34] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:26:34] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:26:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:26:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:32:21] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:32:21] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:32:21] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:32:21] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:32:21] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:32:21] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:32:21] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:32:21] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:32:21] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:32:28] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:32:28] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:32:28] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:32:28] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:32:28] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:32:28] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:32:28] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:32:28] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:32:28] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:32:29] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:32:30] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:32:30] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:32:30] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:32:30] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:32:30] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:32:30] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:32:30] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:32:32] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:32:32] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:32:32] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:32:32] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:32:32] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:32:32] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:32:32] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:32:33] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:32:33] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:32:34] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:32:34] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:32:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:32:34] "GET /api/student/profile/ HTTP/1.1" 403 74
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:32:34] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 09:32:34] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 09:32:34] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:32:34] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:32:34] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 09:32:35] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:32:35] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 09:32:35] "GET /api/curator/group/ HTTP/1.1" 200 2
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 09:26:15
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTYwNzg5LCJpYXQiOjE3ODQ4NzQzODksImp0aSI6IjI3ZDI0OTllOTUxMjRjZTc4MGMzZmFiZmMxNTljMWJiIiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.SKJytsygMxVOsLVr-mXAI4jHWeb6YekZZWzcL5zfHSc', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTYwNzg5LCJpYXQiOjE3ODQ4NzQzODksImp0aSI6IjI3ZDI0OTllOTUxMjRjZTc4MGMzZmFiZmMxNTljMWJiIiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.SKJytsygMxVOsLVr-mXAI4jHWeb6YekZZWzcL5zfHSc', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTYwNzg5LCJpYXQiOjE3ODQ4NzQzODksImp0aSI6IjI3ZDI0OTllOTUxMjRjZTc4MGMzZmFiZmMxNTljMWJiIiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.SKJytsygMxVOsLVr-mXAI4jHWeb6YekZZWzcL5zfHSc', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTYwNzkxLCJpYXQiOjE3ODQ4NzQzOTEsImp0aSI6ImYyY2ZmMDdmZDU4NzQ4MDM5NGMxMjY4NTRhMmNlZTQxIiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.15UxiJss9ZSC7Mhkd6v7bJ8Wb6Di5pQ0Xj9Zf3-S5r0', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTYwNzkxLCJpYXQiOjE3ODQ4NzQzOTEsImp0aSI6ImYyY2ZmMDdmZDU4NzQ4MDM5NGMxMjY4NTRhMmNlZTQxIiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.15UxiJss9ZSC7Mhkd6v7bJ8Wb6Di5pQ0Xj9Zf3-S5r0', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTYxMTU0LCJpYXQiOjE3ODQ4NzQ3NTQsImp0aSI6IjE0NzA2ODVlOGJmYjRjYmNhY2VkOTM3OWIwNzY2ZjllIiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.I4u0Sr-3mvFLs1ExbgB_tb5VQS23ozAArtBsZaeaV-c', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTYxMTU0LCJpYXQiOjE3ODQ4NzQ3NTQsImp0aSI6IjE0NzA2ODVlOGJmYjRjYmNhY2VkOTM3OWIwNzY2ZjllIiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.I4u0Sr-3mvFLs1ExbgB_tb5VQS23ozAArtBsZaeaV-c', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTYxMTU0LCJpYXQiOjE3ODQ4NzQ3NTQsImp0aSI6IjE0NzA2ODVlOGJmYjRjYmNhY2VkOTM3OWIwNzY2ZjllIiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.I4u0Sr-3mvFLs1ExbgB_tb5VQS23ozAArtBsZaeaV-c', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}[24/Jul/2026 09:32:35] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 09:32:36] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 09:32:36] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:32:36] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 09:32:36] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:32:36] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 09:32:36] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:32:36] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 09:32:36] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 09:32:37] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:32:37] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:32:37] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:32:37] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:32:37] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:32:37] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:33:07] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:33:07] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:33:07] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:33:07] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:33:07] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:33:07] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:33:07] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:33:07] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:33:07] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:38:51] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:38:52] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:38:52] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:38:52] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:38:52] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:38:52] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:38:52] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:38:52] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:38:52] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:38:53] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:38:53] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:38:53] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:38:53] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:38:53] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:38:53] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:38:53] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:38:53] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:38:53] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:38:54] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:38:54] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:38:55] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:38:55] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:38:55] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:38:55] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:38:55] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:38:55] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:38:55] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:38:55] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:38:57] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:38:57] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:38:57] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:38:57] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:38:57] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:38:57] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:38:57] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:38:57] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:38:57] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:38:58] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:38:58] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:38:58] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:38:58] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:38:59] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 09:38:59] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:38:59] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 09:38:59] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:38:59] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 09:38:59] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:38:59] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 09:38:59] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 09:39:00] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 09:39:01] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 09:39:01] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 09:39:01] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:39:01] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 09:39:01] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:39:01] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 09:39:01] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 09:39:01] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 09:39:02] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:39:03] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:39:03] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:39:03] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:39:03] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:39:03] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:39:03] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:45:20] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:45:20] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:45:21] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:45:21] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:45:21] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:45:21] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:45:21] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:45:21] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:45:21] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:45:22] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:45:22] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:45:22] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:45:22] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:45:22] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:45:22] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:45:22] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:45:22] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:45:23] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:45:23] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:45:23] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:45:23] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:45:23] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:45:24] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:45:24] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:45:24] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:45:24] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:45:24] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:54:46] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:54:47] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:54:47] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:54:47] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:54:47] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:54:47] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:54:47] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:54:47] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:54:47] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:54:48] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:54:48] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:54:48] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:54:48] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:54:48] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:54:48] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:54:48] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:54:48] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:54:49] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:54:49] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:54:50] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:54:50] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:54:50] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:54:50] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:59:59] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 09:59:59] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:59:59] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:59:59] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:59:59] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 09:59:59] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 09:59:59] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 09:59:59] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 09:59:59] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 10:00:00] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 10:00:00] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 10:00:00] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 10:00:00] "GET /api/student/profile/ HTTP/1.1" 403 74
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 10:00:00] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 10:00:00] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 10:00:00] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 10:00:00] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 10:00:00] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 10:00:01] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 10:00:02] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 10:00:02] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 10:00:02] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 10:00:02] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 10:00:02] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 10:00:02] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 11:13:08] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 11:13:08] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 11:13:08] "GET /api/user/profile/ HTTP/1.1" 200 268
+
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTYxMTU2LCJpYXQiOjE3ODQ4NzQ3NTYsImp0aSI6IjhjNjg3ZmY2MzUyNTRiNzg5NmMzMzBjYTRkYjdlNmQ1IiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.MZiBg8t_hXZstrmp_0Q_HNBI7BljmHKbZ9UZhM_VXr8', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTYxMTU2LCJpYXQiOjE3ODQ4NzQ3NTYsImp0aSI6IjhjNjg3ZmY2MzUyNTRiNzg5NmMzMzBjYTRkYjdlNmQ1IiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.MZiBg8t_hXZstrmp_0Q_HNBI7BljmHKbZ9UZhM_VXr8', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTYxNTM5LCJpYXQiOjE3ODQ4NzUxMzksImp0aSI6IjIyMDEyZTY0Y2ZlZjRmZjdiYmNmYjE4MDEwYzczY2E2IiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.5DKFqwgo3SdaIsP3ZFC6SGjjsA3RaGDpql1QCdOHQh8', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTYxNTM5LCJpYXQiOjE3ODQ4NzUxMzksImp0aSI6IjIyMDEyZTY0Y2ZlZjRmZjdiYmNmYjE4MDEwYzczY2E2IiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.5DKFqwgo3SdaIsP3ZFC6SGjjsA3RaGDpql1QCdOHQh8', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTYxNTM5LCJpYXQiOjE3ODQ4NzUxMzksImp0aSI6IjIyMDEyZTY0Y2ZlZjRmZjdiYmNmYjE4MDEwYzczY2E2IiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.5DKFqwgo3SdaIsP3ZFC6SGjjsA3RaGDpql1QCdOHQh8', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTYxNTQxLCJpYXQiOjE3ODQ4NzUxNDEsImp0aSI6IjE2Nzc2YTMzMzJkODQ1ZGM5Y2ZmNDZhY2NmMDRiYmZhIiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0._dFlSUiq8jTqNM7tj8T4mUN9_EAnhSEJKQDVtwG423E', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTYxNTQxLCJpYXQiOjE3ODQ4NzUxNDEsImp0aSI6IjE2Nzc2YTMzMzJkODQ1ZGM5Y2ZmNDZhY2NmMDRiYmZhIiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0._dFlSUiq8jTqNM7tj8T4mUN9_EAnhSEJKQDVtwG423E', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTY3MTg4LCJpYXQiOjE3ODQ4ODA3ODgsImp0aSI6ImI3ZDk0YzVlOWZlMDQyMTFiZjI0MDQ3NjdhMDVkOGJmIiwidXNlcl9pZCI6MTkyLCJyb2xlcyI6WyJzdHVkZW50Il0sInJlcXVpcmVzX3Bhc3N3b3JkX2NoYW5nZSI6ZmFsc2V9.QGqgsM30QGl0zLTrchZU_IfN2iCmH5aQ_FT-fG1junY', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}[24/Jul/2026 11:13:08] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/teacher/statements/
+Forbidden: /api/teacher/statements/
+[24/Jul/2026 11:13:08] "GET /api/teacher/statements/ HTTP/1.1" 403 117
+[24/Jul/2026 11:13:08] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/teacher/statements/
+Forbidden: /api/teacher/statements/
+[24/Jul/2026 11:13:08] "GET /api/teacher/statements/ HTTP/1.1" 403 117
+[24/Jul/2026 11:13:09] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 11:13:09] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 11:13:09] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 11:13:09] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 11:13:09] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 11:13:09] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 11:13:09] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 11:13:09] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 11:13:16] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 11:13:16] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/teacher/statements/
+Forbidden: /api/teacher/statements/
+[24/Jul/2026 11:13:16] "GET /api/teacher/statements/ HTTP/1.1" 403 117
+[24/Jul/2026 11:13:16] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/teacher/statements/
+Forbidden: /api/teacher/statements/
+[24/Jul/2026 11:13:16] "GET /api/teacher/statements/ HTTP/1.1" 403 117
+[24/Jul/2026 11:13:17] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 11:13:17] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 11:13:17] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 11:13:17] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 11:13:17] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 11:13:17] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 11:13:17] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 11:13:17] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 12:19:22] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 12:19:22] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 12:19:22] "GET /api/user/profile/ HTTP/1.1" 200 268
+
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTY3MTg4LCJpYXQiOjE3ODQ4ODA3ODgsImp0aSI6ImI3ZDk0YzVlOWZlMDQyMTFiZjI0MDQ3NjdhMDVkOGJmIiwidXNlcl9pZCI6MTkyLCJyb2xlcyI6WyJzdHVkZW50Il0sInJlcXVpcmVzX3Bhc3N3b3JkX2NoYW5nZSI6ZmFsc2V9.QGqgsM30QGl0zLTrchZU_IfN2iCmH5aQ_FT-fG1junY', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTY3MTg5LCJpYXQiOjE3ODQ4ODA3ODksImp0aSI6IjgwNGY3MjIxZmEzNTQ1YzI5YzYzM2NjMmJiNTYwMDQ0IiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.k205Lufd__Tg5xCEuUvXV9fxLe4HEcrbG50RR6FmeB4', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTY3MTg5LCJpYXQiOjE3ODQ4ODA3ODksImp0aSI6IjgwNGY3MjIxZmEzNTQ1YzI5YzYzM2NjMmJiNTYwMDQ0IiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.k205Lufd__Tg5xCEuUvXV9fxLe4HEcrbG50RR6FmeB4', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTY3MTk2LCJpYXQiOjE3ODQ4ODA3OTYsImp0aSI6ImI2YzEyNDExYzQ1ZTQ1YmRiZDczN2Q2MzViNmQyNzY2IiwidXNlcl9pZCI6MTkyLCJyb2xlcyI6WyJzdHVkZW50Il0sInJlcXVpcmVzX3Bhc3N3b3JkX2NoYW5nZSI6ZmFsc2V9.SEVR6R45PX7li05_aJE-PHWDKzhz_xaxNpChCYVHPc4', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTY3MTk2LCJpYXQiOjE3ODQ4ODA3OTYsImp0aSI6ImI2YzEyNDExYzQ1ZTQ1YmRiZDczN2Q2MzViNmQyNzY2IiwidXNlcl9pZCI6MTkyLCJyb2xlcyI6WyJzdHVkZW50Il0sInJlcXVpcmVzX3Bhc3N3b3JkX2NoYW5nZSI6ZmFsc2V9.SEVR6R45PX7li05_aJE-PHWDKzhz_xaxNpChCYVHPc4', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTY3MTk3LCJpYXQiOjE3ODQ4ODA3OTcsImp0aSI6ImJkMGYyMDZkNTVlYzRkMWNiOTNlNDExYjE1NjE2NjMxIiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.1PTY3HKLah8Vj1G-X5---bruyvXK78phheIQ_LKFPT8', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTY3MTk3LCJpYXQiOjE3ODQ4ODA3OTcsImp0aSI6ImJkMGYyMDZkNTVlYzRkMWNiOTNlNDExYjE1NjE2NjMxIiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.1PTY3HKLah8Vj1G-X5---bruyvXK78phheIQ_LKFPT8', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTcxMTYyLCJpYXQiOjE3ODQ4ODQ3NjIsImp0aSI6IjdhZjU3ZDdkNmE5MTQ5NTliMWE3MjMxNGFiODQyODk4IiwidXNlcl9pZCI6MTkyLCJyb2xlcyI6WyJzdHVkZW50Il0sInJlcXVpcmVzX3Bhc3N3b3JkX2NoYW5nZSI6ZmFsc2V9.NDhEM1tqHJdRlIYCqh3C20jRJDLlGcJ4JYZmNxUt77I', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}Forbidden: /api/teacher/statements/
+Forbidden: /api/teacher/statements/
+[24/Jul/2026 12:19:22] "GET /api/teacher/statements/ HTTP/1.1" 403 117
+[24/Jul/2026 12:19:22] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/teacher/statements/
+Forbidden: /api/teacher/statements/
+[24/Jul/2026 12:19:23] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 12:19:23] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 12:19:23] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 12:19:23] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 12:19:23] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 12:19:23] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 12:19:23] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 12:19:23] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 12:19:23] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 12:19:23] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 12:19:23] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 12:19:23] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 12:19:54] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/teacher/statements/
+Forbidden: /api/teacher/statements/
+[24/Jul/2026 12:19:54] "GET /api/teacher/statements/ HTTP/1.1" 403 117
+[24/Jul/2026 12:19:54] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 12:19:54] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/teacher/statements/
+Forbidden: /api/teacher/statements/
+[24/Jul/2026 12:19:54] "GET /api/teacher/statements/ HTTP/1.1" 403 117
+[24/Jul/2026 12:19:55] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 12:19:55] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 12:19:55] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 12:19:55] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 12:19:55] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 12:19:55] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 12:19:55] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 12:19:55] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 13:14:36] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 13:14:36] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 13:14:36] "GET /api/user/profile/ HTTP/1.1" 200 268
+
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTcxMTYyLCJpYXQiOjE3ODQ4ODQ3NjIsImp0aSI6IjdhZjU3ZDdkNmE5MTQ5NTliMWE3MjMxNGFiODQyODk4IiwidXNlcl9pZCI6MTkyLCJyb2xlcyI6WyJzdHVkZW50Il0sInJlcXVpcmVzX3Bhc3N3b3JkX2NoYW5nZSI6ZmFsc2V9.NDhEM1tqHJdRlIYCqh3C20jRJDLlGcJ4JYZmNxUt77I', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTcxMTYzLCJpYXQiOjE3ODQ4ODQ3NjMsImp0aSI6ImU3MDc4YTYzYmEwMzQ3ODRhMTdjNzM3NGY4ZDYzNzM1IiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.PUPcsmoe2T2q1wyjqHGPENyJdhortUHURO7TeQXTDw8', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTcxMTYzLCJpYXQiOjE3ODQ4ODQ3NjMsImp0aSI6ImU3MDc4YTYzYmEwMzQ3ODRhMTdjNzM3NGY4ZDYzNzM1IiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.PUPcsmoe2T2q1wyjqHGPENyJdhortUHURO7TeQXTDw8', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTcxMTk0LCJpYXQiOjE3ODQ4ODQ3OTQsImp0aSI6IjBkZWE5ZjU5YmRjNDQyNjg4ZGVmYTdhYTcyZWY0MmU3IiwidXNlcl9pZCI6MTkyLCJyb2xlcyI6WyJzdHVkZW50Il0sInJlcXVpcmVzX3Bhc3N3b3JkX2NoYW5nZSI6ZmFsc2V9.Gx0Y9VDg0spzB-YkCUTIpkJXQIbzE36A8rFPL7rPBbs', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTcxMTk0LCJpYXQiOjE3ODQ4ODQ3OTQsImp0aSI6IjBkZWE5ZjU5YmRjNDQyNjg4ZGVmYTdhYTcyZWY0MmU3IiwidXNlcl9pZCI6MTkyLCJyb2xlcyI6WyJzdHVkZW50Il0sInJlcXVpcmVzX3Bhc3N3b3JkX2NoYW5nZSI6ZmFsc2V9.Gx0Y9VDg0spzB-YkCUTIpkJXQIbzE36A8rFPL7rPBbs', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTcxMTk1LCJpYXQiOjE3ODQ4ODQ3OTUsImp0aSI6ImQ4NmY0ZmZhZWIzMTQyOWQ4MDE4ZWU0NDQ0YjE1YjlkIiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.JmYyt_pftK17dVwmB8h2f54jc1dkClUfYf9ur_yT144', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTcxMTk1LCJpYXQiOjE3ODQ4ODQ3OTUsImp0aSI6ImQ4NmY0ZmZhZWIzMTQyOWQ4MDE4ZWU0NDQ0YjE1YjlkIiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.JmYyt_pftK17dVwmB8h2f54jc1dkClUfYf9ur_yT144', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTc0NDc2LCJpYXQiOjE3ODQ4ODgwNzYsImp0aSI6IjU5YWMyMzM5MWYyNDRjN2ZiYTJiZGEwYjlkNjk3YjdlIiwidXNlcl9pZCI6MTkyLCJyb2xlcyI6WyJzdHVkZW50Il0sInJlcXVpcmVzX3Bhc3N3b3JkX2NoYW5nZSI6ZmFsc2V9.yiSNnHn6NS--VC-QNnmCkHPOqqObiwlzdXv5mauEHjY', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}[24/Jul/2026 13:14:36] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/teacher/statements/
+Forbidden: /api/teacher/statements/
+[24/Jul/2026 13:14:36] "GET /api/teacher/statements/ HTTP/1.1" 403 117
+Forbidden: /api/teacher/statements/
+Forbidden: /api/teacher/statements/
+[24/Jul/2026 13:14:36] "GET /api/teacher/statements/ HTTP/1.1" 403 117
+[24/Jul/2026 13:14:36] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 13:14:37] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 13:14:37] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:14:37] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 13:14:37] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:14:37] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 13:14:37] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:14:37] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 13:14:37] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 13:14:38] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:14:38] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 13:14:38] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:14:38] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 13:14:39] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/teacher/statements/
+Forbidden: /api/teacher/statements/
+[24/Jul/2026 13:14:39] "GET /api/teacher/statements/ HTTP/1.1" 403 117
+[24/Jul/2026 13:14:39] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/teacher/statements/
+Forbidden: /api/teacher/statements/
+[24/Jul/2026 13:14:39] "GET /api/teacher/statements/ HTTP/1.1" 403 117
+[24/Jul/2026 13:14:39] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 13:14:40] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 13:14:40] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:14:40] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 13:14:40] "GET /api/teacher/statements/ HTTP/1.1" 200 52
+[24/Jul/2026 13:14:40] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:14:40] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:14:40] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 13:14:40] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 13:20:27] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 13:20:27] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 13:20:27] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 13:20:28] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 13:20:28] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 13:20:57] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 13:20:57] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:20:57] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:20:57] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:20:57] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 13:20:57] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 13:20:57] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 13:20:57] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:20:57] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:20:57] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 13:20:58] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 13:20:58] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 13:20:59] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 13:20:59] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:20:59] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:21:00] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 13:21:00] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 13:21:00] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 15:44:27] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 15:44:27] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 15:44:27] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 15:44:28] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 15:44:28] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 15:44:28] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 15:44:29] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 15:44:29] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 15:44:29] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 15:44:29] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 15:44:30] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 15:44:30] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 15:44:30] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 15:44:31] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 15:44:31] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 15:44:31] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 15:47:50] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 15:47:50] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 15:47:50] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 15:47:50] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 15:47:50] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 15:47:51] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 15:47:51] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 15:47:51] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 15:47:51] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 15:47:51] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 15:47:52] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 15:47:53] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 15:47:53] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 15:47:53] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 15:47:54] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 15:47:54] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:02:32] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:02:32] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:02:32] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:02:32] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:02:32] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:02:32] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:02:32] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:34] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:02:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:02:34] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:02:34] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:02:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:02:34] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:02:34] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:02:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:35] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:02:36] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:02:36] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:02:36] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:02:36] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:36] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:02:36] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:02:36] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:36] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:36] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:38] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:02:39] "POST /api/token/ HTTP/1.1" 200 714
+[24/Jul/2026 16:02:40] "POST /api/token/ HTTP/1.1" 200 744
+[24/Jul/2026 16:02:41] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:02:41] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:41] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:42] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:42] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:42] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 16:02:43] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:02:43] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:02:43] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:02:43] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:02:44] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:02:44] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:44] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:45] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 16:02:45] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:02:45] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:02:47] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:02:47] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:02:47] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:02:47] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:02:47] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:02:47] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:02:47] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:47] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:47] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:48] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:02:48] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:02:48] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:02:48] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:48] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:02:49] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:49] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:49] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:02:50] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:02:50] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:02:50] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:02:50] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:50] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:02:50] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:02:50] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:50] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:50] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:51] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:02:52] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:02:52] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:02:52] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:02:52] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:02:52] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:02:52] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:52] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:02:52] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:03:04] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:03:04] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:03:04] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:03:04] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:03:04] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:03:04] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:03:04] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:03:05] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:03:05] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:03:05] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:03:05] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:03:05] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:03:05] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:03:05] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:03:06] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 16:03:06] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:03:06] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:03:07] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 16:03:07] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:03:07] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:03:09] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:03:09] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:03:09] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:03:10] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:03:10] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:03:10] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:03:10] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:03:10] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:03:10] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:03:11] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:03:11] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:03:11] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:03:11] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:03:11] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:03:11] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:03:11] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:03:11] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:03:11] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:03:18] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 16:03:18] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:03:18] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:03:19] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:03:19] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 16:03:19] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:03:19] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 16:13:12] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:13:12] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:12] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:12] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:12] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:12] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:12] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:12] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:12] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:13] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:13:13] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:13] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:13] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:13] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:14] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:13:15] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:15] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:15] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:15] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:13:15] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:15] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:15] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:15] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:15] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:17] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:13:18] "POST /api/token/ HTTP/1.1" 200 714
+[24/Jul/2026 16:13:19] "POST /api/token/ HTTP/1.1" 200 744
+[24/Jul/2026 16:13:20] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:13:20] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:20] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:21] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:21] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:21] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 16:13:21] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:13:21] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:13:22] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:13:22] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:13:23] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:13:23] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:23] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:24] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 16:13:24] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:13:24] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:13:26] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:13:26] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:26] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:26] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:26] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:13:26] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:26] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:26] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:26] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:27] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:27] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:27] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:13:27] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:27] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:27] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:13:27] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:28] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:28] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:13:29] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:29] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:29] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:13:29] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:29] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:29] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:13:29] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:29] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:29] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:30] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:30] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:13:30] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:30] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:31] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:31] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:31] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:31] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:31] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:31] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:13:32] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:32] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:32] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:32] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 16:13:33] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:13:33] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:13:34] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 16:13:34] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:13:34] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:13:34] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:13:34] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 16:13:35] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:13:35] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:36] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:36] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:36] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:36] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:36] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:36] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:38] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:38] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:38] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:38] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:38] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:13:38] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:13:38] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:39] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:39] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:13:39] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 16:13:39] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:13:40] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:13:41] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:13:41] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 16:13:41] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:13:41] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 16:17:16] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:17] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:17] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:17:17] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:17] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:17] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:17:17] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:17] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:17] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:18] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:18] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:17:18] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:18] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:18] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:18] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:17:18] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:18] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:18] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:19] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:17:20] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:20] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:20] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:20] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:20] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:20] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:17:20] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:20] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:20] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:22] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:17:23] "POST /api/token/ HTTP/1.1" 200 714
+[24/Jul/2026 16:17:23] "POST /api/token/ HTTP/1.1" 200 744
+[24/Jul/2026 16:17:25] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:17:25] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:25] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:25] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:25] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:26] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 16:17:26] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:17:26] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:17:27] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:17:27] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:17:27] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:17:28] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:28] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:28] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 16:17:29] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:17:29] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:17:31] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:31] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:31] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:31] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:17:31] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:31] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:31] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:31] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:31] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:32] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:32] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:32] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:32] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:32] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:33] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:17:34] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:34] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:17:34] "GET /api/student/profile/ HTTP/1.1" 403 74
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:34] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:34] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:17:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:35] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:35] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:17:35] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:35] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:35] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:35] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:35] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:36] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:36] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:36] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:17:36] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 16:17:36] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:36] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:36] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:37] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 16:17:37] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:17:37] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:17:38] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 16:17:39] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:17:39] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:17:39] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:17:40] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:41] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:41] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:41] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:41] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:41] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:41] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:42] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 16:17:42] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:42] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:42] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:42] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 16:17:42] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 16:17:42] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:43] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 16:17:43] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 16:17:44] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:17:44] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:17:45] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:17:45] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 16:17:45] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 16:17:45] "GET /api/curator/group/ HTTP/1.1" 200 2
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTc0NDc2LCJpYXQiOjE3ODQ4ODgwNzYsImp0aSI6IjU5YWMyMzM5MWYyNDRjN2ZiYTJiZGEwYjlkNjk3YjdlIiwidXNlcl9pZCI6MTkyLCJyb2xlcyI6WyJzdHVkZW50Il0sInJlcXVpcmVzX3Bhc3N3b3JkX2NoYW5nZSI6ZmFsc2V9.yiSNnHn6NS--VC-QNnmCkHPOqqObiwlzdXv5mauEHjY', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTc0NDc3LCJpYXQiOjE3ODQ4ODgwNzcsImp0aSI6IjQ3ODVkMGVmMjAyZjRlMmU5MzE1MjI3MTRkZjdkMmU5IiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.XP4_LZgyzACbl_zKwa_nPZhEO-i_VvsfVFGT_a7mEGo', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTc0NDc3LCJpYXQiOjE3ODQ4ODgwNzcsImp0aSI6IjQ3ODVkMGVmMjAyZjRlMmU5MzE1MjI3MTRkZjdkMmU5IiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.XP4_LZgyzACbl_zKwa_nPZhEO-i_VvsfVFGT_a7mEGo', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTc0NDc5LCJpYXQiOjE3ODQ4ODgwNzksImp0aSI6IjRjZjhmYTlmOGQ3OTRkOGNiYmQ5MDJlNjUyZGE3YmEyIiwidXNlcl9pZCI6MTkyLCJyb2xlcyI6WyJzdHVkZW50Il0sInJlcXVpcmVzX3Bhc3N3b3JkX2NoYW5nZSI6ZmFsc2V9.LVtQsk6H0BY_D4msVdvEsoVnxKmtA_VgIzhjCcL7A1Q', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTc0NDc5LCJpYXQiOjE3ODQ4ODgwNzksImp0aSI6IjRjZjhmYTlmOGQ3OTRkOGNiYmQ5MDJlNjUyZGE3YmEyIiwidXNlcl9pZCI6MTkyLCJyb2xlcyI6WyJzdHVkZW50Il0sInJlcXVpcmVzX3Bhc3N3b3JkX2NoYW5nZSI6ZmFsc2V9.LVtQsk6H0BY_D4msVdvEsoVnxKmtA_VgIzhjCcL7A1Q', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTc0NDgwLCJpYXQiOjE3ODQ4ODgwODAsImp0aSI6IjRmMWM1ZGJjOGMyYjQ4ZDRiYmNmNGQyNDhmZjQ0OGQ3IiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.xsLE7TuDBvUMEP1HM6qz9Bg2rn5noxSSwjFoAMqe2wU', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+🔍 DEBUG MIDDLEWARE - Request: GET /api/teacher/statements/
+   User: No user
+   Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'Connection': 'close', 'Sec-Ch-Ua-Platform': '"Linux"', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0OTc0NDgwLCJpYXQiOjE3ODQ4ODgwODAsImp0aSI6IjRmMWM1ZGJjOGMyYjQ4ZDRiYmNmNGQyNDhmZjQ0OGQ3IiwidXNlcl9pZCI6Mzk4OCwicm9sZXMiOlsidGVhY2hlciIsImN1cmF0b3IiXSwicmVxdWlyZXNfcGFzc3dvcmRfY2hhbmdlIjpmYWxzZX0.xsLE7TuDBvUMEP1HM6qz9Bg2rn5noxSSwjFoAMqe2wU', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36', 'Accept': 'application/json, text/plain, */*', 'Sec-Ch-Ua': '"HeadlessChrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"', 'Accept-Language': 'en-US', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'http://localhost:5173/teacher/statements', 'Accept-Encoding': 'gzip, deflate, br, zstd'}
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/base.py", line 486, in check
+    all_issues = checks.run_checks(
+                 ^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+           ^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 519, in check
+    for pattern in self.url_patterns:
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 738, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 731, in urlconf_module
+    return import_module(self.urlconf_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/redoslek/projects/technikum-portal/config/urls.py", line 4, in <module>
+    from core import api_views, student_views
+  File "/home/redoslek/projects/technikum-portal/core/student_views.py", line 26, in <module>
+    class PassportView(generics.RetrieveUpdateCreateAPIView):
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'rest_framework.generics' has no attribute 'RetrieveUpdateCreateAPIView'. Did you mean: 'RetrieveUpdateAPIView'?
+/home/redoslek/projects/technikum-portal/core/student_views.py changed, reloading.
+/home/redoslek/projects/technikum-portal/core/student_views.py changed, reloading.
+Performing system checks...
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/base.py", line 486, in check
+    all_issues = checks.run_checks(
+                 ^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+           ^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 519, in check
+    for pattern in self.url_patterns:
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 738, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 731, in urlconf_module
+    return import_module(self.urlconf_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/redoslek/projects/technikum-portal/config/urls.py", line 8, in <module>
+    router.register(r'teacher/statements', api_views.StatementViewSet, basename='teacher-statement')
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'core.api_views' has no attribute 'StatementViewSet'
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+Performing system checks...
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/base.py", line 486, in check
+    all_issues = checks.run_checks(
+                 ^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+           ^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 519, in check
+    for pattern in self.url_patterns:
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 738, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 731, in urlconf_module
+    return import_module(self.urlconf_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/redoslek/projects/technikum-portal/config/urls.py", line 10, in <module>
+    path('api/auth/', include('djoser.urls')),
+                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/conf.py", line 39, in include
+    urlconf_module = import_module(urlconf_module)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1126, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'djoser'
+/home/redoslek/projects/technikum-portal/core/student_serializers.py changed, reloading.
+/home/redoslek/projects/technikum-portal/core/student_serializers.py changed, reloading.
+Performing system checks...
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/core/student_views.py changed, reloading.
+/home/redoslek/projects/technikum-portal/core/student_views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 18:12:34
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/core/validators.py changed, reloading.
+/home/redoslek/projects/technikum-portal/core/validators.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 18:13:01
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/core/student_serializers.py changed, reloading.
+/home/redoslek/projects/technikum-portal/core/student_serializers.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 18:16:35
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/base.py", line 486, in check
+    all_issues = checks.run_checks(
+                 ^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+           ^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 519, in check
+    for pattern in self.url_patterns:
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 738, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 731, in urlconf_module
+    return import_module(self.urlconf_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/redoslek/projects/technikum-portal/config/urls.py", line 4, in <module>
+    from core import student_views as personal_data_views
+  File "/home/redoslek/projects/technikum-portal/core/student_views.py", line 10, in <module>
+    from .student_serializers import (
+ImportError: cannot import name 'FamilyMemberSerializer' from 'core.student_serializers' (/home/redoslek/projects/technikum-portal/core/student_serializers.py)
+/home/redoslek/projects/technikum-portal/core/student_serializers.py changed, reloading.
+/home/redoslek/projects/technikum-portal/core/student_serializers.py changed, reloading.
+Performing system checks...
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/core/validators.py changed, reloading.
+/home/redoslek/projects/technikum-portal/core/validators.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 18:17:51
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/core/student_serializers.py changed, reloading.
+/home/redoslek/projects/technikum-portal/core/student_serializers.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 18:26:47
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/base.py", line 486, in check
+    all_issues = checks.run_checks(
+                 ^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+           ^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 519, in check
+    for pattern in self.url_patterns:
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 738, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 731, in urlconf_module
+    return import_module(self.urlconf_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/redoslek/projects/technikum-portal/config/urls.py", line 4, in <module>
+    from core import student_views as personal_data_views
+  File "/home/redoslek/projects/technikum-portal/core/student_views.py", line 10, in <module>
+    from .student_serializers import (
+ImportError: cannot import name 'MilitarySerializer' from 'core.student_serializers' (/home/redoslek/projects/technikum-portal/core/student_serializers.py)
+/home/redoslek/projects/technikum-portal/core/student_serializers.py changed, reloading.
+/home/redoslek/projects/technikum-portal/core/student_serializers.py changed, reloading.
+Performing system checks...
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/core/validators.py changed, reloading.
+/home/redoslek/projects/technikum-portal/core/validators.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 18:34:32
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/core/student_views.py changed, reloading.
+/home/redoslek/projects/technikum-portal/core/student_views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 18:40:59
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/core/student_serializers.py changed, reloading.
+/home/redoslek/projects/technikum-portal/core/student_serializers.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 18:41:32
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/core/student_views.py changed, reloading.
+/home/redoslek/projects/technikum-portal/core/student_views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 18:45:49
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:50:36] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:51:07] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:51:38] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:52:08] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:52:40] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:53:11] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:53:41] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:54:13] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:54:44] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:55:14] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:55:45] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:56:16] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:56:46] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:57:17] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:57:48] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:58:18] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:58:49] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:59:19] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:59:50] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 18:59:56] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 19:00:27] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 19:00:58] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 19:01:28] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 19:01:59] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 19:02:30] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 19:03:00] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 19:03:31] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 19:04:01] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 19:04:32] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 19:05:03] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 19:05:33] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 19:06:04] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 19:06:35] "POST /api/token/ HTTP/1.1" 404 5230
+Not Found: /api/token/
+Not Found: /api/token/
+[24/Jul/2026 19:07:05] "POST /api/token/ HTTP/1.1" 404 5230
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 18:46:14
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/base.py", line 486, in check
+    all_issues = checks.run_checks(
+                 ^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+           ^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 519, in check
+    for pattern in self.url_patterns:
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 738, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 731, in urlconf_module
+    return import_module(self.urlconf_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/redoslek/projects/technikum-portal/config/urls.py", line 15, in <module>
+    path('api/auth/force-change-password/', api_views.ForcePasswordChangeView.as_view(), name='force-change-password'),
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'core.api_views' has no attribute 'ForcePasswordChangeView'
+/home/redoslek/projects/technikum-portal/core/api_views.py changed, reloading.
+/home/redoslek/projects/technikum-portal/core/api_views.py changed, reloading.
+Performing system checks...
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/core/api_views.py changed, reloading.
+/home/redoslek/projects/technikum-portal/core/api_views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 20:34:44
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 20:38:36
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/base.py", line 486, in check
+    all_issues = checks.run_checks(
+                 ^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+           ^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 519, in check
+    for pattern in self.url_patterns:
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 738, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 731, in urlconf_module
+    return import_module(self.urlconf_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/redoslek/projects/technikum-portal/config/urls.py", line 45, in <module>
+    path('api/student/practice/', StudentPracticeView.as_view(), name='student-practice'),
+                                  ^^^^^^^^^^^^^^^^^^^
+NameError: name 'StudentPracticeView' is not defined
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+Performing system checks...
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 20:52:35
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 20:56:12
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 21:09:39
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 21:13:28
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2026 - 21:27:00
+Django version 5.0.6, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 740, in url_patterns
+    iter(patterns)
+TypeError: 'module' object is not iterable
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib64/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/commands/runserver.py", line 133, in inner_run
+    self.check(display_num_errors=True)
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/management/base.py", line 486, in check
+    all_issues = checks.run_checks(
+                 ^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 14, in check_url_config
+    return check_resolver(resolver)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/core/checks/urls.py", line 24, in check_resolver
+    return check_method()
+           ^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 519, in check
+    for pattern in self.url_patterns:
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/redoslek/projects/technikum-portal/venv/lib64/python3.11/site-packages/django/urls/resolvers.py", line 748, in url_patterns
+    raise ImproperlyConfigured(msg.format(name=self.urlconf_name)) from e
+django.core.exceptions.ImproperlyConfigured: The included URLconf 'config.urls' does not appear to have any patterns in it. If you see the 'urlpatterns' variable with valid patterns in the file then the issue is probably caused by a circular import.
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+/home/redoslek/projects/technikum-portal/config/urls.py changed, reloading.
+Performing system checks...
+
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+[24/Jul/2026 23:23:31] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:31] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:31] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:31] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:32] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:32] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:32] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:32] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:32] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:23:32] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:23:32] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:32] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:33] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:33] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:23:34] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:34] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:34] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:34] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:34] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:23:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:36] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:23:37] "POST /api/token/ HTTP/1.1" 200 714
+[24/Jul/2026 23:23:38] "POST /api/token/ HTTP/1.1" 200 744
+[24/Jul/2026 23:23:39] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:23:40] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:40] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:40] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:40] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:41] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 23:23:41] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 23:23:41] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 23:23:41] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 23:23:41] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 23:23:42] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:23:42] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:42] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:43] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 23:23:43] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 23:23:43] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 23:23:45] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:23:45] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:45] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:45] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:45] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:45] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:23:45] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:46] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:46] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:46] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:46] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:46] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:23:46] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:46] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:46] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:47] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:47] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:23:48] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:23:48] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:23:48] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:48] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:48] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:23:48] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:48] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:48] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:48] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:49] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:49] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:23:49] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:49] "GET /api/student/profile/ HTTP/1.1" 403 74
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:49] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:49] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:23:49] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:50] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:50] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:50] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:51] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:51] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:23:51] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:51] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 23:23:51] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 23:23:51] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 23:23:53] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 23:23:53] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 23:23:53] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 23:23:53] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 23:23:54] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:54] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:23:54] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:54] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:55] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:55] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:55] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:23:55] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:55] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:55] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:23:55] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:55] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:55] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:56] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:23:57] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:23:57] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:57] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:57] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:23:57] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:23:57] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:23:57] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:23:57] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:24:27] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:24:27] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:24:27] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:24:27] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:24:27] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:24:27] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:24:27] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:24:58] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:24:58] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:24:58] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:24:58] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:24:58] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:24:58] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:24:58] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:24:58] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:24:58] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:25:28] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:25:29] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:25:29] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:25:29] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:25:29] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:25:29] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:25:29] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:25:29] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:25:29] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:25:59] "POST /api/token/ HTTP/1.1" 200 683
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:25:59] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:25:59] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:25:59] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:25:59] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:25:59] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:25:59] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:25:59] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:25:59] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:26:30] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:26:30] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:26:30] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:26:30] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:26:30] "GET /api/references/ HTTP/1.1" 200 3083
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:26:30] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:26:30] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:26:30] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:26:30] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:27:00] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:27:00] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:27:00] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:27:31] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:27:31] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:27:31] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:28:02] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:28:02] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:28:02] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:28:32] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:28:32] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:28:32] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:29:03] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:29:03] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:29:03] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:29:34] "POST /api/token/ HTTP/1.1" 200 683
+[24/Jul/2026 23:29:34] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:29:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:29:34] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:29:34] "GET /api/references/ HTTP/1.1" 200 3083
+[24/Jul/2026 23:29:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+Forbidden: /api/student/profile/
+Forbidden: /api/student/profile/
+[24/Jul/2026 23:29:34] "GET /api/student/profile/ HTTP/1.1" 403 74
+[24/Jul/2026 23:29:34] "GET /api/user/profile/ HTTP/1.1" 200 268
+[24/Jul/2026 23:29:35] "POST /api/token/ HTTP/1.1" 200 722
+[24/Jul/2026 23:29:35] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 23:29:35] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 23:29:36] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 23:29:36] "GET /api/user/profile/ HTTP/1.1" 200 196
+[24/Jul/2026 23:29:36] "GET /api/curator/group/ HTTP/1.1" 200 2
+[24/Jul/2026 23:29:36] "GET /api/user/profile/ HTTP/1.1" 200 196
