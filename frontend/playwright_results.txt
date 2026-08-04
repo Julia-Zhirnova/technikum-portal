@@ -1,0 +1,1136 @@
+
+Running 38 tests using 1 worker
+
+[WebServer] 19:48:07 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘   1 [chromium] › tests/footer_security.spec.ts:5:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.4.10, 1.4.11, 1.4.12: Скролл, мобильное меню и отступы сайдбара (30.2s)
+[WebServer] 19:48:38 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘   2 [chromium] › tests/footer_security.spec.ts:25:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.5.1 - 1.5.4: Подвал (Footer) (30.2s)
+[WebServer] 19:49:09 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘   3 [chromium] › tests/footer_security.spec.ts:50:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.6.1: Студент не видит кнопки переключения ролей (30.2s)
+[WebServer] 19:49:40 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘   4 [chromium] › tests/footer_security.spec.ts:60:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.6.2: Студент не может сменить роль через localStorage (30.2s)
+  ✓   5 [chromium] › tests/login.spec.ts:10:3 › Блок 1.1: Страница входа (/login) › 1.1.1 - 1.1.6, 1.1.8 - 1.1.10: Проверка UI элементов страницы входа (1.2s)
+  ✓   6 [chromium] › tests/login.spec.ts:48:3 › Блок 1.1: Страница входа (/login) › 1.1.7, 1.1.11: Валидация пустых полей и формата Email (проверка поведения) (988ms)
+[WebServer] 19:50:12 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘   7 [chromium] › tests/login.spec.ts:75:3 › Блок 1.1: Страница входа (/login) › 1.1.14: Успешный вход студента (30.2s)
+[WebServer] 19:50:44 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘   8 [chromium] › tests/login.spec.ts:87:3 › Блок 1.1: Страница входа (/login) › 1.1.15: Успешный вход преподавателя (приоритет teacher) (30.2s)
+[WebServer] 19:51:15 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘   9 [chromium] › tests/login.spec.ts:96:3 › Блок 1.1: Страница входа (/login) › 1.1.16: Успешный вход админа (приоритет admin) (30.9s)
+  ✓  10 [chromium] › tests/password_change.spec.ts:4:3 › Блок 1.2: Принудительная смена пароля › 1.2.1: Страница смены пароля доступна и корректна (1.1s)
+  ✓  11 [chromium] › tests/password_change.spec.ts:18:3 › Блок 1.2: Принудительная смена пароля › 1.2.2 и 1.2.3: UI страницы смены пароля и индикатор сложности (652ms)
+[WebServer] 19:51:50 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  12 [chromium] › tests/security_and_statements.spec.ts:5:3 › Блок 1.6 и 5.x: Безопасность и Ведомости › 1.6.6 и 1.6.7: Редирект при ручном переходе по чужим URL (31.1s)
+[WebServer] 19:52:22 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  13 [chromium] › tests/security_and_statements.spec.ts:19:3 › Блок 1.6 и 5.x: Безопасность и Ведомости › 1.6.9 и 1.6.10: Мульти-роль и защита от несуществующей роли (30.2s)
+[WebServer] 19:52:53 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  14 [chromium] › tests/security_and_statements.spec.ts:48:3 › Блок 1.6 и 5.x: Безопасность и Ведомости › 5.2.2: Студент перенаправляется при попытке доступа к ведомостям (30.2s)
+[WebServer] 19:53:24 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  15 [chromium] › tests/security_and_statements.spec.ts:59:3 › Блок 1.6 и 5.x: Безопасность и Ведомости › 5.1.3 - 5.1.7 и 5.4.5, 5.4.6, 5.5.4, 5.5.5: UI и функционал страницы ведомостей (30.2s)
+[WebServer] 19:53:55 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  16 [chromium] › tests/sidebar_footer_security.spec.ts:5:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.4.10, 1.4.11, 1.4.12: Скролл, мобильное меню и отступы сайдбара (30.2s)
+[WebServer] 19:54:26 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  17 [chromium] › tests/sidebar_footer_security.spec.ts:28:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.5.1 - 1.5.4: Подвал (Footer) (30.2s)
+[WebServer] 19:54:57 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  18 [chromium] › tests/sidebar_footer_security.spec.ts:58:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.6.1: Студент не видит кнопки переключения ролей (30.2s)
+[WebServer] 19:55:28 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  19 [chromium] › tests/sidebar_footer_security.spec.ts:69:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.6.2: Студент не может сменить роль через localStorage (30.2s)
+[WebServer] 19:55:59 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  20 [chromium] › tests/sidebar.spec.ts:5:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.3.07: ФИО не накладывается при узком экране (30.2s)
+[WebServer] 19:56:30 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  21 [chromium] › tests/sidebar.spec.ts:18:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.4.1: Меню для роли student (30.2s)
+[WebServer] 19:57:01 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  22 [chromium] › tests/sidebar.spec.ts:33:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.4.2: Меню для роли teacher (30.5s)
+[WebServer] 19:57:33 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  23 [chromium] › tests/sidebar.spec.ts:53:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.4.3: Меню для роли curator (6.4s)
+[WebServer] 19:57:40 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  24 [chromium] › tests/sidebar.spec.ts:73:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.4.4 и 1.4.5: Активный пункт подсвечен и отцентрирован (30.3s)
+[WebServer] 19:58:11 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  25 [chromium] › tests/sidebar.spec.ts:87:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.4.6 и 1.4.7: Z-index шапки и отступ сайдбара (34.5s)
+[WebServer] 19:58:46 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  26 [chromium] › tests/student_profile.spec.ts:14:3 › Блок 2.1: Профиль студента › 2.1.1.1: Маска СНИЛС автоматически форматирует ввод (30.2s)
+[WebServer] 19:59:17 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  27 [chromium] › tests/student_profile.spec.ts:20:3 › Блок 2.1: Профиль студента › 2.1.1.2: Валидация СНИЛС на фронтенде (30.2s)
+[WebServer] 19:59:48 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  28 [chromium] › tests/student_profile.spec.ts:26:3 › Блок 2.1: Профиль студента › 2.1.1.3: Маска телефона форматирует ввод (30.2s)
+[WebServer] 20:00:19 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  29 [chromium] › tests/student_profile.spec.ts:33:3 › Блок 2.1: Профиль студента › 2.1.1.4: Чекбокс согласия на ПДн заполняет дату автоматически (40.2s)
+[WebServer] 20:01:00 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  30 [chromium] › tests/student_profile.spec.ts:41:3 › Блок 2.1: Профиль студента › 2.1.5.2: Автосохранение черновика каждые 30 секунд (30.2s)
+[WebServer] 20:01:32 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  31 [chromium] › tests/student_profile.spec.ts:49:3 › Блок 2.1: Профиль студента › 2.1.5.3: Восстановление черновика при открытии (30.2s)
+[WebServer] 20:02:03 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  32 [chromium] › tests/student_profile.spec.ts:80:3 › Блок 2.1.2: Паспорт › 2.1.2.1: Чекбокс "Иностранный гражданин" меняет маску (30.7s)
+[WebServer] 20:02:34 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  33 [chromium] › tests/student_profile.spec.ts:87:3 › Блок 2.1.2: Паспорт › 2.1.2.2: Кнопка "Совпадает с регистрацией" копирует адрес (30.4s)
+[WebServer] 20:03:05 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  34 [chromium] › tests/student_profile.spec.ts:95:3 › Блок 2.1.2: Паспорт › 2.1.2.3: Чекбокс "Паспорта нет" блокирует поля (30.5s)
+[WebServer] 20:03:36 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  35 [chromium] › tests/student_profile.spec.ts:113:3 › Блок 2.1.3: Здоровье › 2.1.3.1: Выбор "Имею инвалидность" показывает поле диагноза (30.2s)
+[WebServer] 20:04:07 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  36 [chromium] › tests/student_profile.spec.ts:119:3 › Блок 2.1.3: Здоровье › 2.1.3.2: Чекбокс "Полиса ОМС нет" блокирует поля ОМС (30.2s)
+[WebServer] 20:04:38 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  37 [chromium] › tests/topnavbar.spec.ts:5:3 › Блок 1.3: Шапка (TopNavbar) › 1.3.1 - 1.3.6: UI элементы шапки для студента (30.2s)
+[WebServer] 20:05:09 [vite] http proxy error: /api/token/
+[WebServer] AggregateError [ECONNREFUSED]: 
+[WebServer]     at internalConnectMultiple (node:net:1122:18)
+[WebServer]     at afterConnectMultiple (node:net:1689:7)
+  ✘  38 [chromium] › tests/topnavbar.spec.ts:33:3 › Блок 1.3: Шапка (TopNavbar) › 1.3.8 - 1.3.10: Переключение ролей, сохранение контекста и выход (34.0s)
+
+
+  1) [chromium] › tests/footer_security.spec.ts:5:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.4.10, 1.4.11, 1.4.12: Скролл, мобильное меню и отступы сайдбара 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+       8 |     await page.locator('input[type="password"]').fill('student2026');
+       9 |     await page.locator('button:has-text("Войти")').click();
+    > 10 |     await page.waitForURL('**/student**');
+         |                ^
+      11 |
+      12 |     const sidebarStyle = await page.locator('[data-testid="sidebar-content"]').first().evaluate((el) => window.getComputedStyle(el).overflowX);
+      13 |     expect(sidebarStyle).toBe('hidden');
+        at /home/redoslek/projects/technikum-portal/frontend/tests/footer_security.spec.ts:10:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/footer_security-Блок-1-4-1-af77f-ное-меню-и-отступы-сайдбара-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/footer_security-Блок-1-4-1-af77f-ное-меню-и-отступы-сайдбара-chromium/error-context.md
+
+  2) [chromium] › tests/footer_security.spec.ts:25:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.5.1 - 1.5.4: Подвал (Footer) 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      28 |     await page.locator('input[type="password"]').fill('student2026');
+      29 |     await page.locator('button:has-text("Войти")').click();
+    > 30 |     await page.waitForURL('**/student**');
+         |                ^
+      31 |
+      32 |     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      33 |
+        at /home/redoslek/projects/technikum-portal/frontend/tests/footer_security.spec.ts:30:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/footer_security-Блок-1-4-1-d9570--5-1---1-5-4-Подвал-Footer--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/footer_security-Блок-1-4-1-d9570--5-1---1-5-4-Подвал-Footer--chromium/error-context.md
+
+  3) [chromium] › tests/footer_security.spec.ts:50:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.6.1: Студент не видит кнопки переключения ролей 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      53 |     await page.locator('input[type="password"]').fill('student2026');
+      54 |     await page.locator('button:has-text("Войти")').click();
+    > 55 |     await page.waitForURL('**/student**');
+         |                ^
+      56 |
+      57 |     await expect(page.locator('[data-testid="role-switcher-button"]')).toHaveCount(0);
+      58 |   });
+        at /home/redoslek/projects/technikum-portal/frontend/tests/footer_security.spec.ts:55:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/footer_security-Блок-1-4-1-a554f-т-кнопки-переключения-ролей-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/footer_security-Блок-1-4-1-a554f-т-кнопки-переключения-ролей-chromium/error-context.md
+
+  4) [chromium] › tests/footer_security.spec.ts:60:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.6.2: Студент не может сменить роль через localStorage 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      63 |     await page.locator('input[type="password"]').fill('student2026');
+      64 |     await page.locator('button:has-text("Войти")').click();
+    > 65 |     await page.waitForURL('**/student**');
+         |                ^
+      66 |
+      67 |     // Подменяем роль на заведомо несуществующую роль
+      68 |     await page.evaluate(() => {
+        at /home/redoslek/projects/technikum-portal/frontend/tests/footer_security.spec.ts:65:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/footer_security-Блок-1-4-1-322db-ить-роль-через-localStorage-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/footer_security-Блок-1-4-1-322db-ить-роль-через-localStorage-chromium/error-context.md
+
+  5) [chromium] › tests/login.spec.ts:75:3 › Блок 1.1: Страница входа (/login) › 1.1.14: Успешный вход студента 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      78 |     await page.locator('button:has-text("Войти")').click();
+      79 |
+    > 80 |     await page.waitForURL('**/student**');
+         |                ^
+      81 |     expect(page.url()).toContain('/student');
+      82 |     
+      83 |     const token = await page.evaluate(() => localStorage.getItem('access_token'));
+        at /home/redoslek/projects/technikum-portal/frontend/tests/login.spec.ts:80:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/login-Блок-1-1-Страница-вх-018d4-1-14-Успешный-вход-студента-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/login-Блок-1-1-Страница-вх-018d4-1-14-Успешный-вход-студента-chromium/error-context.md
+
+  6) [chromium] › tests/login.spec.ts:87:3 › Блок 1.1: Страница входа (/login) › 1.1.15: Успешный вход преподавателя (приоритет teacher) 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/teacher**" until "load"
+    ============================================================
+
+      90 |     await page.locator('button:has-text("Войти")').click();
+      91 |
+    > 92 |     await page.waitForURL('**/teacher**');
+         |                ^
+      93 |     expect(page.url()).toContain('/teacher');
+      94 |   });
+      95 |
+        at /home/redoslek/projects/technikum-portal/frontend/tests/login.spec.ts:92:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/login-Блок-1-1-Страница-вх-416a5-давателя-приоритет-teacher--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/login-Блок-1-1-Страница-вх-416a5-давателя-приоритет-teacher--chromium/error-context.md
+
+  7) [chromium] › tests/login.spec.ts:96:3 › Блок 1.1: Страница входа (/login) › 1.1.16: Успешный вход админа (приоритет admin) 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/admin**" until "load"
+    ============================================================
+
+       99 |     await page.locator('button:has-text("Войти")').click();
+      100 |
+    > 101 |     await page.waitForURL('**/admin**');
+          |                ^
+      102 |     expect(page.url()).toContain('/admin');
+      103 |   });
+      104 | });
+        at /home/redoslek/projects/technikum-portal/frontend/tests/login.spec.ts:101:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/login-Блок-1-1-Страница-вх-c5a38-ход-админа-приоритет-admin--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/login-Блок-1-1-Страница-вх-c5a38-ход-админа-приоритет-admin--chromium/error-context.md
+
+  8) [chromium] › tests/security_and_statements.spec.ts:5:3 › Блок 1.6 и 5.x: Безопасность и Ведомости › 1.6.6 и 1.6.7: Редирект при ручном переходе по чужим URL 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+       8 |     await page.locator('input[type="password"]').fill('student2026');
+       9 |     await page.locator('button:has-text("Войти")').click();
+    > 10 |     await page.waitForURL('**/student**');
+         |                ^
+      11 |
+      12 |     await page.goto('http://localhost:5173/admin/users');
+      13 |     await page.waitForURL('**/student**');
+        at /home/redoslek/projects/technikum-portal/frontend/tests/security_and_statements.spec.ts:10:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/security_and_statements-Бл-af1a4-учном-переходе-по-чужим-URL-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/security_and_statements-Бл-af1a4-учном-переходе-по-чужим-URL-chromium/error-context.md
+
+  9) [chromium] › tests/security_and_statements.spec.ts:19:3 › Блок 1.6 и 5.x: Безопасность и Ведомости › 1.6.9 и 1.6.10: Мульти-роль и защита от несуществующей роли 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation until "load"
+    ============================================================
+
+      23 |     await page.locator('button:has-text("Войти")').click();
+      24 |     
+    > 25 |     await page.waitForURL(/\/(teacher|curator)/);
+         |                ^
+      26 |
+      27 |     const roleSwitcher = page.getByTestId('role-switcher-button');
+      28 |     await expect(roleSwitcher).toBeVisible();
+        at /home/redoslek/projects/technikum-portal/frontend/tests/security_and_statements.spec.ts:25:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/security_and_statements-Бл-b010b-щита-от-несуществующей-роли-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/security_and_statements-Бл-b010b-щита-от-несуществующей-роли-chromium/error-context.md
+
+  10) [chromium] › tests/security_and_statements.spec.ts:48:3 › Блок 1.6 и 5.x: Безопасность и Ведомости › 5.2.2: Студент перенаправляется при попытке доступа к ведомостям 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      51 |     await page.locator('input[type="password"]').fill('student2026');
+      52 |     await page.locator('button:has-text("Войти")').click();
+    > 53 |     await page.waitForURL('**/student**');
+         |                ^
+      54 |
+      55 |     await page.goto('http://localhost:5173/teacher/statements');
+      56 |     await page.waitForURL('**/student**');
+        at /home/redoslek/projects/technikum-portal/frontend/tests/security_and_statements.spec.ts:53:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/security_and_statements-Бл-f1f5e-опытке-доступа-к-ведомостям-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/security_and_statements-Бл-f1f5e-опытке-доступа-к-ведомостям-chromium/error-context.md
+
+  11) [chromium] › tests/security_and_statements.spec.ts:59:3 › Блок 1.6 и 5.x: Безопасность и Ведомости › 5.1.3 - 5.1.7 и 5.4.5, 5.4.6, 5.5.4, 5.5.5: UI и функционал страницы ведомостей 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation until "load"
+    ============================================================
+
+      63 |     await page.locator('button:has-text("Войти")').click();
+      64 |     
+    > 65 |     await page.waitForURL(/\/(teacher|curator)/);
+         |                ^
+      66 |     
+      67 |     const roleSwitcher = page.getByTestId('role-switcher-button');
+      68 |     if (await roleSwitcher.isVisible()) {
+        at /home/redoslek/projects/technikum-portal/frontend/tests/security_and_statements.spec.ts:65:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/security_and_statements-Бл-f173c-кционал-страницы-ведомостей-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/security_and_statements-Бл-f173c-кционал-страницы-ведомостей-chromium/error-context.md
+
+  12) [chromium] › tests/sidebar_footer_security.spec.ts:5:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.4.10, 1.4.11, 1.4.12: Скролл, мобильное меню и отступы сайдбара 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+       8 |     await page.locator('input[type="password"]').fill('student2026');
+       9 |     await page.locator('button:has-text("Войти")').click();
+    > 10 |     await page.waitForURL('**/student**');
+         |                ^
+      11 |
+      12 |     // 1.4.10: Нет горизонтального скролла
+      13 |     const sidebarStyle = await page.locator('[data-testid="sidebar-content"]').first().evaluate((el) => window.getComputedStyle(el).overflowX);
+        at /home/redoslek/projects/technikum-portal/frontend/tests/sidebar_footer_security.spec.ts:10:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sidebar_footer_security-Бл-7f224-ное-меню-и-отступы-сайдбара-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sidebar_footer_security-Бл-7f224-ное-меню-и-отступы-сайдбара-chromium/error-context.md
+
+  13) [chromium] › tests/sidebar_footer_security.spec.ts:28:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.5.1 - 1.5.4: Подвал (Footer) 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      31 |     await page.locator('input[type="password"]').fill('student2026');
+      32 |     await page.locator('button:has-text("Войти")').click();
+    > 33 |     await page.waitForURL('**/student**');
+         |                ^
+      34 |
+      35 |     // Прокручиваем вниз
+      36 |     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+        at /home/redoslek/projects/technikum-portal/frontend/tests/sidebar_footer_security.spec.ts:33:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sidebar_footer_security-Бл-2ca1b--5-1---1-5-4-Подвал-Footer--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sidebar_footer_security-Бл-2ca1b--5-1---1-5-4-Подвал-Footer--chromium/error-context.md
+
+  14) [chromium] › tests/sidebar_footer_security.spec.ts:58:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.6.1: Студент не видит кнопки переключения ролей 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      61 |     await page.locator('input[type="password"]').fill('student2026');
+      62 |     await page.locator('button:has-text("Войти")').click();
+    > 63 |     await page.waitForURL('**/student**');
+         |                ^
+      64 |
+      65 |     // У студента только 1 роль, переключателя быть не должно
+      66 |     await expect(page.locator('[data-testid="role-switcher-button"]')).toHaveCount(0);
+        at /home/redoslek/projects/technikum-portal/frontend/tests/sidebar_footer_security.spec.ts:63:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sidebar_footer_security-Бл-d4856-т-кнопки-переключения-ролей-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sidebar_footer_security-Бл-d4856-т-кнопки-переключения-ролей-chromium/error-context.md
+
+  15) [chromium] › tests/sidebar_footer_security.spec.ts:69:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.6.2: Студент не может сменить роль через localStorage 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      72 |     await page.locator('input[type="password"]').fill('student2026');
+      73 |     await page.locator('button:has-text("Войти")').click();
+    > 74 |     await page.waitForURL('**/student**');
+         |                ^
+      75 |
+      76 |     // Подменяем роль на заведомо несуществующую
+      77 |     await page.evaluate(() => {
+        at /home/redoslek/projects/technikum-portal/frontend/tests/sidebar_footer_security.spec.ts:74:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sidebar_footer_security-Бл-3a5b3-ить-роль-через-localStorage-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sidebar_footer_security-Бл-3a5b3-ить-роль-через-localStorage-chromium/error-context.md
+
+  16) [chromium] › tests/sidebar.spec.ts:5:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.3.07: ФИО не накладывается при узком экране 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+       9 |     await page.locator('input[type="password"]').fill('student2026');
+      10 |     await page.locator('button:has-text("Войти")').click();
+    > 11 |     await page.waitForURL('**/student**');
+         |                ^
+      12 |
+      13 |     const userNameElement = page.locator('text=Архипов Кирилл Юрьевич').first();
+      14 |     const style = await userNameElement.evaluate((el) => window.getComputedStyle(el).whiteSpace);
+        at /home/redoslek/projects/technikum-portal/frontend/tests/sidebar.spec.ts:11:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sidebar-Блок-1-3-07-и-1-4--6e963-ладывается-при-узком-экране-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sidebar-Блок-1-3-07-и-1-4--6e963-ладывается-при-узком-экране-chromium/error-context.md
+
+  17) [chromium] › tests/sidebar.spec.ts:18:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.4.1: Меню для роли student 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      22 |     await page.locator('input[type="password"]').fill('student2026');
+      23 |     await page.locator('button:has-text("Войти")').click();
+    > 24 |     await page.waitForURL('**/student**');
+         |                ^
+      25 |
+      26 |     await expect(page.locator('text=Мой профиль').first()).toBeVisible();
+      27 |     await expect(page.locator('text=Зачётная книжка').first()).toBeVisible();
+        at /home/redoslek/projects/technikum-portal/frontend/tests/sidebar.spec.ts:24:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sidebar-Блок-1-3-07-и-1-4--5f3ae-1-4-1-Меню-для-роли-student-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sidebar-Блок-1-3-07-и-1-4--5f3ae-1-4-1-Меню-для-роли-student-chromium/error-context.md
+
+  18) [chromium] › tests/sidebar.spec.ts:33:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.4.2: Меню для роли teacher 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/teacher**" until "load"
+    ============================================================
+
+      38 |     await page.locator('button:has-text("Войти")').click();
+      39 |     
+    > 40 |     await page.waitForURL('**/teacher**');
+         |                ^
+      41 |     
+      42 |     const roleSwitcher = page.getByTestId('role-switcher-button');
+      43 |     await expect(roleSwitcher).toBeVisible();
+        at /home/redoslek/projects/technikum-portal/frontend/tests/sidebar.spec.ts:40:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sidebar-Блок-1-3-07-и-1-4--ff3cc-1-4-2-Меню-для-роли-teacher-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sidebar-Блок-1-3-07-и-1-4--ff3cc-1-4-2-Меню-для-роли-teacher-chromium/error-context.md
+
+  19) [chromium] › tests/sidebar.spec.ts:53:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.4.3: Меню для роли curator 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('role-switcher-button')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByTestId('role-switcher-button')
+
+
+      59 |     
+      60 |     const roleSwitcher = page.getByTestId('role-switcher-button');
+    > 61 |     await expect(roleSwitcher).toBeVisible();
+         |                                ^
+      62 |     await roleSwitcher.click();
+      63 |     await page.getByRole('menuitem', { name: 'Куратор' }).click();
+      64 |     
+        at /home/redoslek/projects/technikum-portal/frontend/tests/sidebar.spec.ts:61:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sidebar-Блок-1-3-07-и-1-4--a21a8-1-4-3-Меню-для-роли-curator-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sidebar-Блок-1-3-07-и-1-4--a21a8-1-4-3-Меню-для-роли-curator-chromium/error-context.md
+
+  20) [chromium] › tests/sidebar.spec.ts:73:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.4.4 и 1.4.5: Активный пункт подсвечен и отцентрирован 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student/profile**" until "load"
+    ============================================================
+
+      77 |     await page.locator('input[type="password"]').fill('student2026');
+      78 |     await page.locator('button:has-text("Войти")').click();
+    > 79 |     await page.waitForURL('**/student/profile**');
+         |                ^
+      80 |
+      81 |     const activeItem = page.locator('[data-testid="active-menu-item"]').first();
+      82 |     await expect(activeItem).toBeVisible();
+        at /home/redoslek/projects/technikum-portal/frontend/tests/sidebar.spec.ts:79:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sidebar-Блок-1-3-07-и-1-4--a6bec-т-подсвечен-и-отцентрирован-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sidebar-Блок-1-3-07-и-1-4--a6bec-т-подсвечен-и-отцентрирован-chromium/error-context.md
+
+  21) [chromium] › tests/sidebar.spec.ts:87:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.4.6 и 1.4.7: Z-index шапки и отступ сайдбара 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      90 |     await page.locator('input[type="password"]').fill('student2026');
+      91 |     await page.locator('button:has-text("Войти")').click();
+    > 92 |     await page.waitForURL('**/student**');
+         |                ^
+      93 |     
+      94 |     // Даем время на полную стабилизацию DOM после навигации
+      95 |     await page.waitForTimeout(1000);
+        at /home/redoslek/projects/technikum-portal/frontend/tests/sidebar.spec.ts:92:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sidebar-Блок-1-3-07-и-1-4--f937e-dex-шапки-и-отступ-сайдбара-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sidebar-Блок-1-3-07-и-1-4--f937e-dex-шапки-и-отступ-сайдбара-chromium/error-context.md
+
+  22) [chromium] › tests/student_profile.spec.ts:14:3 › Блок 2.1: Профиль студента › 2.1.1.1: Маска СНИЛС автоматически форматирует ввод 
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      2 |
+      3 | test.describe('Блок 2.1: Профиль студента', () => {
+    > 4 |   test.beforeEach(async ({ page }) => {
+        |        ^
+      5 |     await page.goto('http://localhost:5173/login');
+      6 |     await page.locator('input[type="email"]').fill('arhipov_kyu@luberteh.ru');
+      7 |     await page.locator('input[type="password"]').fill('student2026');
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:4:8
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+       7 |     await page.locator('input[type="password"]').fill('student2026');
+       8 |     await page.locator('button:has-text("Войти")').click();
+    >  9 |     await page.waitForURL('**/student**');
+         |                ^
+      10 |     await page.goto('http://localhost:5173/student/profile');
+      11 |     await page.waitForSelector('[data-testid="snils-input"]', { state: 'visible', timeout: 10000 });
+      12 |   });
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:9:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/student_profile-Блок-2-1-П-33a9d-оматически-форматирует-ввод-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/student_profile-Блок-2-1-П-33a9d-оматически-форматирует-ввод-chromium/error-context.md
+
+  23) [chromium] › tests/student_profile.spec.ts:20:3 › Блок 2.1: Профиль студента › 2.1.1.2: Валидация СНИЛС на фронтенде 
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      2 |
+      3 | test.describe('Блок 2.1: Профиль студента', () => {
+    > 4 |   test.beforeEach(async ({ page }) => {
+        |        ^
+      5 |     await page.goto('http://localhost:5173/login');
+      6 |     await page.locator('input[type="email"]').fill('arhipov_kyu@luberteh.ru');
+      7 |     await page.locator('input[type="password"]').fill('student2026');
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:4:8
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+       7 |     await page.locator('input[type="password"]').fill('student2026');
+       8 |     await page.locator('button:has-text("Войти")').click();
+    >  9 |     await page.waitForURL('**/student**');
+         |                ^
+      10 |     await page.goto('http://localhost:5173/student/profile');
+      11 |     await page.waitForSelector('[data-testid="snils-input"]', { state: 'visible', timeout: 10000 });
+      12 |   });
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:9:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/student_profile-Блок-2-1-П-6e613-алидация-СНИЛС-на-фронтенде-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/student_profile-Блок-2-1-П-6e613-алидация-СНИЛС-на-фронтенде-chromium/error-context.md
+
+  24) [chromium] › tests/student_profile.spec.ts:26:3 › Блок 2.1: Профиль студента › 2.1.1.3: Маска телефона форматирует ввод 
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      2 |
+      3 | test.describe('Блок 2.1: Профиль студента', () => {
+    > 4 |   test.beforeEach(async ({ page }) => {
+        |        ^
+      5 |     await page.goto('http://localhost:5173/login');
+      6 |     await page.locator('input[type="email"]').fill('arhipov_kyu@luberteh.ru');
+      7 |     await page.locator('input[type="password"]').fill('student2026');
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:4:8
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+       7 |     await page.locator('input[type="password"]').fill('student2026');
+       8 |     await page.locator('button:has-text("Войти")').click();
+    >  9 |     await page.waitForURL('**/student**');
+         |                ^
+      10 |     await page.goto('http://localhost:5173/student/profile');
+      11 |     await page.waitForSelector('[data-testid="snils-input"]', { state: 'visible', timeout: 10000 });
+      12 |   });
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:9:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/student_profile-Блок-2-1-П-a4157-а-телефона-форматирует-ввод-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/student_profile-Блок-2-1-П-a4157-а-телефона-форматирует-ввод-chromium/error-context.md
+
+  25) [chromium] › tests/student_profile.spec.ts:33:3 › Блок 2.1: Профиль студента › 2.1.1.4: Чекбокс согласия на ПДн заполняет дату автоматически 
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      2 |
+      3 | test.describe('Блок 2.1: Профиль студента', () => {
+    > 4 |   test.beforeEach(async ({ page }) => {
+        |        ^
+      5 |     await page.goto('http://localhost:5173/login');
+      6 |     await page.locator('input[type="email"]').fill('arhipov_kyu@luberteh.ru');
+      7 |     await page.locator('input[type="password"]').fill('student2026');
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:4:8
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+       7 |     await page.locator('input[type="password"]').fill('student2026');
+       8 |     await page.locator('button:has-text("Войти")').click();
+    >  9 |     await page.waitForURL('**/student**');
+         |                ^
+      10 |     await page.goto('http://localhost:5173/student/profile');
+      11 |     await page.waitForSelector('[data-testid="snils-input"]', { state: 'visible', timeout: 10000 });
+      12 |   });
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:9:16
+
+    Error Context: test-results/student_profile-Блок-2-1-П-73d84-аполняет-дату-автоматически-chromium/error-context.md
+
+  26) [chromium] › tests/student_profile.spec.ts:41:3 › Блок 2.1: Профиль студента › 2.1.5.2: Автосохранение черновика каждые 30 секунд 
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      2 |
+      3 | test.describe('Блок 2.1: Профиль студента', () => {
+    > 4 |   test.beforeEach(async ({ page }) => {
+        |        ^
+      5 |     await page.goto('http://localhost:5173/login');
+      6 |     await page.locator('input[type="email"]').fill('arhipov_kyu@luberteh.ru');
+      7 |     await page.locator('input[type="password"]').fill('student2026');
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:4:8
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+       7 |     await page.locator('input[type="password"]').fill('student2026');
+       8 |     await page.locator('button:has-text("Войти")').click();
+    >  9 |     await page.waitForURL('**/student**');
+         |                ^
+      10 |     await page.goto('http://localhost:5173/student/profile');
+      11 |     await page.waitForSelector('[data-testid="snils-input"]', { state: 'visible', timeout: 10000 });
+      12 |   });
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:9:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/student_profile-Блок-2-1-П-3b3b1--черновика-каждые-30-секунд-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/student_profile-Блок-2-1-П-3b3b1--черновика-каждые-30-секунд-chromium/error-context.md
+
+  27) [chromium] › tests/student_profile.spec.ts:49:3 › Блок 2.1: Профиль студента › 2.1.5.3: Восстановление черновика при открытии 
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      2 |
+      3 | test.describe('Блок 2.1: Профиль студента', () => {
+    > 4 |   test.beforeEach(async ({ page }) => {
+        |        ^
+      5 |     await page.goto('http://localhost:5173/login');
+      6 |     await page.locator('input[type="email"]').fill('arhipov_kyu@luberteh.ru');
+      7 |     await page.locator('input[type="password"]').fill('student2026');
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:4:8
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+       7 |     await page.locator('input[type="password"]').fill('student2026');
+       8 |     await page.locator('button:has-text("Войти")').click();
+    >  9 |     await page.waitForURL('**/student**');
+         |                ^
+      10 |     await page.goto('http://localhost:5173/student/profile');
+      11 |     await page.waitForSelector('[data-testid="snils-input"]', { state: 'visible', timeout: 10000 });
+      12 |   });
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:9:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/student_profile-Блок-2-1-П-1cf0d-ение-черновика-при-открытии-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/student_profile-Блок-2-1-П-1cf0d-ение-черновика-при-открытии-chromium/error-context.md
+
+  28) [chromium] › tests/student_profile.spec.ts:80:3 › Блок 2.1.2: Паспорт › 2.1.2.1: Чекбокс "Иностранный гражданин" меняет маску 
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      68 |
+      69 | test.describe('Блок 2.1.2: Паспорт', () => {
+    > 70 |   test.beforeEach(async ({ page }) => {
+         |        ^
+      71 |     await page.goto('http://localhost:5173/login');
+      72 |     await page.locator('input[type="email"]').fill('arhipov_kyu@luberteh.ru');
+      73 |     await page.locator('input[type="password"]').fill('student2026');
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:70:8
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      73 |     await page.locator('input[type="password"]').fill('student2026');
+      74 |     await page.locator('button:has-text("Войти")').click();
+    > 75 |     await page.waitForURL('**/student**');
+         |                ^
+      76 |     await page.goto('http://localhost:5173/student/passport');
+      77 |     await page.waitForSelector('[data-testid="foreign-citizen-checkbox"]', { state: 'visible', timeout: 10000 });
+      78 |   });
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:75:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/student_profile-Блок-2-1-2-51f41-нный-гражданин-меняет-маску-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/student_profile-Блок-2-1-2-51f41-нный-гражданин-меняет-маску-chromium/error-context.md
+
+  29) [chromium] › tests/student_profile.spec.ts:87:3 › Блок 2.1.2: Паспорт › 2.1.2.2: Кнопка "Совпадает с регистрацией" копирует адрес 
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      68 |
+      69 | test.describe('Блок 2.1.2: Паспорт', () => {
+    > 70 |   test.beforeEach(async ({ page }) => {
+         |        ^
+      71 |     await page.goto('http://localhost:5173/login');
+      72 |     await page.locator('input[type="email"]').fill('arhipov_kyu@luberteh.ru');
+      73 |     await page.locator('input[type="password"]').fill('student2026');
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:70:8
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      73 |     await page.locator('input[type="password"]').fill('student2026');
+      74 |     await page.locator('button:has-text("Войти")').click();
+    > 75 |     await page.waitForURL('**/student**');
+         |                ^
+      76 |     await page.goto('http://localhost:5173/student/passport');
+      77 |     await page.waitForSelector('[data-testid="foreign-citizen-checkbox"]', { state: 'visible', timeout: 10000 });
+      78 |   });
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:75:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/student_profile-Блок-2-1-2-69364-регистрацией-копирует-адрес-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/student_profile-Блок-2-1-2-69364-регистрацией-копирует-адрес-chromium/error-context.md
+
+  30) [chromium] › tests/student_profile.spec.ts:95:3 › Блок 2.1.2: Паспорт › 2.1.2.3: Чекбокс "Паспорта нет" блокирует поля 
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      68 |
+      69 | test.describe('Блок 2.1.2: Паспорт', () => {
+    > 70 |   test.beforeEach(async ({ page }) => {
+         |        ^
+      71 |     await page.goto('http://localhost:5173/login');
+      72 |     await page.locator('input[type="email"]').fill('arhipov_kyu@luberteh.ru');
+      73 |     await page.locator('input[type="password"]').fill('student2026');
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:70:8
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      73 |     await page.locator('input[type="password"]').fill('student2026');
+      74 |     await page.locator('button:has-text("Войти")').click();
+    > 75 |     await page.waitForURL('**/student**');
+         |                ^
+      76 |     await page.goto('http://localhost:5173/student/passport');
+      77 |     await page.waitForSelector('[data-testid="foreign-citizen-checkbox"]', { state: 'visible', timeout: 10000 });
+      78 |   });
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:75:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/student_profile-Блок-2-1-2-0f615-Паспорта-нет-блокирует-поля-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/student_profile-Блок-2-1-2-0f615-Паспорта-нет-блокирует-поля-chromium/error-context.md
+
+  31) [chromium] › tests/student_profile.spec.ts:113:3 › Блок 2.1.3: Здоровье › 2.1.3.1: Выбор "Имею инвалидность" показывает поле диагноза 
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      101 |
+      102 | test.describe('Блок 2.1.3: Здоровье', () => {
+    > 103 |   test.beforeEach(async ({ page }) => {
+          |        ^
+      104 |     await page.goto('http://localhost:5173/login');
+      105 |     await page.locator('input[type="email"]').fill('arhipov_kyu@luberteh.ru');
+      106 |     await page.locator('input[type="password"]').fill('student2026');
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:103:8
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      106 |     await page.locator('input[type="password"]').fill('student2026');
+      107 |     await page.locator('button:has-text("Войти")').click();
+    > 108 |     await page.waitForURL('**/student**');
+          |                ^
+      109 |     await page.goto('http://localhost:5173/student/health');
+      110 |     await page.waitForSelector('[data-testid="health-status-select"]', { state: 'visible', timeout: 10000 });
+      111 |   });
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:108:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/student_profile-Блок-2-1-3-ff912-ть-показывает-поле-диагноза-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/student_profile-Блок-2-1-3-ff912-ть-показывает-поле-диагноза-chromium/error-context.md
+
+  32) [chromium] › tests/student_profile.spec.ts:119:3 › Блок 2.1.3: Здоровье › 2.1.3.2: Чекбокс "Полиса ОМС нет" блокирует поля ОМС 
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+      101 |
+      102 | test.describe('Блок 2.1.3: Здоровье', () => {
+    > 103 |   test.beforeEach(async ({ page }) => {
+          |        ^
+      104 |     await page.goto('http://localhost:5173/login');
+      105 |     await page.locator('input[type="email"]').fill('arhipov_kyu@luberteh.ru');
+      106 |     await page.locator('input[type="password"]').fill('student2026');
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:103:8
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      106 |     await page.locator('input[type="password"]').fill('student2026');
+      107 |     await page.locator('button:has-text("Войти")').click();
+    > 108 |     await page.waitForURL('**/student**');
+          |                ^
+      109 |     await page.goto('http://localhost:5173/student/health');
+      110 |     await page.waitForSelector('[data-testid="health-status-select"]', { state: 'visible', timeout: 10000 });
+      111 |   });
+        at /home/redoslek/projects/technikum-portal/frontend/tests/student_profile.spec.ts:108:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/student_profile-Блок-2-1-3-d4b3f--ОМС-нет-блокирует-поля-ОМС-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/student_profile-Блок-2-1-3-d4b3f--ОМС-нет-блокирует-поля-ОМС-chromium/error-context.md
+
+  33) [chromium] › tests/topnavbar.spec.ts:5:3 › Блок 1.3: Шапка (TopNavbar) › 1.3.1 - 1.3.6: UI элементы шапки для студента 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/student**" until "load"
+    ============================================================
+
+      10 |     await page.locator('input[type="password"]').fill('student2026');
+      11 |     await page.locator('button:has-text("Войти")').click();
+    > 12 |     await page.waitForURL('**/student**');
+         |                ^
+      13 |
+      14 |     // 1.3.1: Логотип слева
+      15 |     await expect(page.locator('img[alt="Логотип"]')).toBeVisible();
+        at /home/redoslek/projects/technikum-portal/frontend/tests/topnavbar.spec.ts:12:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/topnavbar-Блок-1-3-Шапка-T-e7390-элементы-шапки-для-студента-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/topnavbar-Блок-1-3-Шапка-T-e7390-элементы-шапки-для-студента-chromium/error-context.md
+
+  34) [chromium] › tests/topnavbar.spec.ts:33:3 › Блок 1.3: Шапка (TopNavbar) › 1.3.8 - 1.3.10: Переключение ролей, сохранение контекста и выход 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/teacher**" until "load"
+    ============================================================
+
+      39 |     await page.locator('button:has-text("Войти")').click();
+      40 |     
+    > 41 |     await page.waitForURL('**/teacher**');
+         |                ^
+      42 |     await page.waitForTimeout(1000);
+      43 |
+      44 |     // 1.3.5 (для мульти-роли): Кнопка переключателя ролей ДОЛЖНА быть видна
+        at /home/redoslek/projects/technikum-portal/frontend/tests/topnavbar.spec.ts:41:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/topnavbar-Блок-1-3-Шапка-T-37bc9-охранение-контекста-и-выход-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/topnavbar-Блок-1-3-Шапка-T-37bc9-охранение-контекста-и-выход-chromium/error-context.md
+
+  34 failed
+    [chromium] › tests/footer_security.spec.ts:5:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.4.10, 1.4.11, 1.4.12: Скролл, мобильное меню и отступы сайдбара 
+    [chromium] › tests/footer_security.spec.ts:25:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.5.1 - 1.5.4: Подвал (Footer) 
+    [chromium] › tests/footer_security.spec.ts:50:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.6.1: Студент не видит кнопки переключения ролей 
+    [chromium] › tests/footer_security.spec.ts:60:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.6.2: Студент не может сменить роль через localStorage 
+    [chromium] › tests/login.spec.ts:75:3 › Блок 1.1: Страница входа (/login) › 1.1.14: Успешный вход студента 
+    [chromium] › tests/login.spec.ts:87:3 › Блок 1.1: Страница входа (/login) › 1.1.15: Успешный вход преподавателя (приоритет teacher) 
+    [chromium] › tests/login.spec.ts:96:3 › Блок 1.1: Страница входа (/login) › 1.1.16: Успешный вход админа (приоритет admin) 
+    [chromium] › tests/security_and_statements.spec.ts:5:3 › Блок 1.6 и 5.x: Безопасность и Ведомости › 1.6.6 и 1.6.7: Редирект при ручном переходе по чужим URL 
+    [chromium] › tests/security_and_statements.spec.ts:19:3 › Блок 1.6 и 5.x: Безопасность и Ведомости › 1.6.9 и 1.6.10: Мульти-роль и защита от несуществующей роли 
+    [chromium] › tests/security_and_statements.spec.ts:48:3 › Блок 1.6 и 5.x: Безопасность и Ведомости › 5.2.2: Студент перенаправляется при попытке доступа к ведомостям 
+    [chromium] › tests/security_and_statements.spec.ts:59:3 › Блок 1.6 и 5.x: Безопасность и Ведомости › 5.1.3 - 5.1.7 и 5.4.5, 5.4.6, 5.5.4, 5.5.5: UI и функционал страницы ведомостей 
+    [chromium] › tests/sidebar_footer_security.spec.ts:5:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.4.10, 1.4.11, 1.4.12: Скролл, мобильное меню и отступы сайдбара 
+    [chromium] › tests/sidebar_footer_security.spec.ts:28:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.5.1 - 1.5.4: Подвал (Footer) 
+    [chromium] › tests/sidebar_footer_security.spec.ts:58:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.6.1: Студент не видит кнопки переключения ролей 
+    [chromium] › tests/sidebar_footer_security.spec.ts:69:3 › Блок 1.4.10-1.4.12, 1.5 и 1.6: Сайдбар, Подвал и Безопасность › 1.6.2: Студент не может сменить роль через localStorage 
+    [chromium] › tests/sidebar.spec.ts:5:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.3.07: ФИО не накладывается при узком экране 
+    [chromium] › tests/sidebar.spec.ts:18:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.4.1: Меню для роли student 
+    [chromium] › tests/sidebar.spec.ts:33:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.4.2: Меню для роли teacher 
+    [chromium] › tests/sidebar.spec.ts:53:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.4.3: Меню для роли curator 
+    [chromium] › tests/sidebar.spec.ts:73:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.4.4 и 1.4.5: Активный пункт подсвечен и отцентрирован 
+    [chromium] › tests/sidebar.spec.ts:87:3 › Блок 1.3.07 и 1.4: Шапка и Сайдбар › 1.4.6 и 1.4.7: Z-index шапки и отступ сайдбара 
+    [chromium] › tests/student_profile.spec.ts:14:3 › Блок 2.1: Профиль студента › 2.1.1.1: Маска СНИЛС автоматически форматирует ввод 
+    [chromium] › tests/student_profile.spec.ts:20:3 › Блок 2.1: Профиль студента › 2.1.1.2: Валидация СНИЛС на фронтенде 
+    [chromium] › tests/student_profile.spec.ts:26:3 › Блок 2.1: Профиль студента › 2.1.1.3: Маска телефона форматирует ввод 
+    [chromium] › tests/student_profile.spec.ts:33:3 › Блок 2.1: Профиль студента › 2.1.1.4: Чекбокс согласия на ПДн заполняет дату автоматически 
+    [chromium] › tests/student_profile.spec.ts:41:3 › Блок 2.1: Профиль студента › 2.1.5.2: Автосохранение черновика каждые 30 секунд 
+    [chromium] › tests/student_profile.spec.ts:49:3 › Блок 2.1: Профиль студента › 2.1.5.3: Восстановление черновика при открытии 
+    [chromium] › tests/student_profile.spec.ts:80:3 › Блок 2.1.2: Паспорт › 2.1.2.1: Чекбокс "Иностранный гражданин" меняет маску 
+    [chromium] › tests/student_profile.spec.ts:87:3 › Блок 2.1.2: Паспорт › 2.1.2.2: Кнопка "Совпадает с регистрацией" копирует адрес 
+    [chromium] › tests/student_profile.spec.ts:95:3 › Блок 2.1.2: Паспорт › 2.1.2.3: Чекбокс "Паспорта нет" блокирует поля 
+    [chromium] › tests/student_profile.spec.ts:113:3 › Блок 2.1.3: Здоровье › 2.1.3.1: Выбор "Имею инвалидность" показывает поле диагноза 
+    [chromium] › tests/student_profile.spec.ts:119:3 › Блок 2.1.3: Здоровье › 2.1.3.2: Чекбокс "Полиса ОМС нет" блокирует поля ОМС 
+    [chromium] › tests/topnavbar.spec.ts:5:3 › Блок 1.3: Шапка (TopNavbar) › 1.3.1 - 1.3.6: UI элементы шапки для студента 
+    [chromium] › tests/topnavbar.spec.ts:33:3 › Блок 1.3: Шапка (TopNavbar) › 1.3.8 - 1.3.10: Переключение ролей, сохранение контекста и выход 
+  4 passed (17.7m)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

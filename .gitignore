@@ -22,3 +22,22 @@ dist/
 *.swp
 .env
 media/
+
+# === Runtime файлы (генерируются при запуске) ===
+django.log
+django.pid
+frontend/vite.pid
+
+# === Playwright отчёты ===
+frontend/playwright-report/
+frontend/test-results/
+frontend/blob-report/
+
+# === AI и временные дампы ===
+code_for_ai.txt
+code_dump.txt
+project_structure.txt
+/tmp/project_code_dump.txt
+
+# === Временные скрипты ===
+gather_code.sh
