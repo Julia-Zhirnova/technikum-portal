@@ -41,3 +41,8 @@ project_structure.txt
 
 # === Временные скрипты ===
 gather_code.sh
+
+# === Логи тестов (не коммитим) ===
+playwright_results*.txt
+pytest_*_results.txt
+*.log
