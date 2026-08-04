@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 
@@ -1242,3 +1243,163 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Уведомление для {self.student.user.get_full_name()}: {self.title}"
+
+class AuditLog(models.Model):
+    """Журнал аудита действий пользователей (ФЗ-152).
+    
+    Таблица защищена от модификации и удаления.
+    Все операции с персональными данными логируются.
+    """
+    
+    class ActionType(models.TextChoices):
+        """Типы действий для аудита."""
+        # Аутентификация
+        LOGIN_SUCCESS = "login_success", "Успешный вход"
+        LOGIN_FAIL = "login_failed", "Неудачный вход"
+        LOGOUT = "logout", "Выход из системы"
+        PASSWORD_CHANGE = "password_change", "Смена пароля"
+        PASSWORD_RESET = "password_reset", "Сброс пароля администратором"
+        
+        # CRUD операции
+        CREATE = "create", "Создание записи"
+        UPDATE = "update", "Обновление записи"
+        DELETE = "delete", "Удаление записи"
+        
+        # Доступ к данным
+        VIEW_SENSITIVE = "view_sensitive", "Просмотр чувствительных данных"
+        EXPORT = "export", "Экспорт данных"
+        IMPORT = "import", "Импорт данных"
+        
+        # Административные действия
+        USER_BLOCK = "user_block", "Блокировка пользователя"
+        USER_UNBLOCK = "user_unblock", "Разблокировка пользователя"
+        ROLE_ASSIGN = "role_assign", "Назначение роли"
+        ROLE_REVOKE = "role_revoke", "Отзыв роли"
+    
+    # Связь с пользователем (nullable для анонимных действий)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='audit_logs',
+        verbose_name='Пользователь'
+    )
+    
+    # Тип действия
+    action_type = models.CharField(
+        max_length=50,
+        choices=ActionType.choices,
+        verbose_name='Тип действия',
+        db_index=True
+    )
+    
+    # Объект, над которым выполнено действие
+    object_type = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name='Тип объекта',
+        help_text='Название модели (User, Student, Passport и т.д.)'
+    )
+    object_id = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name='ID объекта',
+        help_text='Первичный ключ объекта'
+    )
+    
+    # Контекст действия
+    ip_address = models.GenericIPAddressField(
+        null=True,
+        blank=True,
+        verbose_name='IP-адрес'
+    )
+    user_agent = models.TextField(
+        blank=True,
+        verbose_name='User-Agent браузера'
+    )
+    
+    # Детали действия (JSON)
+    details = models.JSONField(
+        default=dict,
+        blank=True,
+        verbose_name='Детали действия',
+        help_text='Дополнительная информация в формате JSON'
+    )
+    
+    # Хеши для проверки целостности
+    content_hash = models.CharField(
+        max_length=64,
+        blank=True,
+        verbose_name='Хеш содержимого',
+        help_text='SHA256 хеш для проверки неизменности записи'
+    )
+    
+    # Временные метки
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата и время создания',
+        db_index=True
+    )
+    
+    class Meta:
+        db_table = 'core_auditlog'
+        verbose_name = 'Запись журнала аудита'
+        verbose_name_plural = 'Записи журнала аудита'
+        ordering = ['-created_at']  # Новые записи сверху
+        indexes = [
+            models.Index(fields=['user', 'action_type']),
+            models.Index(fields=['object_type', 'object_id']),
+            models.Index(fields=['created_at']),
+        ]
+    
+    def __str__(self):
+        user_str = self.user.email if self.user else 'Аноним'
+        return f"{self.action_type} by {user_str} at {self.created_at}"
+    
+    def save(self, *args, **kwargs):
+        """Запрет изменения существующих записей (ФЗ-152)."""
+        if self.pk:
+            # Проверяем, существует ли запись в БД
+            try:
+                existing = AuditLog.objects.get(pk=self.pk)
+                # Если запись существует и данные изменились - запрещаем
+                if existing.content_hash != self._compute_hash():
+                    from django.core.exceptions import ValidationError
+                    raise ValidationError(
+                        "Записи журнала аудита защищены от изменения (ФЗ-152)"
+                    )
+            except AuditLog.DoesNotExist:
+                pass  # Новая запись, разрешаем создание
+        
+        # Вычисляем хеш перед сохранением
+        if not self.content_hash:
+            self.content_hash = self._compute_hash()
+        
+        super().save(*args, **kwargs)
+    
+    def delete(self, *args, **kwargs):
+        """Запрет удаления записей (ФЗ-152)."""
+        from django.core.exceptions import ValidationError
+        raise ValidationError(
+            "Записи журнала аудита защищены от удаления (ФЗ-152)"
+        )
+    
+    def _compute_hash(self):
+        """Вычисляет SHA256 хеш содержимого записи."""
+        import hashlib
+        import json
+        
+        content = {
+            'user_id': str(self.user_id) if self.user_id else None,
+            'action_type': self.action_type,
+            'object_type': self.object_type,
+            'object_id': self.object_id,
+            'ip_address': self.ip_address,
+            'details': self.details,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+        }
+        
+        content_str = json.dumps(content, sort_keys=True, default=str)
+        return hashlib.sha256(content_str.encode('utf-8')).hexdigest()
+
