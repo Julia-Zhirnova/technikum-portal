@@ -8,20 +8,22 @@ from core.api_views import (
     TeacherPracticeStudentsView, CuratorStudentRequestsView,
     CuratorStudentPracticeView
 )
+from accounts.audit_views import AuditTokenObtainPairView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
-    # Аутентификация JWT
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+
+    # Аутентификация JWT (с аудитом ФЗ-152)
+    path('api/token/', AuditTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    
+    path('api/logout/', LogoutView.as_view(), name='logout'),
+
     # Смена пароля
     path('api/auth/force-change-password/', api_views.ForcePasswordChangeView.as_view(), name='force-change-password'),
-    
+
     # Корпуса
     path('api/campuses/', api_views.CampusListView.as_view(), name='campuses'),
-    
+
     # Существующие API (Блоки 1, 5)
     path('api/user/profile/', api_views.UserProfileView.as_view(), name='user-profile'),
     path('api/student/profile/', api_views.StudentProfileView.as_view(), name='student-profile-legacy'),
@@ -42,7 +44,7 @@ urlpatterns = [
     path('api/admin/users/', api_views.AdminUsersView.as_view(), name='admin_users'),
     path('api/whoami/', api_views.WhoAmIView.as_view(), name='whoami'),
     path('api/references/', api_views.ReferencesView.as_view(), name='references'),
-    
+
     # API персональных данных студента (Блок 2)
     path('api/v1/student/profile/', personal_data_views.StudentProfileView.as_view(), name='student-profile'),
     path('api/v1/student/passport/', personal_data_views.PassportView.as_view(), name='student-passport'),
