@@ -1330,7 +1330,17 @@ class ForcePasswordChangeView(APIView):
         # Сохраняем новый пароль
         request.user.password = make_password(new_password)
         request.user.requires_password_change = False
+        # БП 1.1.4: Увеличиваем password_version для инвалидации старых токенов
+        request.user.password_version = getattr(request.user, 'password_version', 1) + 1
         request.user.save()
+
+        # БП 1.1.4: Добавляем все refresh-токены пользователя в blacklist
+        try:
+            from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
+            for outstanding in OutstandingToken.objects.filter(user=request.user):
+                BlacklistedToken.objects.get_or_create(token=outstanding)
+        except Exception:
+            pass  # Blacklist может быть не настроен
         
         return Response(
             {'message': 'Пароль успешно изменён'},

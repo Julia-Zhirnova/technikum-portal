@@ -20,6 +20,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         roles = list(UserRole.objects.filter(user=user).values_list('role__id_role', flat=True))
         token['roles'] = roles
         token['requires_password_change'] = user.requires_password_change
+        token['password_version'] = getattr(user, 'password_version', 1)
         return token
 
     def validate(self, attrs):
@@ -51,6 +52,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['requires_password_change'] = user.requires_password_change
         # БП 1.1.3: флаг для пользователей без ролей (фронтенд редиректит на /access-denied)
         data['no_roles'] = len(data['roles']) == 0
+        data['password_version'] = getattr(user, 'password_version', 1)
         return data
 
 

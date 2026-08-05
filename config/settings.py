@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # Third-party apps
     'import_export',
     'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',  # БП 1.1.4: Blacklist для refresh-токенов
     'corsheaders',
     # Local apps
     'accounts.apps.AccountsConfig',
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'core.middleware_password_version.PasswordVersionMiddleware',  # БП 1.1.4
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'core.middleware_debug.DebugMiddleware',  # Должен быть до CommonMiddleware

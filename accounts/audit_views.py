@@ -74,6 +74,19 @@ class AuditTokenObtainPairView(TokenObtainPairView):
             )
             logger.info(f"Успешный вход: {email} с IP {ip_address}")
 
+            # БП 1.1.4: Устанавливаем refresh-токен в httpOnly cookie
+            refresh_token = response.data.get('refresh')
+            if refresh_token:
+                response.set_cookie(
+                    key='refresh',
+                    value=refresh_token,
+                    httponly=True,
+                    secure=False,  # True в production (HTTPS)
+                    samesite='Lax',
+                    max_age=7*24*60*60,  # 7 дней
+                    path='/'
+                )
+
         return response
 
 
