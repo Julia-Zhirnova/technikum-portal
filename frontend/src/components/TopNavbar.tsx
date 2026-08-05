@@ -5,6 +5,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import RoleSwitcher from './RoleSwitcher';
 import { authAPI } from '../services/api';
+import api from '../services/api';
 
 export default function TopNavbar() {
   const [user, setUser] = useState<any>(null);
@@ -23,11 +24,18 @@ export default function TopNavbar() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('activeRole');
-    navigate('/login');
+  const handleLogout = async () => {
+    // БП 1.1.3 (тест 1.1-017): POST /api/logout/ для инвалидации refresh-токена
+    try {
+      await api.post('/logout/');
+    } catch (err) {
+      console.error('Ошибка при выходе:', err);
+    } finally {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      localStorage.removeItem('activeRole');
+      navigate('/login');
+    }
   };
 
   if (!user) return null;
@@ -80,7 +88,7 @@ export default function TopNavbar() {
 
           {/* 1.3.10: Выход */}
           <Tooltip title="Выйти из системы">
-            <IconButton color="inherit" onClick={handleLogout} sx={{ ml: 1 }}>
+            <IconButton color="inherit" onClick={handleLogout} sx={{ ml: 1 }} data-testid="logout-button">
               <LogoutIcon />
             </IconButton>
           </Tooltip>

@@ -17,6 +17,7 @@ import NotificationsPage from './pages/NotificationsPage';
 import PracticePage from './pages/PracticePage';
 import GradesPage from './pages/GradesPage';
 import ComingSoonPage from './pages/ComingSoonPage';
+import AccessDeniedPage from './pages/AccessDeniedPage';
 
 import DashboardLayout from './components/DashboardLayout';
 
@@ -45,11 +46,18 @@ function SmartRedirect() {
   let targetPath = '/student/profile';
   if (payload && payload.roles && Array.isArray(payload.roles)) {
     const roles = payload.roles;
+    // БП 1.1.3: если ролей нет → редирект на /access-denied
+    if (roles.length === 0 || payload.no_roles === true) {
+      return <Navigate to="/access-denied" replace />;
+    }
     if (roles.includes('admin')) targetPath = '/admin/users';
     else if (roles.includes('mck_chairman')) targetPath = '/mck/rpd';
     else if (roles.includes('teacher')) targetPath = '/teacher/statements';
     else if (roles.includes('curator')) targetPath = '/curator/group';
     else if (roles.includes('student')) targetPath = '/student/profile';
+  } else {
+    // Ролей нет вообще — редирект на /access-denied
+    return <Navigate to="/access-denied" replace />;
   }
 
   return <Navigate to={targetPath} replace />;
@@ -63,6 +71,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
+          <Route path="/access-denied" element={<AccessDeniedPage />} />
           <Route path="/" element={<SmartRedirect />} />
           
           <Route element={<DashboardLayout />}>

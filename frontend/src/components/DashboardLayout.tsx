@@ -6,6 +6,7 @@ import Sidebar from './Sidebar';
 import Footer from './Footer';
 import RoleSwitcher from './RoleSwitcher';
 import { userAPI } from '../services/api';
+import api from '../services/api';
 
 const ROLE_LABELS: Record<string, string> = {
   student: 'Студент',
@@ -81,9 +82,16 @@ export default function DashboardLayout() {
     navigate(roleRoutes[role] || '/student/profile');
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    window.location.href = '/login';
+  const handleLogout = async () => {
+    // БП 1.1.3 (тест 1.1-017): POST /api/logout/ для инвалидации refresh-токена
+    try {
+      await api.post('/logout/');
+    } catch (err) {
+      console.error('Ошибка при выходе:', err);
+    } finally {
+      localStorage.clear();
+      navigate('/login');
+    }
   };
 
   return (
@@ -124,7 +132,7 @@ export default function DashboardLayout() {
               {userName}
             </Typography>
 
-            <Button size="small" onClick={handleLogout} title="Выйти из системы" sx={{ fontWeight: 'bold', color: '#fff', border: '1px solid rgba(255,255,255,0.5)' }}>
+            <Button size="small" onClick={handleLogout} title="Выйти из системы" data-testid="logout-button" sx={{ fontWeight: 'bold', color: '#fff', border: '1px solid rgba(255,255,255,0.5)' }}>
               ВЫХОД
             </Button>
           </Box>
