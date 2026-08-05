@@ -23,11 +23,20 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
     def validate(self, attrs):
-        email = attrs.get('email')
+        # БП 1.1.3: нормализация email (вход с любым регистром)
+        # Поиск в БД — case-insensitive, чтобы не ломать существующие записи
+        # в смешанном регистре (например, 'YVZhirnova@yandex.ru')
+        email_input = (attrs.get('email') or '').strip()
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(email__iexact=email_input)
         except User.DoesNotExist:
             raise AuthenticationFailed(_("Неверный email или пароль"))
+        except User.MultipleObjectsReturned:
+            # Защита от перебора: не раскрываем наличие дубликатов
+            raise AuthenticationFailed(_("Неверный email или пароль"))
+        # ВАЖНО: подставляем оригинальный email из БД (сохраняем регистр),
+        # иначе authenticate() внутри super().validate() не найдёт пользователя
+        attrs['email'] = user.email
 
         if not user.is_active:
             raise AuthenticationFailed(_("Ваша учетная запись заблокирована. Обратитесь к администратору."))
@@ -40,6 +49,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         from core.models import UserRole
         data['roles'] = list(UserRole.objects.filter(user=user).values_list('role__id_role', flat=True))
         data['requires_password_change'] = user.requires_password_change
+        # БП 1.1.3: флаг для пользователей без ролей (фронтенд редиректит на /access-denied)
+        data['no_roles'] = len(data['roles']) == 0
         return data
 
 
