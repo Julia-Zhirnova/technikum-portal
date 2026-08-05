@@ -11,8 +11,10 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.exceptions import AuthenticationFailed
 
 from core.models import AuditLog
+from accounts.brute_force import BruteForceProtection
 
 logger = logging.getLogger(__name__)
 
@@ -29,14 +31,29 @@ class AuditTokenObtainPairView(TokenObtainPairView):
     """Расширение TokenObtainPairView с логированием в AuditLog."""
 
     def post(self, request, *args, **kwargs):
-        """Обрабатывает POST-запрос с логированием аудита."""
+        """Обрабатывает POST-запрос с логированием аудита и защитой от брутфорса."""
         ip_address = get_client_ip(request)
         email = request.data.get('email', '')
         user_agent = request.META.get('HTTP_USER_AGENT', '')
 
+        # БП 1.1.5: Brute Force Protection — проверяем блокировку IP
+        brute_force = BruteForceProtection(ip_address)
+        if brute_force.is_blocked():
+            logger.warning(f"Заблокированный IP {ip_address} пытается войти как {email}")
+            return Response(
+                {
+                    'detail': 'Слишком много попыток. Повторите через 15 минут.',
+                    'code': 'ip_blocked',
+                },
+                status=status.HTTP_429_TOO_MANY_REQUESTS,
+            )
+
         try:
             response = super().post(request, *args, **kwargs)
-        except Exception as e:
+        except AuthenticationFailed as e:
+            # БП 1.1.5: Записываем неудачную попытку
+            attempts_count = brute_force.record_failed_attempt()
+
             # Логируем неудачную попытку входа
             AuditLog.objects.create(
                 user=None,
@@ -47,12 +64,33 @@ class AuditTokenObtainPairView(TokenObtainPairView):
                 details={
                     'email': email,
                     'reason': str(e),
+                    'attempts_count': attempts_count,
                 },
             )
-            logger.warning(f"Неудачная попытка входа: {email} с IP {ip_address}")
-            raise
+            logger.warning(f"Неудачная попытка входа: {email} с IP {ip_address} (попытка #{attempts_count})")
+
+            # Если IP только что заблокирован — возвращаем 429
+            if brute_force.is_blocked():
+                return Response(
+                    {
+                        'detail': 'Слишком много попыток. Повторите через 15 минут.',
+                        'code': 'ip_blocked',
+                    },
+                    status=status.HTTP_429_TOO_MANY_REQUESTS,
+                )
+
+            # Если нужна капча — добавляем require_captcha в ответ
+            error_data = {'detail': str(e)}
+            if brute_force.require_captcha():
+                error_data['require_captcha'] = True
+                error_data['attempts_count'] = attempts_count
+
+            return Response(error_data, status=status.HTTP_401_UNAUTHORIZED)
 
         if response.status_code == status.HTTP_200_OK:
+            # БП 1.1.5: Успешный вход — сбрасываем счётчик попыток
+            brute_force.record_successful_login()
+
             # Успешный вход — логируем
             from django.contrib.auth import get_user_model
             User = get_user_model()

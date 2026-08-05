@@ -200,3 +200,35 @@ LOGGING = {
 AUTH_USER_MODEL = 'core.User' # Замените 'core' на имя вашего приложения
 
 
+# ============================================================================
+# Кэширование
+# ============================================================================
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    },
+    # БП 1.1.5: Redis для Brute Force Protection
+    'brute_force': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'SOCKET_CONNECT_TIMEOUT': 1,
+            'SOCKET_TIMEOUT': 1,
+            'IGNORE_EXCEPTIONS': True,
+        },
+        'KEY_PREFIX': 'technikum',
+        'TIMEOUT': 900,
+    }
+}
+
+# ============================================================================
+# БП 1.1.5: Brute Force Protection
+# ============================================================================
+BRUTE_FORCE_PROTECTION = {
+    'MAX_ATTEMPTS_BEFORE_CAPTCHA': 5,
+    'MAX_ATTEMPTS_BEFORE_BLOCK': 10,
+    'BLOCK_DURATION_SECONDS': 900,
+    'ATTEMPTS_TTL_SECONDS': 900,
+    'CACHE_ALIAS': 'brute_force',
+}
