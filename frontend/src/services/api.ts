@@ -5,7 +5,6 @@ const API_BASE_URL = '/api';
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
-  withCredentials: true,  // БП 1.1.6: отправляем httpOnly cookie с refresh-токеном
 });
 
 api.interceptors.request.use((config) => {
@@ -22,7 +21,10 @@ api.interceptors.response.use(
     const originalRequest = error.config;
     
     // Обработка 403 Forbidden - роль не соответствует запрошенной
-    if (error.response?.status === 403) {
+    // БП 1.1.6: если 403 с code='token_not_valid' — это истёкший токен, а не проблема с ролью
+    if (error.response?.status === 403 && error.response?.data?.code === 'token_not_valid') {
+      // Пропускаем — ниже сработает блок Silent Auth (он проверяет 401 ИЛИ 403+token_not_valid)
+    } else if (error.response?.status === 403) {
       console.warn('403 Forbidden: сброс роли на student');
       localStorage.setItem('activeRole', 'student');
       if (window.location.pathname !== '/student') {
@@ -31,23 +33,27 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // БП 1.1.6: Silent Auth - автообновление access-токена при 401.
-    // Refresh-токен берётся бэкендом из httpOnly cookie, тело запроса пустое.
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    const isTokenExpired = 
+      error.response?.status === 401 || 
+      (error.response?.status === 403 && error.response?.data?.code === 'token_not_valid');
+    if (isTokenExpired && !originalRequest._retry) {
       originalRequest._retry = true;
-      try {
-        const response = await axios.post(`${API_BASE_URL}/token/refresh/`, {}, {
-          withCredentials: true,  // Отправляем httpOnly cookie
-        });
-        const newAccessToken = response.data.access;
-        localStorage.setItem('access_token', newAccessToken);
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return api(originalRequest);
-      } catch (refreshError) {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        window.location.href = '/login';
-        return Promise.reject(refreshError);
+      const refreshToken = localStorage.getItem('refresh_token');
+      if (refreshToken) {
+        try {
+          const response = await axios.post(`${API_BASE_URL}/token/refresh/`, {
+            refresh: refreshToken,
+          });
+          const newAccessToken = response.data.access;
+          localStorage.setItem('access_token', newAccessToken);
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+          return api(originalRequest);
+        } catch (refreshError) {
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          window.location.href = '/login';
+          return Promise.reject(refreshError);
+        }
       }
     }
     return Promise.reject(error);
