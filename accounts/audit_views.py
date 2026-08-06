@@ -9,9 +9,11 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.serializers import TokenRefreshSerializer
+from rest_framework_simplejwt.exceptions import InvalidToken
 
 from core.models import AuditLog
 from accounts.brute_force import BruteForceProtection
@@ -124,6 +126,44 @@ class AuditTokenObtainPairView(TokenObtainPairView):
                     max_age=7*24*60*60,  # 7 дней
                     path='/'
                 )
+
+        return response
+
+
+class CookieTokenRefreshView(TokenRefreshView):
+    """БП 1.1.6: Обновление access-токена с поддержкой refresh из httpOnly cookie.
+
+    Если refresh_token не передан в теле запроса, берёт его из httpOnly cookie.
+    Новый access_token возвращается в теле ответа, новый refresh_token — в cookie.
+    """
+    serializer_class = TokenRefreshSerializer
+
+    def post(self, request, *args, **kwargs):
+        # Если refresh не в теле — пробуем достать из cookie
+        if 'refresh' not in request.data:
+            refresh_from_cookie = request.COOKIES.get('refresh')
+            if refresh_from_cookie:
+                # Копируем data и добавляем refresh
+                request.data._mutable = True
+                request.data['refresh'] = refresh_from_cookie
+                request.data._mutable = False
+
+        # Вызываем стандартную логику TokenRefreshView
+        response = super().post(request, *args, **kwargs)
+
+        # Если получен новый refresh_token (ROTATE_REFRESH_TOKENS=True),
+        # обновляем cookie
+        new_refresh = response.data.get('refresh')
+        if new_refresh:
+            response.set_cookie(
+                key='refresh',
+                value=new_refresh,
+                httponly=True,
+                secure=False,
+                samesite='Lax',
+                max_age=7*24*60*60,
+                path='/'
+            )
 
         return response
 
