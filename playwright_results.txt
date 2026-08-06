@@ -1,5 +1,0 @@
-Need to install the following packages:
-playwright@1.62.1
-Ok to proceed? (y) 
-npm error canceled
-npm error A complete log of this run can be found in: /home/redoslek/.npm/_logs/2026-08-04T16_44_37_158Z-debug-0.log

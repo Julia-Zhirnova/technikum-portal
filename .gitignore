@@ -46,3 +46,4 @@ gather_code.sh
 playwright_results*.txt
 pytest_*_results.txt
 *.log
+frontend/test-results/.last-run.json
