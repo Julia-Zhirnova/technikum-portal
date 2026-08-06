@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './ThemeContext';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -35,10 +36,53 @@ function parseJwt(token: string) {
 }
 
 function SmartRedirect() {
-  const token = localStorage.getItem('access_token');
-  if (!token) return <Navigate to="/login" replace />;
+  const [isChecking, setIsChecking] = React.useState(true);
+  const [isAuthorized, setIsAuthorized] = React.useState(false);
 
-  const payload = parseJwt(token);
+  React.useEffect(() => {
+    const token = localStorage.getItem('access_token');
+
+    // Если токен есть — проверяем валидность
+    if (token) {
+      const payload = parseJwt(token);
+      const exp = payload?.exp;
+      if (exp && exp * 1000 > Date.now()) {
+        setIsAuthorized(true);
+        setIsChecking(false);
+        return;
+      }
+    }
+
+    // БП 1.1.6: Silent Auth — пробуем восстановить сессию через /api/token/refresh/
+    // Refresh-токен возьмётся бэкендом из httpOnly cookie.
+    fetch('/api/token/refresh/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: '{}',
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('refresh failed');
+        return res.json();
+      })
+      .then(data => {
+        if (data.access) {
+          localStorage.setItem('access_token', data.access);
+          setIsAuthorized(true);
+        }
+      })
+      .catch(() => {
+        // Refresh не удался — пользователь не авторизован
+      })
+      .finally(() => setIsChecking(false));
+  }, []);
+
+  if (isChecking) return null;  // Показываем пустой экран во время проверки
+
+  if (!isAuthorized) return <Navigate to="/login" replace />;
+
+  const token = localStorage.getItem('access_token');
+  const payload = parseJwt(token || '');
   if (payload && payload.requires_password_change === true) {
     return <Navigate to="/change-password" replace />;
   }

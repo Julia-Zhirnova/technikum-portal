@@ -5,6 +5,7 @@ const API_BASE_URL = '/api';
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
+  withCredentials: true,  // БП 1.1.6: отправляем httpOnly cookie с refresh-токеном
 });
 
 api.interceptors.request.use((config) => {
@@ -30,24 +31,23 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
+    // БП 1.1.6: Silent Auth - автообновление access-токена при 401.
+    // Refresh-токен берётся бэкендом из httpOnly cookie, тело запроса пустое.
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const refreshToken = localStorage.getItem('refresh_token');
-      if (refreshToken) {
-        try {
-          const response = await axios.post(`${API_BASE_URL}/token/refresh/`, {
-            refresh: refreshToken,
-          });
-          const newAccessToken = response.data.access;
-          localStorage.setItem('access_token', newAccessToken);
-          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-          return api(originalRequest);
-        } catch (refreshError) {
-          localStorage.removeItem('access_token');
-          localStorage.removeItem('refresh_token');
-          window.location.href = '/login';
-          return Promise.reject(refreshError);
-        }
+      try {
+        const response = await axios.post(`${API_BASE_URL}/token/refresh/`, {}, {
+          withCredentials: true,  // Отправляем httpOnly cookie
+        });
+        const newAccessToken = response.data.access;
+        localStorage.setItem('access_token', newAccessToken);
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return api(originalRequest);
+      } catch (refreshError) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        window.location.href = '/login';
+        return Promise.reject(refreshError);
       }
     }
     return Promise.reject(error);
