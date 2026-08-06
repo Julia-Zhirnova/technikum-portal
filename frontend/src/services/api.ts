@@ -5,6 +5,7 @@ const API_BASE_URL = '/api';
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
+  withCredentials: true,  // БП 1.1.6: отправляем httpOnly cookie с refresh-токеном
 });
 
 api.interceptors.request.use((config) => {
@@ -41,9 +42,7 @@ api.interceptors.response.use(
       const refreshToken = localStorage.getItem('refresh_token');
       if (refreshToken) {
         try {
-          const response = await axios.post(`${API_BASE_URL}/token/refresh/`, {
-            refresh: refreshToken,
-          });
+          const response = await api.post('/token/refresh/', {});
           const newAccessToken = response.data.access;
           localStorage.setItem('access_token', newAccessToken);
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
