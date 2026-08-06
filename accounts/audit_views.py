@@ -1,10 +1,9 @@
 """Представления аутентификации с логированием в AuditLog.
 
-БП 1.1.2: Логирование аутентификации (ФЗ-152).
+БП 1.1.2, 1.1.4, 1.1.6: Логирование аутентификации (ФЗ-152).
 """
 import logging
 
-from django.utils import timezone
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,20 +12,35 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
-from rest_framework_simplejwt.exceptions import InvalidToken
 
 from core.models import AuditLog
 from accounts.brute_force import BruteForceProtection
+
+
+import ipaddress as ipaddress_module
+
+def validate_ip(ip_str: str) -> str:
+    """Валидирует IP-адрес. Возвращает валидный IP или '127.0.0.1' для невалидных."""
+    if not ip_str:
+        return '127.0.0.1'
+    try:
+        ipaddress_module.ip_address(ip_str)
+        return ip_str
+    except ValueError:
+        return '127.0.0.1'
+
 
 logger = logging.getLogger(__name__)
 
 
 def get_client_ip(request) -> str:
-    """Извлекает IP-адрес клиента из запроса."""
+    """Извлекает и валидирует IP-адрес клиента из запроса."""
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
-        return x_forwarded_for.split(',')[0].strip()
-    return request.META.get('REMOTE_ADDR', '127.0.0.1')
+        raw_ip = x_forwarded_for.split(',')[0].strip()
+    else:
+        raw_ip = request.META.get('REMOTE_ADDR', '127.0.0.1')
+    return validate_ip(raw_ip)
 
 
 class AuditTokenObtainPairView(TokenObtainPairView):
@@ -56,19 +70,22 @@ class AuditTokenObtainPairView(TokenObtainPairView):
             # БП 1.1.5: Записываем неудачную попытку
             attempts_count = brute_force.record_failed_attempt()
 
-            # Логируем неудачную попытку входа
-            AuditLog.objects.create(
-                user=None,
-                action_type=AuditLog.ActionType.LOGIN_FAIL,
-                object_type='User',
-                ip_address=ip_address,
-                user_agent=user_agent,
-                details={
-                    'email': email,
-                    'reason': str(e),
-                    'attempts_count': attempts_count,
-                },
-            )
+            # Логируем неудачную попытку входа (с обработкой ошибок БД)
+            try:
+                AuditLog.objects.create(
+                    user=None,
+                    action_type=AuditLog.ActionType.LOGIN_FAIL,
+                    object_type='User',
+                    ip_address=ip_address,
+                    user_agent=user_agent[:500],
+                    details={
+                        'email': email,
+                        'reason': str(e),
+                        'attempts_count': attempts_count,
+                    },
+                )
+            except Exception as log_error:
+                logger.error(f"Не удалось записать AuditLog (login_fail): {log_error}")
             logger.warning(f"Неудачная попытка входа: {email} с IP {ip_address} (попытка #{attempts_count})")
 
             # Если IP только что заблокирован — возвращаем 429
@@ -101,18 +118,21 @@ class AuditTokenObtainPairView(TokenObtainPairView):
             except User.DoesNotExist:
                 user = None
 
-            AuditLog.objects.create(
-                user=user,
-                action_type=AuditLog.ActionType.LOGIN_SUCCESS,
-                object_type='User',
-                object_id=str(user.pk) if user else '',
-                ip_address=ip_address,
-                user_agent=user_agent,
-                details={
-                    'email': email,
-                },
-            )
-            logger.info(f"Успешный вход: {email} с IP {ip_address}")
+            try:
+                AuditLog.objects.create(
+                    user=user,
+                    action_type=AuditLog.ActionType.LOGIN_SUCCESS,
+                    object_type='User',
+                    object_id=str(user.pk) if user else '',
+                    ip_address=ip_address,
+                    user_agent=user_agent[:500],
+                    details={
+                        'email': email,
+                    },
+                )
+                logger.info(f"Успешный вход: {email} с IP {ip_address}")
+            except Exception as log_error:
+                logger.error(f"Не удалось записать AuditLog (login_success): {log_error}")
 
             # БП 1.1.4: Устанавливаем refresh-токен в httpOnly cookie
             refresh_token = response.data.get('refresh')
@@ -122,10 +142,12 @@ class AuditTokenObtainPairView(TokenObtainPairView):
                     value=refresh_token,
                     httponly=True,
                     secure=False,  # True в production (HTTPS)
-                    samesite='Lax',
+                    samesite='Strict',  # БП 1.1.4: SameSite=Strict
                     max_age=7*24*60*60,  # 7 дней
                     path='/'
                 )
+                # БП 1.1.4: Удаляем refresh из тела ответа (только в cookie)
+                del response.data['refresh']
 
         return response
 
@@ -143,10 +165,15 @@ class CookieTokenRefreshView(TokenRefreshView):
         if 'refresh' not in request.data:
             refresh_from_cookie = request.COOKIES.get('refresh')
             if refresh_from_cookie:
-                # Копируем data и добавляем refresh
-                request.data._mutable = True
-                request.data['refresh'] = refresh_from_cookie
-                request.data._mutable = False
+                # request.data может быть dict (JSON) или QueryDict (form-data)
+                if hasattr(request.data, '_mutable'):
+                    # QueryDict — нужно временно сделать mutable
+                    request.data._mutable = True
+                    request.data['refresh'] = refresh_from_cookie
+                    request.data._mutable = False
+                else:
+                    # Обычный dict (JSON body) — просто добавляем ключ
+                    request.data['refresh'] = refresh_from_cookie
 
         # Вызываем стандартную логику TokenRefreshView
         response = super().post(request, *args, **kwargs)
@@ -160,14 +187,14 @@ class CookieTokenRefreshView(TokenRefreshView):
                 value=new_refresh,
                 httponly=True,
                 secure=False,
-                samesite='Lax',
+                samesite='Strict',
                 max_age=7*24*60*60,
                 path='/'
             )
+            # Удаляем refresh из тела ответа
+            del response.data['refresh']
 
         return response
-
-
 class LogoutView(APIView):
     """Представление выхода из системы с логированием."""
     permission_classes = [IsAuthenticated]
@@ -186,21 +213,27 @@ class LogoutView(APIView):
             except Exception:
                 pass  # Токен уже невалиден или blacklist не настроен
 
-        # Логируем выход
-        AuditLog.objects.create(
-            user=request.user,
-            action_type=AuditLog.ActionType.LOGOUT,
-            object_type='User',
-            object_id=str(request.user.pk),
-            ip_address=ip_address,
-            user_agent=user_agent,
-            details={
-                'email': request.user.email,
-            },
-        )
-        logger.info(f"Выход: {request.user.email} с IP {ip_address}")
+        # Логируем выход (с обработкой ошибок БД)
+        try:
+            AuditLog.objects.create(
+                user=request.user,
+                action_type=AuditLog.ActionType.LOGOUT,
+                object_type='User',
+                object_id=str(request.user.pk),
+                ip_address=ip_address,
+                user_agent=user_agent[:500],
+                details={
+                    'email': request.user.email,
+                },
+            )
+            logger.info(f"Выход: {request.user.email} с IP {ip_address}")
+        except Exception as log_error:
+            logger.error(f"Не удалось записать AuditLog (logout): {log_error}")
 
-        return Response(
+        # Удаляем cookie с refresh-токеном
+        response = Response(
             {'detail': 'Вы успешно вышли из системы.'},
             status=status.HTTP_200_OK,
         )
+        response.delete_cookie('refresh', path='/')
+        return response
