@@ -40,7 +40,7 @@ class TestBlock1AuthAndNavigation:
         response = self.client.post('/api/token/', {'email': 'test_student@luberteh.ru', 'password': 'TestPass123!'})
         assert response.status_code == 200
         assert 'access' in response.data
-        assert 'refresh' in response.data
+        assert 'refresh' in response.cookies
         assert 'requires_password_change' in response.data
 
     def test_login_invalid_credentials(self):

@@ -21,7 +21,7 @@ class TestAuthAndRouting:
         
         assert response.status_code == 200
         assert 'access' in response.data
-        assert 'refresh' in response.data
+        assert 'refresh' in response.cookies
         assert response.data['requires_password_change'] is True
 
     def test_login_with_nonexistent_email_returns_generic_401(self):
