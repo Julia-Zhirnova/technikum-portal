@@ -42,3 +42,13 @@ def authenticated_client(api_client, student_user):
     """Клиент с уже выполненным входом."""
     api_client.force_authenticate(user=student_user)
     return api_client
+
+
+@pytest.fixture(autouse=True)
+def clear_brute_force_cache():
+    from django.conf import settings
+    from django.core.cache import caches
+    cache = caches[settings.BRUTE_FORCE_PROTECTION["CACHE_ALIAS"]]
+    cache.clear()
+    yield
+    cache.clear()
