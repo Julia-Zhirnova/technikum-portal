@@ -54,3 +54,10 @@ full_db_dump_*.json
 .pytest_cache/
 pytest
 
+
+# Логи и артефакты
+django.log
+django.pid
+full_db_dump_*.json
+*.xlsx
+
