@@ -5,6 +5,7 @@
 import logging
 
 from rest_framework import status
+from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -13,7 +14,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 
-from core.models import AuditLog
+from core.models import AuditLog, UserSession
 from accounts.brute_force import BruteForceProtection
 
 
@@ -133,6 +134,34 @@ class AuditTokenObtainPairView(TokenObtainPairView):
                 logger.info(f"Успешный вход: {email} с IP {ip_address}")
             except Exception as log_error:
                 logger.error(f"Не удалось записать AuditLog (login_success): {log_error}")
+
+            # БП 1.1-051: Создание записи UserSession
+            try:
+                from rest_framework_simplejwt.tokens import RefreshToken
+                from django.conf import settings
+                
+                # Получаем refresh-токен из cookie или тела ответа
+                refresh_token = response.cookies.get('refresh')
+                if refresh_token:
+                    refresh_token_value = refresh_token.value
+                else:
+                    refresh_token_value = response.data.get('refresh')
+                
+                if refresh_token_value:
+                    token_obj = RefreshToken(refresh_token_value)
+                    session_id = token_obj.get('jti')  # JWT ID
+                    expires_at = timezone.now() + settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME']
+                    
+                    UserSession.objects.create(
+                        user=user,
+                        session_id=session_id,
+                        ip_address=ip_address,
+                        user_agent=user_agent[:500],
+                        expires_at=expires_at,
+                    )
+                    logger.info(f"Создана сессия {session_id} для {email}")
+            except Exception as session_error:
+                logger.error(f"Не удалось создать UserSession: {session_error}")
 
             # БП 1.1.4: Устанавливаем refresh-токен в httpOnly cookie
             refresh_token = response.data.get('refresh')

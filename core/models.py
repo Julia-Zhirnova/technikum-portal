@@ -1404,3 +1404,61 @@ class AuditLog(models.Model):
         content_str = json.dumps(content, sort_keys=True, default=str)
         return hashlib.sha256(content_str.encode('utf-8')).hexdigest()
 
+class UserSession(models.Model):
+    """Модель для учёта активных сессий пользователей.
+    
+    БП 1.1-051: Создание записи при успешном входе.
+    Позволяет отслеживать параллельные сессии с разных устройств.
+    """
+    user = models.ForeignKey(
+        'User',
+        on_delete=models.CASCADE,
+        related_name='sessions',
+        verbose_name='Пользователь'
+    )
+    session_id = models.UUIDField(
+        unique=True,
+        verbose_name='ID сессии',
+        help_text='Уникальный идентификатор сессии (из JWT jti или сгенерированный)'
+    )
+    ip_address = models.GenericIPAddressField(
+        verbose_name='IP-адрес',
+        null=True,
+        blank=True
+    )
+    user_agent = models.CharField(
+        max_length=500,
+        verbose_name='User-Agent',
+        blank=True,
+        default=''
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Создана'
+    )
+    expires_at = models.DateTimeField(
+        verbose_name='Истекает',
+        help_text='Время истечения refresh-токена'
+    )
+    last_activity = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Последняя активность'
+    )
+    
+    class Meta:
+        verbose_name = 'Сессия пользователя'
+        verbose_name_plural = 'Сессии пользователей'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['user', '-created_at']),
+            models.Index(fields=['session_id']),
+        ]
+    
+    def __str__(self):
+        return f'{self.user.email} - {self.session_id}'
+    
+    @property
+    def is_active(self):
+        """Проверяет, активна ли сессия (не истекла)."""
+        from django.utils import timezone
+        return self.expires_at > timezone.now()

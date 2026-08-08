@@ -61,3 +61,8 @@ django.pid
 full_db_dump_*.json
 *.xlsx
 
+
+# PID-файлы и логи серверов
+.pids/
+logs/
+
