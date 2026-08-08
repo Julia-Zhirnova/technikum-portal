@@ -3,6 +3,8 @@
 БП 1.1.2, 1.1.4, 1.1.6: Логирование аутентификации (ФЗ-152).
 """
 import logging
+from django.conf import settings
+from django.core.cache import caches
 
 from rest_framework import status
 from django.utils import timezone
@@ -181,6 +183,77 @@ class AuditTokenObtainPairView(TokenObtainPairView):
         return response
 
 
+
+class RefreshTokenRateLimiter:
+    """БП 1.1-TC038: Rate Limit для /api/token/refresh/.
+    
+    Защищает endpoint обновления токенов от DDoS-атак.
+    Ограничивает количество запросов на refresh от одного IP.
+    
+    Параметры (берутся из settings):
+    - RATE_LIMIT_TOKEN_REFRESH_MAX_REQUESTS: макс. запросов в окне (по умолчанию 30)
+    - RATE_LIMIT_TOKEN_REFRESH_WINDOW_SECONDS: окно в секундах (по умолчанию 60)
+    """
+    
+    def __init__(self, ip_address: str):
+        self.ip = ip_address
+        # Параметры по умолчанию (из спецификации БП 1.1-TC038)
+        self.max_requests = getattr(settings, 'RATE_LIMIT_TOKEN_REFRESH_MAX_REQUESTS', 30)
+        self.window_seconds = getattr(settings, 'RATE_LIMIT_TOKEN_REFRESH_WINDOW_SECONDS', 60)
+        try:
+            self.cache = caches[settings.BRUTE_FORCE_PROTECTION['CACHE_ALIAS']]
+        except Exception as e:
+            logger.error(f"Не удалось получить кэш для rate limit: {e}")
+            self.cache = None
+    
+    @property
+    def _key(self) -> str:
+        return f"refresh_rate_limit:{self.ip}"
+    
+    def _is_available(self) -> bool:
+        """Проверяет доступность Redis."""
+        if self.cache is None:
+            return False
+        try:
+            self.cache.get('__connectivity_check__')
+            return True
+        except Exception as e:
+            logger.warning(f"Redis unavailable, rate limit disabled: {e}")
+            return False
+    
+    def check_rate_limit(self) -> tuple:
+        """Проверяет, не превышен ли лимит.
+        
+        Returns:
+            tuple: (is_limited: bool, attempts_count: int, retry_after: int)
+        """
+        if not self._is_available():
+            # Graceful degradation: если Redis недоступен, пропускаем
+            return False, 0, 0
+        
+        try:
+            current = self.cache.get(self._key)
+            attempts = int(current) if current is not None else 0
+            return attempts >= self.max_requests, attempts, self.window_seconds
+        except Exception as e:
+            logger.error(f"Ошибка проверки rate limit: {e}")
+            return False, 0, 0
+    
+    def record_request(self) -> int:
+        """Записывает запрос. Возвращает новое количество попыток."""
+        if not self._is_available():
+            return 0
+        
+        try:
+            current = self.cache.get(self._key)
+            new_value = (int(current) if current is not None else 0) + 1
+            self.cache.set(self._key, new_value, self.window_seconds)
+            return new_value
+        except Exception as e:
+            logger.error(f"Ошибка записи rate limit: {e}")
+            return 0
+
+
 class CookieTokenRefreshView(TokenRefreshView):
     """БП 1.1.6: Обновление access-токена с поддержкой refresh из httpOnly cookie.
 
@@ -190,6 +263,26 @@ class CookieTokenRefreshView(TokenRefreshView):
     serializer_class = TokenRefreshSerializer
 
     def post(self, request, *args, **kwargs):
+        # БП 1.1-TC038: Rate Limit для /api/token/refresh/
+        ip_address = get_client_ip(request)
+        rate_limiter = RefreshTokenRateLimiter(ip_address)
+        is_limited, attempts, retry_after = rate_limiter.check_rate_limit()
+        if is_limited:
+            logger.warning(f"Rate limit превышен для IP {ip_address} ({attempts} запросов)")
+            response = Response(
+                {
+                    'detail': f'Слишком много запросов. Повторите через {retry_after} секунд.',
+                    'code': 'too_many_requests',
+                    'retry_after': retry_after,
+                },
+                status=status.HTTP_429_TOO_MANY_REQUESTS,
+            )
+            response['Retry-After'] = str(retry_after)
+            return response
+        
+        # Успешный запрос — увеличиваем счётчик
+        rate_limiter.record_request()
+        
         # Если refresh не в теле — пробуем достать из cookie
         if 'refresh' not in request.data:
             refresh_from_cookie = request.COOKIES.get('refresh')
