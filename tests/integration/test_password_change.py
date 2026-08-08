@@ -133,7 +133,7 @@ class TestForcePasswordChange:
         assert response.status_code == 403
 
 
-@pytest.mark.cache_sensitive
+@pytest.mark.xdist_group("cache_sensitive")
 class TestPasswordChangeSecurity:
     """Тесты безопасности при смене пароля (TC005-TC008)."""
 

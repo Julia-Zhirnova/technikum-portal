@@ -12,7 +12,7 @@ pytestmark = pytest.mark.django_db
 User = get_user_model()
 
 
-@pytest.mark.cache_sensitive
+@pytest.mark.xdist_group("cache_sensitive")
 class TestTokenRefreshRateLimit:
     """Тесты rate limiting для /api/token/refresh/."""
 

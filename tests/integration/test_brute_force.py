@@ -21,7 +21,7 @@ def clear_brute_force_cache():
     cache.clear()
 
 
-@pytest.mark.cache_sensitive
+@pytest.mark.xdist_group("cache_sensitive")
 class TestBruteForceCaptcha:
     """Тесты появления reCAPTCHA после 5 неудачных попыток."""
 
@@ -64,7 +64,7 @@ class TestBruteForceCaptcha:
             assert not resp.data.get('require_captcha'), "Счётчик не сбросился после успешного входа"
 
 
-@pytest.mark.cache_sensitive
+@pytest.mark.xdist_group("cache_sensitive")
 class TestBruteForceBlock:
     """Тесты блокировки IP после 10 неудачных попыток."""
 
@@ -120,7 +120,7 @@ class TestBruteForceBlock:
                f"Ключ счётчика попыток не создан в Redis для IP {mock_client_ip}"
 
 
-@pytest.mark.cache_sensitive
+@pytest.mark.xdist_group("cache_sensitive")
 class TestBruteForceRecovery:
     """Тесты восстановления после блокировки."""
 
@@ -152,7 +152,7 @@ class TestBruteForceRecovery:
         assert response.status_code == status.HTTP_200_OK
 
 
-@pytest.mark.cache_sensitive
+@pytest.mark.xdist_group("cache_sensitive")
 class TestBruteForceGracefulDegradation:
     """Тесты graceful degradation при недоступности Redis."""
 
