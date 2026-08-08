@@ -13,6 +13,36 @@ def api_client():
     """Стандартный DRF API-клиент."""
     return APIClient()
 
+
+
+@pytest.fixture
+def unique_client_ip(worker_id, request):
+    """Генерирует уникальный IP для каждого теста.
+    
+    Это решает проблему параллелизма в xdist: каждый тест получает
+    свой IP (например, 127.0.0.101, 127.0.0.102), и их счётчики
+    попыток не пересекаются в Redis.
+    """
+    import hashlib
+    test_id = request.node.nodeid
+    # Хэш для получения числа от 0 до 254
+    hash_val = int(hashlib.md5(f"{worker_id}{test_id}".encode()).hexdigest(), 16)
+    last_octet = (hash_val % 254) + 1  # 1-254
+    return f"127.0.0.{last_octet}"
+
+
+@pytest.fixture
+def mock_client_ip(unique_client_ip, monkeypatch):
+    """Мокает get_client_ip для возврата уникального IP."""
+    from accounts import audit_views
+    
+    def mock_get_client_ip(request):
+        return unique_client_ip
+    
+    monkeypatch.setattr(audit_views, 'get_client_ip', mock_get_client_ip)
+    return unique_client_ip
+
+
 @pytest.fixture
 def authenticated_client(api_client, student_user):
     """API-клиент, аутентифицированный как student_user.

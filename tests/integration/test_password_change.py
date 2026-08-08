@@ -133,6 +133,7 @@ class TestForcePasswordChange:
         assert response.status_code == 403
 
 
+@pytest.mark.cache_sensitive
 class TestPasswordChangeSecurity:
     """Тесты безопасности при смене пароля (TC005-TC008)."""
 
@@ -203,7 +204,7 @@ class TestPasswordChangeSecurity:
             body = getattr(response, 'data', {})
         assert body.get('code') == 'password_changed'
 
-    def test_TC007_block_after_3_failed_attempts(self, api_client, db):
+    def test_TC007_block_after_3_failed_attempts(self, api_client, db, mock_client_ip):
         """TC007: После 3 неудачных попыток → блокировка на 5 минут."""
         from django.contrib.auth import get_user_model
         
@@ -233,7 +234,7 @@ class TestPasswordChangeSecurity:
         assert response.status_code == 429
         assert 'Слишком много попыток' in response.data.get('detail', '')
 
-    def test_TC008_block_by_user_id_not_ip(self, api_client, db):
+    def test_TC008_block_by_user_id_not_ip(self, api_client, db, mock_client_ip):
         """TC008: Блокировка по user_id, другой пользователь с тем же IP не заблокирован."""
         from django.contrib.auth import get_user_model
         

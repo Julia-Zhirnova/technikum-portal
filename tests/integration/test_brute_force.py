@@ -21,10 +21,11 @@ def clear_brute_force_cache():
     cache.clear()
 
 
+@pytest.mark.cache_sensitive
 class TestBruteForceCaptcha:
     """Тесты появления reCAPTCHA после 5 неудачных попыток."""
 
-    def test_1_1_013_require_captcha_after_5_failed_attempts(self, api_client, student_user):
+    def test_1_1_013_require_captcha_after_5_failed_attempts(self, api_client, student_user, mock_client_ip):
         """1.1-013: После 5 неудачных попыток возвращается require_captcha=true."""
         url = reverse('token_obtain_pair')
         data = {
@@ -43,7 +44,7 @@ class TestBruteForceCaptcha:
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
         assert response.data.get('require_captcha') is True
 
-    def test_1_1_013_successful_login_resets_attempts(self, api_client, student_user):
+    def test_1_1_013_successful_login_resets_attempts(self, api_client, student_user, mock_client_ip):
         """1.1-013: После успешного входа счётчик попыток сбрасывается."""
         url = reverse('token_obtain_pair')
         wrong_data = {'email': student_user.email, 'password': 'WrongPassword123!'}
@@ -63,10 +64,11 @@ class TestBruteForceCaptcha:
             assert not resp.data.get('require_captcha'), "Счётчик не сбросился после успешного входа"
 
 
+@pytest.mark.cache_sensitive
 class TestBruteForceBlock:
     """Тесты блокировки IP после 10 неудачных попыток."""
 
-    def test_1_1_014_block_after_10_failed_attempts(self, api_client, student_user):
+    def test_1_1_014_block_after_10_failed_attempts(self, api_client, student_user, mock_client_ip):
         """1.1-014: После 10 неудачных попыток IP блокируется на 15 минут."""
         url = reverse('token_obtain_pair')
         data = {
@@ -85,7 +87,7 @@ class TestBruteForceBlock:
                'много' in str(response.data).lower() or \
                'too many' in str(response.data).lower()
 
-    def test_TC034_block_applies_to_different_emails(self, api_client):
+    def test_TC034_block_applies_to_different_emails(self, api_client, mock_client_ip):
         """TC034: Блокировка применяется ко всем email с одного IP."""
         url = reverse('token_obtain_pair')
 
@@ -98,7 +100,7 @@ class TestBruteForceBlock:
         response = api_client.post(url, {'email': 'other@test.ru', 'password': 'Wrong!'}, format='json')
         assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
 
-    def test_TC036_ttl_of_attempts_key(self, api_client, student_user):
+    def test_TC036_ttl_of_attempts_key(self, api_client, student_user, mock_client_ip):
         """TC036: Ключ login_attempts:<ip> имеет TTL 900 секунд."""
         url = reverse('token_obtain_pair')
         data = {'email': student_user.email, 'password': 'WrongPassword123!'}
@@ -107,21 +109,22 @@ class TestBruteForceBlock:
         for _ in range(3):
             api_client.post(url, data, format='json')
 
-        # Проверяем TTL ключа в Redis
+        # Проверяем TTL ключа в Redis (с учётом уникального IP от mock_client_ip)
         cache = caches[settings.BRUTE_FORCE_PROTECTION['CACHE_ALIAS']]
         # Ключ должен существовать и иметь TTL близкий к 900
         # (в зависимости от реализации - может быть через get_ttl или через get)
         # Для простоты проверяем что ключ существует
         # Конкретный формат ключа определяется в middleware
-        assert cache.get('technikum:login_attempts:127.0.0.1') is not None or \
-               cache.get('login_attempts:127.0.0.1') is not None, \
-               "Ключ счётчика попыток не создан в Redis"
+        assert cache.get(f'technikum:login_attempts:{mock_client_ip}') is not None or \
+               cache.get(f'login_attempts:{mock_client_ip}') is not None, \
+               f"Ключ счётчика попыток не создан в Redis для IP {mock_client_ip}"
 
 
+@pytest.mark.cache_sensitive
 class TestBruteForceRecovery:
     """Тесты восстановления после блокировки."""
 
-    def test_TC035_recovery_after_block_duration(self, api_client, student_user, monkeypatch):
+    def test_TC035_recovery_after_block_duration(self, api_client, student_user, monkeypatch, mock_client_ip):
         """TC035: После окончания блокировки вход снова возможен."""
         from django.core.cache import caches
 
@@ -137,22 +140,23 @@ class TestBruteForceRecovery:
         response = api_client.post(url, wrong_data, format='json')
         assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
 
-        # Имитируем прошествие 15 минут — удаляем ключ блокировки
+        # Имитируем прошествие 15 минут — удаляем ключ блокировки (с учётом mock_client_ip)
         cache = caches[settings.BRUTE_FORCE_PROTECTION['CACHE_ALIAS']]
-        cache.delete('technikum:login_blocked:127.0.0.1')
-        cache.delete('login_blocked:127.0.0.1')
-        cache.delete('technikum:login_attempts:127.0.0.1')
-        cache.delete('login_attempts:127.0.0.1')
+        cache.delete(f'technikum:login_blocked:{mock_client_ip}')
+        cache.delete(f'login_blocked:{mock_client_ip}')
+        cache.delete(f'technikum:login_attempts:{mock_client_ip}')
+        cache.delete(f'login_attempts:{mock_client_ip}')
 
         # Теперь вход должен быть успешным
         response = api_client.post(url, correct_data, format='json')
         assert response.status_code == status.HTTP_200_OK
 
 
+@pytest.mark.cache_sensitive
 class TestBruteForceGracefulDegradation:
     """Тесты graceful degradation при недоступности Redis."""
 
-    def test_1_1_048_login_works_when_redis_unavailable(self, api_client, student_user, monkeypatch):
+    def test_1_1_048_login_works_when_redis_unavailable(self, api_client, student_user, monkeypatch, mock_client_ip):
         """1.1-048: При недоступности Redis вход работает без блокировок."""
         # Мокируем метод _is_available(), чтобы имитировать недоступность Redis.
         # Прямая замена settings.CACHES не работает из-за кеширования в django.core.cache.caches.
