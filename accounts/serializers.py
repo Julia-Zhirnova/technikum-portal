@@ -13,6 +13,26 @@ User = get_user_model()
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     """Кастомный сериализатор JWT с ролями и флагом смены пароля."""
 
+    def validate_email(self, value):
+        """БП 1.1-046: Валидация формата email на сервере.
+        
+        Использует django.core.validators.EmailValidator.
+        Возвращает 400 Bad Request при невалидном формате.
+        """
+        from django.core.validators import validate_email
+        from django.core.exceptions import ValidationError as DjangoValidationError
+        
+        if not value or not value.strip():
+            raise serializers.ValidationError("Введите корректный email")
+        
+        try:
+            validate_email(value.strip())
+        except DjangoValidationError:
+            raise serializers.ValidationError("Введите корректный email")
+        
+        return value.strip()
+
+
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)

@@ -37,14 +37,17 @@ class TestLoginAPI:
         assert 'неверный' in detail_msg or 'ошибка' in detail_msg
 
     def test_1_1_7_backend_email_validation(self):
-        """1.1.7: Backend отвергает невалидный email (возвращает 401 для защиты от перебора)"""
+        """БП 1.1-046: Backend отвергает невалидный email (возвращает 400 с ошибкой валидации)"""
         payload = {
             'email': 'invalid-email-without-at',
             'password': 'student2026'
         }
         response = self.client.post(self.login_url, payload, format='json')
         
-        # SimpleJWT по умолчанию возвращает 401 при любой неудачной аутентификации, 
-        # чтобы не подсказывать злоумышленнику формат или существование email.
-        assert response.status_code == 401 
-        assert 'detail' in response.data
+        # БП 1.1-046: Валидация формата email возвращает 400 Bad Request
+        assert response.status_code == 400
+        assert 'email' in response.data
+        # Проверяем наличие сообщения об ошибке
+        email_errors = response.data['email']
+        assert any('email' in str(err).lower() or 'коррект' in str(err).lower() 
+                   for err in email_errors)
