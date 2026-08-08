@@ -13,6 +13,17 @@ def api_client():
     """Стандартный DRF API-клиент."""
     return APIClient()
 
+@pytest.fixture
+def authenticated_client(api_client, student_user):
+    """API-клиент, аутентифицированный как student_user.
+    
+    Используется в тестах, требующих уже аутентифицированного пользователя
+    (например, тесты выхода из системы, аудита).
+    """
+    api_client.force_authenticate(user=student_user)
+    return api_client
+
+
 
 @pytest.fixture
 def student_role(db):
@@ -96,9 +107,10 @@ def student_user(db, student_group, student_role, enrollment_order):
             'is_active': True,
         },
     )
-    if created:
-        user.set_password('student2026')
-        user.save()
+    # ВАЖНО: ВСЕГДА устанавливаем пароль для стабильности при --reuse-db
+    user.set_password('student2026')
+    user.requires_password_change = False
+    user.save()
     
     UserRole.objects.get_or_create(user=user, role=student_role)
     
@@ -115,6 +127,49 @@ def student_user(db, student_group, student_role, enrollment_order):
         },
     )
     return user
+
+@pytest.fixture
+def password_change_user(db, student_group, student_role, enrollment_order):
+    """Специальный пользователь для тестов БП 1.2 (смена пароля).
+    
+    Тестовые данные по спецификации CSV:
+    - Email: test_password_change@luberteh.ru
+    - Пароль: OldPassword123!
+    - requires_password_change: True (принудительно перед каждым тестом)
+    
+    ВАЖНО: не используем get_or_create, чтобы гарантировать корректное
+    состояние даже при --reuse-db.
+    """
+    # Удаляем старого, если остался от предыдущего прогона
+    User.objects.filter(email='test_password_change@luberteh.ru').delete()
+    
+    user = User.objects.create(
+        email='test_password_change@luberteh.ru',
+        first_name='Тест',
+        last_name='СменаПароля',
+        requires_password_change=True,
+        is_active=True,
+        password_version=1,
+    )
+    user.set_password('OldPassword123!')
+    user.save()
+    
+    UserRole.objects.create(user=user, role=student_role)
+    
+    Student.objects.get_or_create(
+        snils='999-999-999 99',  # Уникальный тестовый СНИЛС
+        defaults={
+            'user': user,
+            'group': student_group,
+            'order': enrollment_order,
+            'birth_date': date(2005, 1, 1),
+            'gender': 'мужской',
+            'birth_place': 'г. Люберцы',
+            'phone': '+79990000000',
+        },
+    )
+    return user
+
 
 
 @pytest.fixture
@@ -156,18 +211,44 @@ def curator_user(db):
 
 
 @pytest.fixture(autouse=True)
-def clear_brute_force_cache():
-    """Очищает brute-force кэш до и после каждого теста."""
+def clear_brute_force_cache(worker_id, request):
+    """Очищает brute-force кэш до и после каждого теста.
+    
+    ВАЖНО: при использовании pytest-xdist используем worker_id + test_id
+    для полной изоляции между тестами и воркерами.
+    """
     from django.conf import settings
     from django.core.cache import caches
+    from unittest.mock import patch
+    
+    patcher = None
+    test_id = request.node.nodeid.replace('/', '_').replace('::', '_')
+    unique_prefix = f"{worker_id}_{test_id}" if worker_id != "master" else test_id
+    
     try:
         cache = caches[settings.BRUTE_FORCE_PROTECTION["CACHE_ALIAS"]]
         cache.clear()
-    except Exception:
-        pass
+        
+        # Патчим BruteForceProtection, чтобы добавлять уникальный префикс
+        from accounts.brute_force import BruteForceProtection
+        original_init = BruteForceProtection.__init__
+        
+        def patched_init(self, ip_address: str):
+            unique_ip = f"{ip_address}_{unique_prefix}"
+            original_init(self, unique_ip)
+        
+        patcher = patch.object(BruteForceProtection, '__init__', patched_init)
+        patcher.start()
+        
+    except Exception as e:
+        print(f"⚠️  Не удалось настроить изоляцию кэша: {e}")
+    
     yield
+    
     try:
         cache = caches[settings.BRUTE_FORCE_PROTECTION["CACHE_ALIAS"]]
         cache.clear()
+        if patcher:
+            patcher.stop()
     except Exception:
         pass

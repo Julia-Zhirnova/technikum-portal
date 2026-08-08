@@ -17,7 +17,7 @@ def user_without_roles(db):
     """Пользователь без назначенных ролей."""
     return User.objects.create_user(
         email="no_roles@test.ru",
-        password="TestPass123!",
+        password="student2026",
         first_name="Без",
         last_name="Ролей",
         is_active=True,
@@ -33,7 +33,7 @@ class TestEmailNormalization:
         url = reverse('token_obtain_pair')
         data = {
             'email': student_user.email.upper(),  # ARHIPOV_KYU@TEST.RU
-            'password': 'TestPass123!'
+            'password': 'student2026'
         }
 
         response = api_client.post(url, data, format='json')
@@ -52,7 +52,7 @@ class TestEmailNormalization:
         )
         data = {
             'email': mixed_email,
-            'password': 'TestPass123!'
+            'password': 'student2026'
         }
 
         response = api_client.post(url, data, format='json')
@@ -69,7 +69,7 @@ class TestUserWithoutRoles:
         url = reverse('token_obtain_pair')
         data = {
             'email': 'no_roles@test.ru',
-            'password': 'TestPass123!'
+            'password': 'student2026'
         }
 
         response = api_client.post(url, data, format='json')

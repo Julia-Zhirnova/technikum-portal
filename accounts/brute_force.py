@@ -74,20 +74,19 @@ class BruteForceProtection:
         return attempts > self.config['MAX_ATTEMPTS_BEFORE_CAPTCHA']
 
     def record_failed_attempt(self) -> int:
-        """Записывает неудачную попытку. Возвращает новое количество попыток."""
+        """Записывает неудачную попытку. Возвращает новое количество попыток.
+        
+        ВАЖНО: используем get+set вместо incr, потому что django-redis
+        с PickleSerializer не поддерживает атомарный incr.
+        """
         if not self._is_available():
             return 0
         try:
             ttl = self.config['ATTEMPTS_TTL_SECONDS']
-            # Атомарный инкремент: если ключа нет — создаём со значением 1
-            try:
-                new_value = self.cache.incr(self._attempts_key)
-                # Обновляем TTL, так как incr его не меняет
-                self.cache.expire(self._attempts_key, ttl)
-            except ValueError:
-                # Ключ не существует — создаём
-                self.cache.set(self._attempts_key, 1, ttl)
-                new_value = 1
+            # get+set вместо incr (pickle-совместимо)
+            current = self.cache.get(self._attempts_key)
+            new_value = (int(current) if current is not None else 0) + 1
+            self.cache.set(self._attempts_key, new_value, ttl)
 
             # Если достигнут порог блокировки — блокируем IP
             if new_value >= self.config['MAX_ATTEMPTS_BEFORE_BLOCK']:

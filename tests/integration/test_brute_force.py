@@ -47,7 +47,7 @@ class TestBruteForceCaptcha:
         """1.1-013: После успешного входа счётчик попыток сбрасывается."""
         url = reverse('token_obtain_pair')
         wrong_data = {'email': student_user.email, 'password': 'WrongPassword123!'}
-        correct_data = {'email': student_user.email, 'password': 'TestPass123!'}
+        correct_data = {'email': student_user.email, 'password': 'student2026'}
 
         # 3 неудачных попытки
         for _ in range(3):
@@ -127,7 +127,7 @@ class TestBruteForceRecovery:
 
         url = reverse('token_obtain_pair')
         wrong_data = {'email': student_user.email, 'password': 'WrongPassword123!'}
-        correct_data = {'email': student_user.email, 'password': 'TestPass123!'}
+        correct_data = {'email': student_user.email, 'password': 'student2026'}
 
         # Блокируем IP (10 неудачных попыток)
         for _ in range(10):
@@ -160,7 +160,7 @@ class TestBruteForceGracefulDegradation:
         monkeypatch.setattr(BruteForceProtection, '_is_available', lambda self: False)
 
         url = reverse('token_obtain_pair')
-        data = {'email': student_user.email, 'password': 'TestPass123!'}
+        data = {'email': student_user.email, 'password': 'student2026'}
 
         # Вход должен быть успешным даже без Redis
         response = api_client.post(url, data, format='json')

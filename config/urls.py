@@ -8,18 +8,19 @@ from core.api_views import (
     TeacherPracticeStudentsView, CuratorStudentRequestsView,
     CuratorStudentPracticeView
 )
-from accounts.audit_views import AuditTokenObtainPairView, LogoutView
+from accounts.views import ForceChangePasswordView
+from accounts.audit_views import AuditTokenObtainPairView, CookieTokenRefreshView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Аутентификация JWT (с аудитом ФЗ-152)
     path('api/token/', AuditTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/refresh/', CookieTokenRefreshView.as_view(), name='token_refresh'),
     path('api/logout/', LogoutView.as_view(), name='logout'),
 
     # Смена пароля
-    path('api/auth/force-change-password/', api_views.ForcePasswordChangeView.as_view(), name='force-change-password'),
+    path('api/auth/force-change-password/', ForceChangePasswordView.as_view(), name='force-change-password'),
 
     # Корпуса
     path('api/campuses/', api_views.CampusListView.as_view(), name='campuses'),

@@ -19,7 +19,7 @@ class TestAuditLogAuthentication:
         url = reverse('token_obtain_pair')
         data = {
             'email': student_user.email,
-            'password': 'TestPass123!'
+            'password': 'student2026'
         }
         
         response = api_client.post(url, data, format='json')

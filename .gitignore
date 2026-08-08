@@ -47,3 +47,10 @@ playwright_results*.txt
 pytest_*_results.txt
 *.log
 frontend/test-results/.last-run.json
+
+# Artifacts
+full_db_dump_*.json
+*.xlsx
+.pytest_cache/
+pytest
+

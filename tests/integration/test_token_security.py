@@ -21,12 +21,13 @@ class TestHttpOnlyRefreshCookie:
         url = reverse('token_obtain_pair')
         data = {
             'email': student_user.email,
-            'password': 'TestPass123!'
+            'password': 'student2026'
         }
 
         response = api_client.post(url, data, format='json')
 
-        assert response.status_code == status.HTTP_200_OK
+        assert response.status_code == status.HTTP_200_OK, \
+            f"Ожидался 200, получен {response.status_code}: {response.data}"
         # Проверяем наличие httpOnly cookie с refresh-токеном
         assert 'refresh' in response.cookies
         refresh_cookie = response.cookies['refresh']
@@ -38,13 +39,15 @@ class TestPasswordVersion:
     """Тесты инвалидации токенов при смене пароля (1.1-016, 1.1-050)."""
 
     def test_1_1_016_old_access_token_invalid_after_password_change(
-        self, api_client, student_user
+        self, api_client, password_change_user
     ):
         """1.1-016: Старый access-токен невалиден после смены пароля."""
         # 1. Получаем access-токен со старым паролем
         url = reverse('token_obtain_pair')
-        data = {'email': student_user.email, 'password': 'TestPass123!'}
+        data = {'email': password_change_user.email, 'password': 'OldPassword123!'}
         response = api_client.post(url, data, format='json')
+        assert response.status_code == status.HTTP_200_OK, \
+            f"Ожидался 200, получен {response.status_code}: {response.data}"
         old_access_token = response.data['access']
 
         # 2. Меняем пароль
@@ -77,14 +80,20 @@ class TestPasswordVersion:
             pass  # Главное — статус 401
 
     def test_1_1_050_old_refresh_token_blacklisted_after_password_change(
-        self, api_client, student_user
+        self, api_client, password_change_user
     ):
         """1.1-050: Старый refresh-токен в blacklist после смены пароля."""
         # 1. Получаем refresh-токен со старым паролем
         url = reverse('token_obtain_pair')
-        data = {'email': student_user.email, 'password': 'TestPass123!'}
+        data = {'email': password_change_user.email, 'password': 'OldPassword123!'}
         response = api_client.post(url, data, format='json')
-        old_refresh_token = response.data.get('refresh') or response.cookies.get('refresh').value
+        assert response.status_code == status.HTTP_200_OK, \
+            f"Ожидался 200, получен {response.status_code}: {response.data}"
+        refresh_cookie = response.cookies.get('refresh')
+        old_refresh_token = response.data.get('refresh') or (
+            refresh_cookie.value if refresh_cookie else None
+        )
+        assert old_refresh_token, "Refresh-токен не найден ни в теле, ни в cookie"
 
         # 2. Меняем пароль
         access_token = response.data['access']
