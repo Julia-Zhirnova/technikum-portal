@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Container, Typography, TextField, Button, Alert, CircularProgress, Paper, LinearProgress } from '@mui/material';
 import { authAPI } from '../services/api';
@@ -9,6 +9,47 @@ export default function ChangePasswordPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  // БП 1.2-TC040: защита от повторного входа на /change-password
+  // Если requires_password_change=False → редирект на дашборд
+  useEffect(() => {
+    const checkFlag = () => {
+      const token = localStorage.getItem('access_token');
+      if (!token) {
+        navigate('/login', { replace: true });
+        return;
+      }
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        if (payload.requires_password_change !== true) {
+          // Определяем дашборд по ролям
+          const roles: string[] = payload.roles || [];
+          let target = '/student/profile';
+          if (roles.includes('admin')) target = '/admin/users';
+          else if (roles.includes('teacher') || roles.includes('curator')) target = '/teacher/statements';
+          else if (roles.includes('mck_head')) target = '/mck/rpd';
+          navigate(target, { replace: true });
+        }
+      } catch {
+        navigate('/login', { replace: true });
+      }
+    };
+    checkFlag();
+  }, [navigate]);
+
+  // БП 1.2: Ссылка «Вернуться на главную» — logout + редирект на /login
+  const handleLogout = async () => {
+    try {
+      await authAPI.logout();
+    } catch {
+      // Игнорируем ошибки logout
+    } finally {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('activeRole');
+      navigate('/login', { replace: true });
+    }
+  };
 
   // Логика расчета сложности пароля (1.2.3)
   const getPasswordStrength = (pwd: string) => {
@@ -37,9 +78,15 @@ export default function ChangePasswordPage() {
 
     try {
       await authAPI.forceChangePassword(newPassword, confirmPassword);
-      // После успешной смены пароля флаг requires_password_change сброшен на бэкенде.
-      // Перенаправляем на главную, где SmartRedirect пустит пользователя дальше.
-      navigate('/');
+      setSuccess(true);
+      setLoading(false);
+      // БП 1.2-TC002: через 2 сек редирект на /login (для возможности прочитать сообщение)
+      setTimeout(() => {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('activeRole');
+        navigate('/login', { replace: true });
+      }, 2000);
+      return;
     } catch (err: any) {
       setError(err.response?.data?.detail || err.response?.data?.new_password?.[0] || 'Ошибка при смене пароля');
     } finally {
@@ -98,6 +145,12 @@ export default function ChangePasswordPage() {
               margin="normal" 
               required 
             />
+
+            {success && (
+              <Alert severity="success" sx={{ mt: 2 }}>
+                Пароль успешно изменён! Перенаправление на страницу входа...
+              </Alert>
+            )}
             
             {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
             
