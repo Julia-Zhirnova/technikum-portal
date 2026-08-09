@@ -83,28 +83,71 @@ class ForceChangePasswordSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         user = self.context['request'].user
+        password = attrs['new_password']
 
         # 1. Совпадение полей
         if attrs['new_password'] != attrs['confirm_password']:
             raise serializers.ValidationError({"confirm_password": "Пароли не совпадают."})
 
         # 2. Запрет на использование текущего пароля
-        if user.check_password(attrs['new_password']):
+        if user.check_password(password):
             raise serializers.ValidationError({"new_password": "Новый пароль не должен совпадать с текущим."})
 
-        # 3. Проверка сложности
-        password = attrs['new_password']
+        # 3. Проверка сложности (собираем все ошибки в массив)
         errors = []
+        
+        # 3.1 Минимальная длина (8 символов)
         if len(password) < 8:
             errors.append("Пароль должен содержать минимум 8 символов.")
+        
+        # 3.2 Максимальная длина (20 символов) — БП 1.2-TC045
+        if len(password) > 20:
+            errors.append("Длина пароля не должна превышать 20 символов.")
+        
+        # 3.3 Заглавная буква
         if not re.search(r'[A-Z]', password):
             errors.append("Пароль должен содержать хотя бы одну заглавную букву.")
+        
+        # 3.4 Цифра
         if not re.search(r'\d', password):
             errors.append("Пароль должен содержать хотя бы одну цифру.")
+        
+        # 3.5 Спецсимвол
         if not re.search(r'[^A-Za-z0-9]', password):
             errors.append("Пароль должен содержать хотя бы один спецсимвол.")
+        
+        # 3.6 Пробелы запрещены — БП 1.2-TC026
+        if ' ' in password:
+            errors.append("Пароль не должен содержать пробелы.")
+        
+        # 3.7 Проверка на популярные пароли — БП 1.2-TC017
+        try:
+            from django.contrib.auth.password_validation import CommonPasswordValidator
+            CommonPasswordValidator().validate(password)
+        except Exception:
+            errors.append("Этот пароль слишком распространён. Используйте более сложный.")
+        
+        # 3.8 Проверка на персональную информацию — БП 1.2-TC018/019/020
+        personal_info_errors = []
+        
+        # Email (полное совпадение, регистронезависимо)
+        if user.email and user.email.lower() in password.lower():
+            personal_info_errors.append("Пароль не должен содержать ваше имя или email.")
+        
+        # first_name (полное совпадение, регистронезависимо)
+        if user.first_name and user.first_name.lower() in password.lower():
+            personal_info_errors.append("Пароль не должен содержать ваше имя или email.")
+        
+        # last_name (полное совпадение, регистронезависимо)
+        if user.last_name and user.last_name.lower() in password.lower():
+            personal_info_errors.append("Пароль не должен содержать ваше имя или email.")
+        
+        # Добавляем только одну ошибку персональной информации (избегаем дублирования)
+        if personal_info_errors:
+            errors.append(personal_info_errors[0])
 
+        # 4. Возвращаем все ошибки массивом — БП 1.2-TC030
         if errors:
-            raise serializers.ValidationError({"new_password": " ".join(errors)})
+            raise serializers.ValidationError({"new_password": errors})
 
         return attrs

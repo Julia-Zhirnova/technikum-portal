@@ -267,3 +267,291 @@ class TestPasswordChangeSecurity:
             format='json',
         )
         assert response.status_code == 200  # Не 429
+
+class TestForcePasswordChangeValidation:
+    """БП 1.2: Валидация сложности пароля при принудительной смене."""
+
+    def test_TC017_common_password_rejected(self, api_client, db):
+        """TC017: Пароль из списка популярных → 400 Bad Request.
+        
+        Password1! проходит все проверки сложности (длина, заглавная, цифра, спецсимвол),
+        но распознаётся Django CommonPasswordValidator как популярный ('password!').
+        """
+        # Создаём пользователя с requires_password_change=True
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_common_pwd@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': 'Password1!',
+            'confirm_password': 'Password1!'
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 400
+        assert 'new_password' in response.data
+        assert any('распространён' in str(err).lower() or 'common' in str(err).lower() 
+                   for err in response.data['new_password'])
+
+    def test_TC018_password_contains_email(self, api_client, db):
+        """TC018: Пароль содержит email → 400 Bad Request."""
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_email_pwd@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': 'test_email_pwd@luberteh.ru1!',
+            'confirm_password': 'test_email_pwd@luberteh.ru1!'
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 400
+        assert 'new_password' in response.data
+
+    def test_TC019_password_contains_first_name(self, api_client, db):
+        """TC019: Пароль содержит first_name → 400 Bad Request."""
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_name_pwd@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': 'Test12345!',
+            'confirm_password': 'Test12345!'
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 400
+        assert 'new_password' in response.data
+
+    def test_TC020_password_contains_last_name(self, api_client, db):
+        """TC020: Пароль содержит last_name → 400 Bad Request."""
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_lastname_pwd@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='Password',
+            requires_password_change=True
+        )
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': 'Password123!',
+            'confirm_password': 'Password123!'
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 400
+        assert 'new_password' in response.data
+
+    def test_TC023_boundary_8_symbols_minimum(self, api_client, db):
+        """TC023: Пароль ровно 8 символов (минимум) → 200 OK."""
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_8symbols@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': 'Ab1!xxxx',  # ровно 8 символов
+            'confirm_password': 'Ab1!xxxx'
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 200
+
+    def test_TC025_boundary_7_symbols_too_short(self, api_client, db):
+        """TC025: Пароль 7 символов (меньше минимума) → 400 Bad Request."""
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_7symbols@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': 'Ab1!xxx',  # 7 символов
+            'confirm_password': 'Ab1!xxx'
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 400
+        assert 'new_password' in response.data
+
+    def test_TC044_boundary_20_symbols_maximum(self, api_client, db):
+        """TC044: Пароль ровно 20 символов (максимум) → 200 OK."""
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_20symbols@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': 'A1!' + 'a' * 17,  # ровно 20 символов
+            'confirm_password': 'A1!' + 'a' * 17
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 200
+
+    def test_TC045_boundary_21_symbols_too_long(self, api_client, db):
+        """TC045: Пароль 21 символ (больше максимума) → 400 Bad Request."""
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_21symbols@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': 'A1!' + 'a' * 18,  # 21 символ
+            'confirm_password': 'A1!' + 'a' * 18
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 400
+        assert 'new_password' in response.data
+
+    def test_TC026_password_contains_space(self, api_client, db):
+        """TC026: Пароль содержит пробел → 400 Bad Request."""
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_space_pwd@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': 'New Pass123!',
+            'confirm_password': 'New Pass123!'
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 400
+        assert 'new_password' in response.data
+
+    def test_TC030_multiple_validation_errors(self, api_client, db):
+        """TC030: Возвращаются все ошибки валидации сразу (массив)."""
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_multiple_errors@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': '1234567',  # 7 символов, без заглавной, без спецсимвола
+            'confirm_password': '1234567'
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 400
+        assert 'new_password' in response.data
+        errors = response.data['new_password']
+        
+        # Должно быть минимум 3 ошибки: длина, заглавная буква, спецсимвол
+        assert len(errors) >= 3
+
+    def test_TC028_empty_confirm_password(self, api_client, db):
+        """TC028: Пустое поле confirm_password → 400 Bad Request."""
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_empty_confirm@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': 'NewPass123!',
+            'confirm_password': ''
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 400
+        assert 'confirm_password' in response.data
+
+    def test_TC029_missing_confirm_password(self, api_client, db):
+        """TC029: Отсутствует поле confirm_password → 400 Bad Request."""
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_missing_confirm@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': 'NewPass123!'
+            # confirm_password отсутствует
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 400
+        assert 'confirm_password' in response.data
