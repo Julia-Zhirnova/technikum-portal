@@ -122,6 +122,12 @@ export const authAPI = {
   login: (email: string, password: string) =>
     api.post<LoginResponse>('/token/', { email, password }),
   whoami: () => api.get<WhoAmIResponse>('/whoami/'),
+  // БП 1.2: принудительная смена пароля
+  forceChangePassword: (newPassword: string, confirmPassword: string) =>
+    api.post('/auth/force-change-password/', {
+      new_password: newPassword,
+      confirm_password: confirmPassword,
+    }),
 };
 
 export const userAPI = {

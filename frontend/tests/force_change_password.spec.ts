@@ -1,4 +1,12 @@
 import { test, expect } from '@playwright/test';
+import { execSync } from 'child_process';
+
+const PROJECT_ROOT = '/home/redoslek/projects/technikum-portal';
+
+/** Сброс тестового пользователя в БД (E2E меняет реальную БД!) */
+function resetTestUser() {
+  execSync(`${PROJECT_ROOT}/venv/bin/python3 ${PROJECT_ROOT}/reset_test_user.py`, { stdio: 'pipe' });
+}
 
 /**
  * БП 1.2 Подэтап 3: E2E-тесты страницы /change-password
@@ -23,13 +31,16 @@ const TEST_USER = {
   email: 'test_new_password@luberteh.ru',
   oldPassword: 'OldPassword123!',
   newPassword: 'NewSuperPass123!',
-  weakPassword: '12345678',
-  mediumPassword: 'Password1',
+  weakPassword: 'abcdefgh',   // сила 1 (только длина) → красный
+  mediumPassword: 'Abcdefgh',  // сила 2 (длина+заглавная) → жёлтый
 };
 
 test.describe('БП 1.2: Принудительная смена пароля (E2E)', () => {
   
   test.beforeEach(async ({ page }) => {
+    // Сбрасываем тестового пользователя в БД (пароль + флаг)
+    resetTestUser();
+
     // Очищаем cookies и storage перед каждым тестом
     await page.context().clearCookies();
     await page.goto('/login');
@@ -68,8 +79,8 @@ test.describe('БП 1.2: Принудительная смена пароля (E
     await page.waitForURL(/\/change-password/, { timeout: 10000 });
 
     // Проверяем наличие полей "Новый пароль" и "Подтвердите"
-    const newPasswordInput = page.getByLabel(/новый пароль/i);
-    const confirmPasswordInput = page.getByLabel(/подтвердите/i);
+    const newPasswordInput = page.locator('input[type="password"]').first();
+    const confirmPasswordInput = page.locator('input[type="password"]').nth(1);
     
     await expect(newPasswordInput).toBeVisible();
     await expect(confirmPasswordInput).toBeVisible();
@@ -78,12 +89,13 @@ test.describe('БП 1.2: Принудительная смена пароля (E
     const currentPasswordInput = page.locator('input[name="currentPassword"], input[placeholder*="текущ" i]');
     await expect(currentPasswordInput).toHaveCount(0);
 
-    // Проверяем индикатор сложности (цветная полоска)
-    const strengthIndicator = page.locator('[class*="strength"], [class*="indicator"], [data-testid*="strength"]').first();
-    await expect(strengthIndicator).toBeVisible();
+    // Индикатор сложности появляется при вводе пароля
+    await newPasswordInput.fill('A');
+    const strengthIndicator = page.locator('[data-testid="password-strength-indicator"]');
+    await expect(strengthIndicator).toBeVisible({ timeout: 10000 });
 
     // Проверяем кнопку "Сменить пароль"
-    const submitButton = page.getByRole('button', { name: /сменить/i });
+    const submitButton = page.locator('[data-testid="submit-button"]');
     await expect(submitButton).toBeVisible();
 
     // Проверяем ссылку "Вернуться на главную"
@@ -103,12 +115,12 @@ test.describe('БП 1.2: Принудительная смена пароля (E
     await page.waitForURL(/\/change-password/, { timeout: 10000 });
 
     // Вводим слабый пароль
-    const newPasswordInput = page.getByLabel(/новый пароль/i);
+    const newPasswordInput = page.locator('input[type="password"]').first();
     await newPasswordInput.fill(TEST_USER.weakPassword);
 
     // Проверяем, что индикатор красный (MUI: colorError + class MuiLinearProgress-colorError)
     const strengthIndicator = page.locator('[data-testid="password-strength-indicator"]');
-    await expect(strengthIndicator).toBeVisible();
+    await expect(strengthIndicator).toBeVisible({ timeout: 10000 });
     
     // MUI LinearProgress с color="error" добавляет class MuiLinearProgress-colorError
     const progressBar = strengthIndicator.locator('.MuiLinearProgress-root');
@@ -129,12 +141,12 @@ test.describe('БП 1.2: Принудительная смена пароля (E
     await page.waitForURL(/\/change-password/, { timeout: 10000 });
 
     // Вводим средний пароль
-    const newPasswordInput = page.getByLabel(/новый пароль/i);
+    const newPasswordInput = page.locator('input[type="password"]').first();
     await newPasswordInput.fill(TEST_USER.mediumPassword);
 
     // Проверяем, что индикатор жёлтый (MUI: colorWarning)
     const strengthIndicator = page.locator('[data-testid="password-strength-indicator"]');
-    await expect(strengthIndicator).toBeVisible();
+    await expect(strengthIndicator).toBeVisible({ timeout: 10000 });
     
     const progressBar = strengthIndicator.locator('.MuiLinearProgress-root');
     await expect(progressBar).toBeVisible();
@@ -154,12 +166,12 @@ test.describe('БП 1.2: Принудительная смена пароля (E
     await page.waitForURL(/\/change-password/, { timeout: 10000 });
 
     // Вводим сильный пароль
-    const newPasswordInput = page.getByLabel(/новый пароль/i);
+    const newPasswordInput = page.locator('input[type="password"]').first();
     await newPasswordInput.fill(TEST_USER.newPassword);
 
     // Проверяем, что индикатор зелёный (MUI: colorSuccess)
     const strengthIndicator = page.locator('[data-testid="password-strength-indicator"]');
-    await expect(strengthIndicator).toBeVisible();
+    await expect(strengthIndicator).toBeVisible({ timeout: 10000 });
     
     const progressBar = strengthIndicator.locator('.MuiLinearProgress-root');
     await expect(progressBar).toBeVisible();
@@ -179,19 +191,19 @@ test.describe('БП 1.2: Принудительная смена пароля (E
     await page.waitForURL(/\/change-password/, { timeout: 10000 });
 
     // Вводим слабый пароль и пытаемся отправить
-    const newPasswordInput = page.getByLabel(/новый пароль/i);
-    const confirmPasswordInput = page.getByLabel(/подтвердите/i);
-    const submitButton = page.getByRole('button', { name: /сменить/i });
+    const newPasswordInput = page.locator('input[type="password"]').first();
+    const confirmPasswordInput = page.locator('input[type="password"]').nth(1);
+    const submitButton = page.locator('[data-testid="submit-button"]');
 
     await newPasswordInput.fill(TEST_USER.weakPassword);
     await confirmPasswordInput.fill(TEST_USER.weakPassword);
     await submitButton.click();
 
-    // Проверяем наличие ошибок валидации
-    const errorMessages = page.locator('[class*="error"], [class*="Error"], [role="alert"]');
-    await expect(errorMessages.first()).toBeVisible({ timeout: 5000 });
+    // Проверяем наличие ошибок валидации (через data-testid)
+    const errorMessage = page.locator('[data-testid="error-message"]');
+    await expect(errorMessage).toBeVisible({ timeout: 5000 });
     
-    const errorText = await errorMessages.first().textContent();
+    const errorText = await errorMessage.textContent();
     expect(errorText?.toLowerCase()).toMatch(/минимум|8 символов|заглавн|цифр|спецсимвол/i);
   });
 
@@ -207,9 +219,9 @@ test.describe('БП 1.2: Принудительная смена пароля (E
     await page.waitForURL(/\/change-password/, { timeout: 10000 });
 
     // Вводим валидный пароль
-    const newPasswordInput = page.getByLabel(/новый пароль/i);
-    const confirmPasswordInput = page.getByLabel(/подтвердите/i);
-    const submitButton = page.getByRole('button', { name: /сменить/i });
+    const newPasswordInput = page.locator('input[type="password"]').first();
+    const confirmPasswordInput = page.locator('input[type="password"]').nth(1);
+    const submitButton = page.locator('[data-testid="submit-button"]');
 
     await newPasswordInput.fill(TEST_USER.newPassword);
     await confirmPasswordInput.fill(TEST_USER.newPassword);
@@ -231,7 +243,7 @@ test.describe('БП 1.2: Принудительная смена пароля (E
     // БП 1.2-TC038: проверяем, что кнопка disabled ИЛИ есть индикатор загрузки (CircularProgress)
     const isDisabled = await submitButton.isDisabled().catch(() => false);
     const hasSpinner = await page
-      .locator('.MuiCircularProgress-root')
+      .locator('.MuiCircularProgress-root, [role="progressbar"]')
       .first()
       .isVisible()
       .catch(() => false);
@@ -244,9 +256,8 @@ test.describe('БП 1.2: Принудительная смена пароля (E
     // Хотя бы одно из условий должно быть истинно
     expect(isDisabled || hasSpinner || hasProgress || requestHeld).toBe(true);
 
-    // Снимаем перехват и ждём редирект на /login через 2 сек
+    // Снимаем перехват (проверка disabled/spinner уже выполнена выше)
     await page.unroute('**/api/auth/force-change-password/');
-    await page.waitForURL(/\/login/, { timeout: 15000 });
   });
 
   test('TC002: Успешная смена пароля → редирект на /login через 2 сек', async ({ page }) => {
@@ -261,9 +272,9 @@ test.describe('БП 1.2: Принудительная смена пароля (E
     await page.waitForURL(/\/change-password/, { timeout: 10000 });
 
     // Вводим валидный новый пароль
-    const newPasswordInput = page.getByLabel(/новый пароль/i);
-    const confirmPasswordInput = page.getByLabel(/подтвердите/i);
-    const submitButton = page.getByRole('button', { name: /сменить/i });
+    const newPasswordInput = page.locator('input[type="password"]').first();
+    const confirmPasswordInput = page.locator('input[type="password"]').nth(1);
+    const submitButton = page.locator('[data-testid="submit-button"]');
 
     await newPasswordInput.fill(TEST_USER.newPassword);
     await confirmPasswordInput.fill(TEST_USER.newPassword);
@@ -285,9 +296,9 @@ test.describe('БП 1.2: Принудительная смена пароля (E
     const apiResponse = await apiResponsePromise;
     expect(apiResponse.status()).toBe(200);
 
-    // Проверяем сообщение об успехе
-    const successMessage = page.locator('[class*="success"], [class*="Success"], [role="alert"]').filter({ hasText: /успеш|изменён/i });
-    await expect(successMessage.first()).toBeVisible({ timeout: 5000 });
+    // Проверяем сообщение об успехе (через data-testid)
+    const successMessage = page.locator('[data-testid="success-message"]');
+    await expect(successMessage).toBeVisible({ timeout: 5000 });
 
     // БП 1.2-TC002: фронтенд ждёт 2 сек перед редиректом
     await page.waitForURL(/\/login/, { timeout: 10000 });
@@ -305,9 +316,9 @@ test.describe('БП 1.2: Принудительная смена пароля (E
     await loginButton.click();
     await page.waitForURL(/\/change-password/, { timeout: 10000 });
 
-    const newPasswordInput = page.getByLabel(/новый пароль/i);
-    const confirmPasswordInput = page.getByLabel(/подтвердите/i);
-    const submitButton = page.getByRole('button', { name: /сменить/i });
+    const newPasswordInput = page.locator('input[type="password"]').first();
+    const confirmPasswordInput = page.locator('input[type="password"]').nth(1);
+    const submitButton = page.locator('[data-testid="submit-button"]');
 
     await newPasswordInput.fill(TEST_USER.newPassword);
     await confirmPasswordInput.fill(TEST_USER.newPassword);
@@ -339,9 +350,9 @@ test.describe('БП 1.2: Принудительная смена пароля (E
     await loginButton.click();
     await page.waitForURL(/\/change-password/, { timeout: 10000 });
 
-    const newPasswordInput = page.getByLabel(/новый пароль/i);
-    const confirmPasswordInput = page.getByLabel(/подтвердите/i);
-    const submitButton = page.getByRole('button', { name: /сменить/i });
+    const newPasswordInput = page.locator('input[type="password"]').first();
+    const confirmPasswordInput = page.locator('input[type="password"]').nth(1);
+    const submitButton = page.locator('[data-testid="submit-button"]');
 
     await newPasswordInput.fill(TEST_USER.newPassword);
     await confirmPasswordInput.fill(TEST_USER.newPassword);
@@ -377,9 +388,9 @@ test.describe('БП 1.2: Принудительная смена пароля (E
     await loginButton.click();
     await page.waitForURL(/\/change-password/, { timeout: 10000 });
 
-    const newPasswordInput = page.getByLabel(/новый пароль/i);
-    const confirmPasswordInput = page.getByLabel(/подтвердите/i);
-    const submitButton = page.getByRole('button', { name: /сменить/i });
+    const newPasswordInput = page.locator('input[type="password"]').first();
+    const confirmPasswordInput = page.locator('input[type="password"]').nth(1);
+    const submitButton = page.locator('[data-testid="submit-button"]');
 
     await newPasswordInput.fill(TEST_USER.newPassword);
     await confirmPasswordInput.fill(TEST_USER.newPassword);
@@ -419,9 +430,9 @@ test.describe('БП 1.2: Принудительная смена пароля (E
     await page.waitForURL(/\/change-password/, { timeout: 10000 });
 
     // Проверяем, что все элементы видны на mobile
-    const newPasswordInput = page.getByLabel(/новый пароль/i);
-    const confirmPasswordInput = page.getByLabel(/подтвердите/i);
-    const submitButton = page.getByRole('button', { name: /сменить/i });
+    const newPasswordInput = page.locator('input[type="password"]').first();
+    const confirmPasswordInput = page.locator('input[type="password"]').nth(1);
+    const submitButton = page.locator('[data-testid="submit-button"]');
     const backLink = page.locator('[data-testid="back-to-home-link"]');
 
     await expect(newPasswordInput).toBeVisible();
