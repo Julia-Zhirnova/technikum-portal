@@ -555,3 +555,188 @@ class TestForcePasswordChangeValidation:
         
         assert response.status_code == 400
         assert 'confirm_password' in response.data
+
+class TestForcePasswordChangeIntegration:
+    """БП 1.2: Backend-интеграция при принудительной смене пароля."""
+
+    def test_TC031_audit_log_on_success(self, api_client, db):
+        """TC031: Успешная смена пароля логируется в core_auditlog."""
+        from django.contrib.auth import get_user_model
+        from core.models import AuditLog
+        
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_audit_success@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        # Очищаем старые записи аудита
+        AuditLog.objects.filter(user=user, action_type='password_change').delete()
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': 'NewSecurePass123!',
+            'confirm_password': 'NewSecurePass123!'
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 200
+        
+        # Проверяем запись в AuditLog
+        audit_logs = AuditLog.objects.filter(user=user, action_type='password_change')
+        assert audit_logs.count() == 1
+        
+        log = audit_logs.first()
+        assert log.object_type == 'User'
+        assert log.object_id == str(user.pk)
+        assert log.ip_address is not None
+
+    def test_TC032_audit_log_on_failure(self, api_client, db):
+        """TC032: Неудачная попытка смены пароля логируется в core_auditlog."""
+        from django.contrib.auth import get_user_model
+        from core.models import AuditLog
+        
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_audit_failure@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        # Очищаем старые записи
+        AuditLog.objects.filter(user=user, action_type='password_change_failed').delete()
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': 'weak',  # слабый пароль
+            'confirm_password': 'weak'
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 400
+        
+        # Проверяем запись в AuditLog
+        audit_logs = AuditLog.objects.filter(user=user, action_type='password_change_failed')
+        assert audit_logs.count() >= 1
+
+    def test_TC041_graceful_degradation_redis_down(self, api_client, db, monkeypatch):
+        """TC041: Graceful degradation при недоступности Redis."""
+        from django.contrib.auth import get_user_model
+        from unittest.mock import patch, MagicMock
+        
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_redis_down@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        # Создаём mock-кэш, который бросает исключение на всех операциях (Redis недоступен)
+        mock_cache = MagicMock()
+        mock_cache.get.side_effect = Exception("Redis connection failed")
+        mock_cache.set.side_effect = Exception("Redis connection failed")
+        mock_cache.delete.side_effect = Exception("Redis connection failed")
+        
+        # Патчим caches: обращение к любому alias возвращает "сломанный" кэш
+        mock_caches = MagicMock()
+        mock_caches.__getitem__.return_value = mock_cache
+        
+        with patch('django.core.cache.caches', mock_caches):
+            url = '/api/auth/force-change-password/'
+            data = {
+                'new_password': 'NewSecurePass123!',
+                'confirm_password': 'NewSecurePass123!'
+            }
+            api_client.force_authenticate(user=user)
+            response = api_client.post(url, data, format='json')
+            
+            # Смена пароля должна работать даже без Redis
+            assert response.status_code == 200
+
+    def test_TC047_invalidate_all_sessions(self, api_client, db):
+        """TC047: При смене пароля все refresh-токены инвалидируются."""
+        from django.contrib.auth import get_user_model
+        from rest_framework_simplejwt.tokens import RefreshToken
+        from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken
+        
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_invalidate_sessions@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        # Создаём несколько refresh-токенов (имитация входа с разных устройств)
+        refresh1 = RefreshToken.for_user(user)
+        refresh2 = RefreshToken.for_user(user)
+        
+        # Очищаем blacklist
+        BlacklistedToken.objects.filter(token__user=user).delete()
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': 'NewSecurePass123!',
+            'confirm_password': 'NewSecurePass123!'
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 200
+        
+        # Проверяем, что старые refresh-токены теперь в blacklist
+        # (проверяем через попытку использовать их)
+        refresh_response1 = api_client.post('/api/token/refresh/', {'refresh': str(refresh1)})
+        refresh_response2 = api_client.post('/api/token/refresh/', {'refresh': str(refresh2)})
+        
+        # Оба должны вернуть 401 (токены в blacklist)
+        assert refresh_response1.status_code == 401
+        assert refresh_response2.status_code == 401
+
+    def test_TC048_reset_block_after_success(self, api_client, db):
+        """TC048: После успешной смены пароля счётчик попыток и блокировка сбрасываются."""
+        from django.contrib.auth import get_user_model
+        from django.core.cache import caches
+        from django.conf import settings
+        
+        User = get_user_model()
+        user = User.objects.create_user(
+            email='test_reset_block@luberteh.ru',
+            password='OldPassword123!',
+            first_name='Test',
+            last_name='User',
+            requires_password_change=True
+        )
+        
+        # Используем тот же кэш, что и view (alias 'brute_force')
+        cache = caches[settings.BRUTE_FORCE_PROTECTION['CACHE_ALIAS']]
+        attempts_key = f'pwd_change_attempts:{user.pk}'
+        blocked_key = f'pwd_change_blocked:{user.pk}'
+        
+        # Устанавливаем счётчик попыток (2 неудачные попытки — ниже порога блокировки 3)
+        cache.set(attempts_key, 2, 300)
+        assert cache.get(attempts_key) == 2
+        
+        url = '/api/auth/force-change-password/'
+        data = {
+            'new_password': 'NewSecurePass123!',
+            'confirm_password': 'NewSecurePass123!'
+        }
+        api_client.force_authenticate(user=user)
+        response = api_client.post(url, data, format='json')
+        
+        assert response.status_code == 200
+        
+        # Проверяем, что счётчик попыток и блокировка сброшены
+        assert cache.get(attempts_key) is None
+        assert cache.get(blocked_key) is None

@@ -52,6 +52,11 @@ class ForceChangePasswordView(APIView):
 
         user = request.user
 
+        # БП 1.2-TC031/TC032: извлечение IP и User-Agent для аудита
+        from accounts.audit_views import get_client_ip
+        ip_address = get_client_ip(request)
+        user_agent = request.META.get('HTTP_USER_AGENT', '')[:500]
+
         # БП 1.2-TC009: запрет смены, если флаг уже сброшен
         if not getattr(user, 'requires_password_change', False):
             return Response(
@@ -129,6 +134,8 @@ class ForceChangePasswordView(APIView):
                     action_type=AuditLog.ActionType.PASSWORD_CHANGE,
                     object_type='User',
                     object_id=str(user.pk),
+                    ip_address=ip_address,
+                    user_agent=user_agent,
                     details={'email': user.email},
                 )
             except Exception:
@@ -164,6 +171,8 @@ class ForceChangePasswordView(APIView):
                 action_type='password_change_failed',
                 object_type='User',
                 object_id=str(user.pk),
+                ip_address=ip_address,
+                user_agent=user_agent,
                 details={'email': user.email, 'errors': serializer.errors},
             )
         except Exception:
