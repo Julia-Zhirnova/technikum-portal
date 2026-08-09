@@ -117,6 +117,37 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+# ============================================
+# CELERY (асинхронные задачи)
+# ============================================
+# Брокер и бэкенд результатов — Redis (используем тот же Redis, что и для кэша brute_force, но DB 1)
+CELERY_BROKER_URL = 'redis://localhost:6379/1'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
+
+# Сериализация задач
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/Moscow'
+
+# Ограничения и retry
+CELERY_TASK_SOFT_TIME_LIMIT = 300  # 5 минут soft limit
+CELERY_TASK_TIME_LIMIT = 600      # 10 минут hard limit
+CELERY_TASK_MAX_RETRIES = 3
+CELERY_TASK_DEFAULT_RETRY_DELAY = 60  # 1 минута между retry
+
+# Пул процессов
+CELERY_WORKER_PREFETCH_MULTIPLIER = 1
+CELERY_WORKER_MAX_TASKS_PER_CHILD = 1000  # перезапуск worker после 1000 задач
+
+# Отслеживание задач
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_IGNORE_RESULT = False
+
+# Beat (периодические задачи) — через django_celery_beat
+# Настройка расписания будет в CELERY_BEAT_SCHEDULE или через админку
+
 # Internationalization
 LANGUAGE_CODE = 'ru-ru'
 TIME_ZONE = 'Europe/Moscow'

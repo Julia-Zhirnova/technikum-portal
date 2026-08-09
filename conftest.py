@@ -282,3 +282,17 @@ def clear_brute_force_cache(worker_id, request):
             patcher.stop()
     except Exception:
         pass
+
+
+# ============================================
+# CELERY: тестовая конфигурация (eager mode)
+# ============================================
+@pytest.fixture(autouse=True)
+def celery_eager_mode(settings):
+    """Включает eager mode для Celery в тестах.
+    
+    Все задачи выполняются синхронно в том же процессе,
+    без необходимости запускать отдельный worker.
+    """
+    settings.CELERY_TASK_ALWAYS_EAGER = True
+    settings.CELERY_TASK_EAGER_PROPAGATES = True
