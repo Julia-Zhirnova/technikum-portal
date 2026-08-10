@@ -151,3 +151,52 @@ class ForceChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError({"new_password": errors})
 
         return attrs
+
+
+# ============================================
+# БП 1.4: Email-восстановление пароля — Serializers
+# ============================================
+
+class RecoveryRequestSerializer(serializers.Serializer):
+    """Сериализатор запроса восстановления пароля (БП 1.4)."""
+    email = serializers.EmailField(required=True)
+
+
+class RecoveryConfirmSerializer(serializers.Serializer):
+    """Сериализатор подтверждения восстановления пароля (БП 1.4)."""
+    token = serializers.CharField(required=True, max_length=64)
+    new_password = serializers.CharField(required=True, write_only=True)
+    confirm_password = serializers.CharField(required=True, write_only=True)
+
+    def validate(self, attrs):
+        if attrs['new_password'] != attrs['confirm_password']:
+            raise serializers.ValidationError({"confirm_password": "Пароли не совпадают."})
+        
+        # Проверка сложности (переиспользуем логику из ForceChangePasswordSerializer)
+        password = attrs['new_password']
+        errors = []
+        
+        if len(password) < 8:
+            errors.append("Пароль должен содержать минимум 8 символов.")
+        if len(password) > 20:
+            errors.append("Длина пароля не должна превышать 20 символов.")
+        if not re.search(r'[A-Z]', password):
+            errors.append("Пароль должен содержать хотя бы одну заглавную букву.")
+        if not re.search(r'\d', password):
+            errors.append("Пароль должен содержать хотя бы одну цифру.")
+        if not re.search(r'[^A-Za-z0-9]', password):
+            errors.append("Пароль должен содержать хотя бы один спецсимвол.")
+        if ' ' in password:
+            errors.append("Пароль не должен содержать пробелы.")
+        
+        # CommonPasswordValidator
+        try:
+            from django.contrib.auth.password_validation import CommonPasswordValidator
+            CommonPasswordValidator().validate(password)
+        except Exception:
+            errors.append("Этот пароль слишком распространён. Используйте более сложный.")
+        
+        if errors:
+            raise serializers.ValidationError({"new_password": errors})
+        
+        return attrs

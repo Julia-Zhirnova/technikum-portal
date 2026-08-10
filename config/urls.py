@@ -9,6 +9,7 @@ from core.api_views import (
     CuratorStudentPracticeView
 )
 from accounts.views import ForceChangePasswordView
+from accounts.recovery_views import RecoveryRequestView, RecoveryConfirmView
 from accounts.audit_views import AuditTokenObtainPairView, CookieTokenRefreshView, LogoutView
 
 urlpatterns = [
@@ -21,6 +22,10 @@ urlpatterns = [
 
     # Смена пароля
     path('api/auth/force-change-password/', ForceChangePasswordView.as_view(), name='force-change-password'),
+
+    # БП 1.4: Email-восстановление пароля
+    path('api/auth/recovery/request/', RecoveryRequestView.as_view(), name='recovery-request'),
+    path('api/auth/recovery/confirm/', RecoveryConfirmView.as_view(), name='recovery-confirm'),
 
     # Корпуса
     path('api/campuses/', api_views.CampusListView.as_view(), name='campuses'),

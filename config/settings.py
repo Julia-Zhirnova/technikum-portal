@@ -26,6 +26,10 @@ ALLOWED_HOSTS = [
     '.lhr.life',  # Разрешает все поддомены localhost.run
     '*'           # Временно разрешает ВСЕ хосты (только для разработки!)
 ]
+
+# URL фронтенда для генерации ссылок в email (БП 1.4: recovery, уведомления)
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:5173')
+
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',

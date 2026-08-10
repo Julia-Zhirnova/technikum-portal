@@ -296,3 +296,12 @@ def celery_eager_mode(settings):
     """
     settings.CELERY_TASK_ALWAYS_EAGER = True
     settings.CELERY_TASK_EAGER_PROPAGATES = True
+
+
+# ============================================
+# EMAIL: тестовая конфигурация (locmem backend)
+# ============================================
+@pytest.fixture(autouse=True)
+def use_locmem_email_backend(settings):
+    """В тестах email отправляются в django.core.mail.outbox (не реально)."""
+    settings.EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'

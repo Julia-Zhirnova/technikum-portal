@@ -97,3 +97,177 @@ class TestPasswordRecoveryTokenModel:
         user_id = recovery_user.pk
         recovery_user.delete()
         assert not PasswordRecoveryToken.objects.filter(user_id=user_id).exists()
+
+
+@pytest.fixture(autouse=True)
+def clear_cache_for_recovery():
+    """Очистка кэша до/после каждого теста (rate limiting)."""
+    from django.core.cache import cache
+    cache.clear()
+    yield
+    cache.clear()
+
+
+class TestRecoveryRequestAPI:
+    """БП 1.4: POST /api/auth/recovery/request/."""
+
+    def test_TC054_request_creates_token_and_sends_email(self, api_client, recovery_user):
+        """TC054: Запрос восстановления → 200 + токен + email через Celery."""
+        from accounts.models import PasswordRecoveryToken
+        from django.core import mail
+
+        response = api_client.post(
+            '/api/auth/recovery/request/',
+            {'email': recovery_user.email},
+            format='json',
+        )
+
+        assert response.status_code == 200
+        # Токен создан
+        assert PasswordRecoveryToken.objects.filter(user=recovery_user).count() == 1
+        # Email отправлен (Celery eager + locmem backend)
+        assert len(mail.outbox) == 1
+        assert recovery_user.email in mail.outbox[0].to
+        # В письме есть ссылка с токеном
+        token = PasswordRecoveryToken.objects.get(user=recovery_user)
+        assert token.token in mail.outbox[0].body
+
+    def test_TC055_nonexistent_email_no_leak(self, api_client, db):
+        """TC055: Несуществующий email → 200 (без утечки информации)."""
+        from accounts.models import PasswordRecoveryToken
+        from django.core import mail
+
+        response = api_client.post(
+            '/api/auth/recovery/request/',
+            {'email': 'ghost@luberteh.ru'},
+            format='json',
+        )
+
+        assert response.status_code == 200
+        assert PasswordRecoveryToken.objects.count() == 0
+        assert len(mail.outbox) == 0
+
+    def test_TC056_rate_limit_4th_request_429(self, api_client, recovery_user):
+        """TC056: Rate limit — 4-й запрос за час → 429 Too Many Requests."""
+        for i in range(3):
+            r = api_client.post(
+                '/api/auth/recovery/request/',
+                {'email': recovery_user.email},
+                format='json',
+            )
+            assert r.status_code == 200, f"Запрос {i+1} должен быть 200"
+
+        r = api_client.post(
+            '/api/auth/recovery/request/',
+            {'email': recovery_user.email},
+            format='json',
+        )
+        assert r.status_code == 429
+
+
+class TestRecoveryConfirmAPI:
+    """БП 1.4: POST /api/auth/recovery/confirm/."""
+
+    def _make_token(self, user):
+        from accounts.models import PasswordRecoveryToken
+        return PasswordRecoveryToken.objects.create_for_user(user)
+
+    def test_TC057_confirm_valid_token_changes_password(self, api_client, recovery_user):
+        """TC057: Валидный токен → 200 + пароль изменён + токен использован."""
+        token_obj = self._make_token(recovery_user)
+
+        response = api_client.post(
+            '/api/auth/recovery/confirm/',
+            {
+                'token': token_obj.token,
+                'new_password': 'NewSecurePass123!',
+                'confirm_password': 'NewSecurePass123!',
+            },
+            format='json',
+        )
+
+        assert response.status_code == 200
+        recovery_user.refresh_from_db()
+        assert recovery_user.check_password('NewSecurePass123!')
+        token_obj.refresh_from_db()
+        assert token_obj.used_at is not None
+
+    def test_TC058_confirm_expired_token_400(self, api_client, recovery_user):
+        """TC058: Истёкший токен → 400 Bad Request."""
+        from datetime import timedelta
+        from django.utils import timezone
+
+        token_obj = self._make_token(recovery_user)
+        token_obj.expires_at = timezone.now() - timedelta(minutes=1)
+        token_obj.save()
+
+        response = api_client.post(
+            '/api/auth/recovery/confirm/',
+            {
+                'token': token_obj.token,
+                'new_password': 'NewSecurePass123!',
+                'confirm_password': 'NewSecurePass123!',
+            },
+            format='json',
+        )
+
+        assert response.status_code == 400
+
+    def test_TC059_confirm_used_token_400(self, api_client, recovery_user):
+        """TC059: Использованный токен → 400 (одноразовость)."""
+        token_obj = self._make_token(recovery_user)
+        token_obj.mark_used()
+
+        response = api_client.post(
+            '/api/auth/recovery/confirm/',
+            {
+                'token': token_obj.token,
+                'new_password': 'NewSecurePass123!',
+                'confirm_password': 'NewSecurePass123!',
+            },
+            format='json',
+        )
+
+        assert response.status_code == 400
+
+    def test_TC060_confirm_invalid_token_400(self, api_client, recovery_user):
+        """TC060: Несуществующий токен → 400 Bad Request."""
+        response = api_client.post(
+            '/api/auth/recovery/confirm/',
+            {
+                'token': 'deadbeef' * 8,
+                'new_password': 'NewSecurePass123!',
+                'confirm_password': 'NewSecurePass123!',
+            },
+            format='json',
+        )
+
+        assert response.status_code == 400
+
+    def test_TC061_confirm_invalidates_sessions_and_resets_flag(self, api_client, recovery_user):
+        """TC061: После подтверждения — сессии инвалидированы, флаг сброшен."""
+        from rest_framework_simplejwt.tokens import RefreshToken
+        from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken
+
+        # Устанавливаем флаг и создаём refresh-токен (имитация активной сессии)
+        recovery_user.requires_password_change = True
+        recovery_user.save()
+        refresh = RefreshToken.for_user(recovery_user)
+
+        token_obj = self._make_token(recovery_user)
+        response = api_client.post(
+            '/api/auth/recovery/confirm/',
+            {
+                'token': token_obj.token,
+                'new_password': 'NewSecurePass123!',
+                'confirm_password': 'NewSecurePass123!',
+            },
+            format='json',
+        )
+
+        assert response.status_code == 200
+        recovery_user.refresh_from_db()
+        # Флаг сброшен
+        assert recovery_user.requires_password_change is False
+        # Refresh-токен в blacklist (сессия инвалидирована)
+        assert BlacklistedToken.objects.filter(token__user=recovery_user).exists()
