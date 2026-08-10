@@ -48,7 +48,7 @@ Old Password: OldPassword123!
 New Password: NewPassword123!",✅ Есть
 1.1-050,🔴 Критичный,Студент,[Security] Повторное использование refresh-токена после смены пароля,"После смены пароля попытаться обновить access-токен с помощью старого refresh-токена. POST /api/token/refresh/ с старым refresh-токеном возвращает 401 Unauthorized. Тело: {""code"": ""invalid_token"", ""detail"": ""Токен недействителен""}.",SELECT COUNT(*) FROM token_blacklist_outstandingtoken WHERE token='<old_refresh>' AND blacklisted=True; — ≥ 1,Pytest (Integration),"Email: test_password_change@luberteh.ru
 Old Password: OldPassword123!
-New Password: NewPassword123!",🔴 Новый
+New Password: NewPassword123!",✅ Есть
 🟡 ВАЖНЫЕ ТЕСТЫ (основной функционал),🟡 Важный,Студент,[Integration] После успешного входа поле last_login обновлено,POST /api/token/ возвращает 200 OK. Поле core_user.last_login обновлено до текущего времени.,SELECT last_login FROM core_user WHERE email='arhipov_kyu@luberteh.ru'; — значение > NOW() - INTERVAL '1 minute',Pytest (Integration),"Email: arhipov_kyu@luberteh.ru
 Password: student2026",🔴 Новый
 Happy Path — Логирование и аудит,🟡 Важный,Студент,[Integration] После успешного входа в core_auditlog создана запись,"POST /api/token/ возвращает 200 OK. В таблице core_auditlog создана запись с action_type='login_success', user_id, ip_address.",SELECT COUNT(*) FROM core_auditlog WHERE action_type='login_success' AND user_id=(SELECT id_user FROM core_user WHERE email='arhipov_kyu@luberteh.ru'); — значение ≥ 1,Pytest (Integration),"Email: arhipov_kyu@luberteh.ru
@@ -72,7 +72,7 @@ Happy Path — Выход из системы,🔴 Критичный,Студе
 Password: student2026",🔴 Новый
 №,Приоритет,Роль,Элемент / Действие,Ожидаемый результат,SQL-проверка,Тип тестирования,Тестовые данные,Статус
 1.1-017,🟡 Важный,Студент,"[Happy Path] Нажать ""ВЫХОД"" → редирект на /login, сессия очищена","Пользователь нажимает кнопку ""ВЫХОД"". Фронтенд отправляет POST /api/logout/, очищает память (access-токен удаляется), редиректит на /login. Refresh-токен в cookie становится невалидным (добавлен в blacklist).",SELECT COUNT(*) FROM token_blacklist_blacklistedtoken WHERE token='<refresh_token>'; — значение ≥ 1,Playwright (E2E),"Email: arhipov_kyu@luberteh.ru
-Password: student2026",🔴 Новый
+Password: student2026",✅ Есть
 Negative — Валидация полей,🔴 Критичный,Студент,[Security] Ввести неверный пароль 5 раз → появляется reCAPTCHA,"Пользователь 5 раз вводит неверный пароль. После 5-й попытки появляется виджет reCAPTCHA v2 (Checkbox ""Я не робот"").",—,Playwright (E2E),"Email: arhipov_kyu@luberteh.ru
 Password: WrongPass! (5 раз)",🔴 Новый
 №,Приоритет,Роль,Элемент / Действие,Ожидаемый результат,SQL-проверка,Тип тестирования,Тестовые данные,Статус
@@ -92,7 +92,7 @@ Password: WrongPass! × 6",🔴 Новый
 Integration — Роли и маршрутизация,🟢 Желательный,Все,[UI/UX] Масштабирование браузера (Zoom 200%) — доступность,Страница /login отображается корректно. Все поля и кнопки доступны. Текст не вылезает за границы контейнеров. Горизонтальный скролл отсутствует.,—,Playwright (E2E),Zoom: 200%,🔴 Новый
 №,Приоритет,Роль,Элемент / Действие,Ожидаемый результат,SQL-проверка,Тип тестирования,Тестовые данные,Статус
 1.1-018,🟡 Важный,Пользователь без ролей,[Integration] Пользователь без ролей после логина редиректится на /access-denied,"POST /api/token/ возвращает 200 OK с пустым списком roles. Фронтенд редиректит на /access-denied с текстом ""Обратитесь к администратору для назначения роли"".",SELECT COUNT(*) FROM core_userrole WHERE user_id=(SELECT id_user FROM core_user WHERE email='no_roles@test.ru'); — значение = 0,Pytest (Integration),"Email: no_roles@test.ru
-Password: TestPass123!",🔴 Новый
+Password: TestPass123!",✅ Есть
 1.1-019,🟡 Важный,Куратор+Преподаватель,"[Integration] Пользователь с ролями [curator, teacher] получает обе роли в токене","POST /api/token/ возвращает 200 OK. Поле roles содержит [""teacher"", ""curator""]. Фронтенд выбирает роль с наивысшим приоритетом (teacher) и редиректит на /teacher/statements.",SELECT COUNT(*) FROM core_userrole WHERE user_id=(SELECT id_user FROM core_user WHERE email='YVZhirnova@yandex.ru'); — значение ≥ 2,Pytest (Integration),"Email: YVZhirnova@yandex.ru
 Password: student2026",✅ Есть
 1.1-020,🟡 Важный,Администратор+Куратор+Преподаватель,"[Integration] Пользователь с ролями [admin, teacher, curator] получает все роли","POST /api/token/ возвращает 200 OK. Поле roles содержит [""admin"", ""teacher"", ""curator""]. Фронтенд выбирает роль с наивысшим приоритетом (admin) и редиректит на /admin/users.","SELECT role_id FROM core_userrole WHERE user_id=(SELECT id_user FROM core_user WHERE email='ang-bl@rambler.ru'); — содержит admin, teacher, curator",Pytest (Integration),"Email: ang-bl@rambler.ru
@@ -102,10 +102,10 @@ Password: OldPassword123!",✅ Есть
 Integration — Переключение ролей,🔴 Критичный,Система,[Integration] [Security] Проверка подключения к Redis и TTL ключей для BruteForceProtection. Сделать 3 неудачные попытки входа.,"Redis доступен, ключ login_attempts:127.0.0.1 создан со значением 3. TTL ключа = 900 секунд (15 минут). После успешного входа ключ удаляется.","redis-cli GET login_attempts:127.0.0.1 → результат: 3
 redis-cli TTL login_attempts:127.0.0.1 → результат: 895-900",Pytest (Integration),"IP: 127.0.0.1
 Email: arhipov_kyu@luberteh.ru
-Password: WrongPass! (3 раза)",🔴 Новый
+Password: WrongPass! (3 раза)",✅ Есть
 №,Приоритет,Роль,Элемент / Действие,Ожидаемый результат,SQL-проверка,Тип тестирования,Тестовые данные,Статус
 1.1-022,🟡 Важный,Куратор+Преподаватель,"[Happy Path] Переключение роли: находясь в роли ""Преподаватель"", нажать ""Куратор""","URL меняется на /curator/group, боковое меню обновляется.",—,Playwright (E2E),"Email: YVZhirnova@yandex.ru
-Password: student2026",🔴 Новый
+Password: student2026",✅ Есть
 1.1-023,🟡 Важный,Куратор+Преподаватель,"[Happy Path] Сохранение контекста (F5): находясь в роли ""Куратор"", обновить страницу","Роль остаётся ""Куратор"", URL не сбрасывается на /admin/users или /teacher/statements.",—,Playwright (E2E),"Email: YVZhirnova@yandex.ru
 Password: student2026",🔴 Новый
 1.1-024,🟡 Важный,Студент,"[Security] Защита фронтенда: студент вручную ставит localStorage.setItem('activeRole', 'admin') и обновляет страницу","Фронтенд получает 403 от бэкенда, сбрасывает роль на student и перенаправляет на /student/profile (или показывает страницу ""Нет доступа""). Админ-панель не отображается.",—,Playwright (E2E),"Email: arhipov_kyu@luberteh.ru
