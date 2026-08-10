@@ -28,6 +28,8 @@ class TestAuthAPI:
         assert 'refresh' in response.cookies
         cookie = response.cookies['refresh']
         assert cookie['httponly'] is True
+        # БП 1.1-015: SameSite=Strict для защиты от CSRF
+        assert cookie['samesite'] == 'Strict', f"SameSite должен быть 'Strict', получен: {cookie['samesite']!r}"
 
     def test_1_1_004_wrong_password(self, api_client, student_user):
         """[1.1-004] Существующий email + неверный пароль → 401."""

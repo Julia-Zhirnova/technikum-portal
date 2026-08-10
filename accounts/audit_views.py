@@ -121,6 +121,11 @@ class AuditTokenObtainPairView(TokenObtainPairView):
             except User.DoesNotExist:
                 user = None
 
+            # БП 1.1-002: обновляем last_login при успешном входе
+            if user is not None:
+                user.last_login = timezone.now()
+                user.save(update_fields=['last_login'])
+
             try:
                 AuditLog.objects.create(
                     user=user,
