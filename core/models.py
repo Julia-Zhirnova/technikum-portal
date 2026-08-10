@@ -50,6 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email_confirmed = models.BooleanField(_('Email подтвержден'), default=False)
     requires_password_change = models.BooleanField(_('Требует смены пароля'), default=True)
     password_version = models.IntegerField(_('Версия пароля'), default=1, help_text="Увеличивается при смене пароля для инвалидации старых токенов")
+    password_changed_at = models.DateTimeField(_('Дата смены пароля'), null=True, blank=True, help_text="Обновляется при каждой смене пароля")
     esia_id = models.CharField(_('ESIA ID (Госуслуги)'), max_length=100, blank=True, null=True, unique=True)
     
     is_staff = models.BooleanField(_('Статус персонала'), default=False)

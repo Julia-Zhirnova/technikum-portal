@@ -131,15 +131,15 @@ class ForceChangePasswordSerializer(serializers.Serializer):
         personal_info_errors = []
         
         # Email (полное совпадение, регистронезависимо)
-        if user.email and user.email.lower() in password.lower():
+        if user.email and password.lower().startswith(user.email.lower()):
             personal_info_errors.append("Пароль не должен содержать ваше имя или email.")
         
         # first_name (полное совпадение, регистронезависимо)
-        if user.first_name and user.first_name.lower() in password.lower():
+        if user.first_name and password.lower().startswith(user.first_name.lower()):
             personal_info_errors.append("Пароль не должен содержать ваше имя или email.")
         
         # last_name (полное совпадение, регистронезависимо)
-        if user.last_name and user.last_name.lower() in password.lower():
+        if user.last_name and password.lower().startswith(user.last_name.lower()):
             personal_info_errors.append("Пароль не должен содержать ваше имя или email.")
         
         # Добавляем только одну ошибку персональной информации (избегаем дублирования)
