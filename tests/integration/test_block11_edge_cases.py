@@ -41,7 +41,7 @@ class TestBlock11EdgeCases:
         UserRole.objects.get_or_create(user=student_user, role=teacher_role)
         
         # Используем старый access-токен для запроса
-        api_client.credentials(HTTP_AUTHORIZATION=f'Bearer {access_token}')
+        api_client.credentials(HTTP_AUTHORIZATION=f'Bearer {access_token}', HTTP_X_ACTIVE_ROLE='student')
         profile_url = reverse('student-profile-legacy')
         response = api_client.get(profile_url)
         
