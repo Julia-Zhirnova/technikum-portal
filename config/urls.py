@@ -8,7 +8,7 @@ from core.api_views import (
     TeacherPracticeStudentsView, CuratorStudentRequestsView,
     CuratorStudentPracticeView
 )
-from accounts.views import ForceChangePasswordView
+from accounts.views import ForceChangePasswordView, SwitchRoleView
 from accounts.recovery_views import RecoveryRequestView, RecoveryConfirmView
 from accounts.audit_views import AuditTokenObtainPairView, CookieTokenRefreshView, LogoutView
 
@@ -22,6 +22,9 @@ urlpatterns = [
 
     # Смена пароля
     path('api/auth/force-change-password/', ForceChangePasswordView.as_view(), name='force-change-password'),
+
+    # БП 1.3-TC030: переключение роли с аудитом
+    path('api/auth/switch-role/', SwitchRoleView.as_view(), name='switch-role'),
 
     # БП 1.4: Email-восстановление пароля
     path('api/auth/recovery/request/', RecoveryRequestView.as_view(), name='recovery-request'),

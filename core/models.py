@@ -1261,6 +1261,7 @@ class AuditLog(models.Model):
         LOGOUT = "logout", "Выход из системы"
         PASSWORD_CHANGE = "password_change", "Смена пароля"
         PASSWORD_RESET = "password_reset", "Сброс пароля администратором"
+        ROLE_SWITCH = "role_switch", "Переключение роли"
         
         # CRUD операции
         CREATE = "create", "Создание записи"

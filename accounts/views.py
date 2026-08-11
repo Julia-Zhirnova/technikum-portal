@@ -179,3 +179,55 @@ class ForceChangePasswordView(APIView):
             pass
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# ============================================
+# БП 1.3-TC030: Переключение роли с аудитом
+# ============================================
+class SwitchRoleView(APIView):
+    """POST /api/auth/switch-role/ — логирование переключения роли.
+
+    Спецификация БП 1.3-TC030: запись в core_auditlog с action_type='role_switch',
+    details = {old_role, new_role, ip, user_agent}.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        from core.models import UserRole, AuditLog
+        from accounts.audit_views import get_client_ip
+
+        new_role = request.data.get('new_role')
+        old_role = request.data.get('old_role', '')
+
+        if not new_role:
+            return Response({'detail': 'Поле new_role обязательно.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Проверка: роль действительно принадлежит пользователю
+        if not UserRole.objects.filter(user=request.user, role_id=new_role).exists():
+            return Response(
+                {'detail': 'У вас нет прав на эту роль'},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        ip_address = get_client_ip(request)
+        user_agent = request.META.get('HTTP_USER_AGENT', '')[:500]
+
+        try:
+            AuditLog.objects.create(
+                user=request.user,
+                action_type=AuditLog.ActionType.ROLE_SWITCH,
+                object_type='User',
+                object_id=str(request.user.pk),
+                ip_address=ip_address,
+                user_agent=user_agent,
+                details={
+                    'old_role': old_role,
+                    'new_role': new_role,
+                    'ip': ip_address,
+                    'user_agent': user_agent,
+                },
+            )
+        except Exception as e:
+            logger.error(f"Не удалось записать AuditLog (role_switch): {e}")
+
+        return Response({'detail': 'Роль переключена', 'active_role': new_role}, status=status.HTTP_200_OK)
