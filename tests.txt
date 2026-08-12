@@ -62,7 +62,7 @@ Password: any"	✅ Есть
 Password: student2026"	✅ Есть																	
 Happy Path — Восстановление сессии и Silent Auth	🔴 Критичный	Студент	[Security] После смены пароля старый access-токен возвращает 401	Пользователь меняет пароль (обновляется password_version). Попытка использовать старый access-токен возвращает 401 с {"code": "password_changed", "detail": "Сессия устарела из-за смены пароля. Войдите снова"}.	SELECT password_version FROM core_user WHERE email='test_password_change@luberteh.ru'; — значение увеличено	Pytest (Integration)	"Email: test_password_change@luberteh.ru
 Old Password: OldPassword123!
-New Password: NewPassword123!"	🔴 Новый	✅ Есть
+New Password: NewPassword123!"	✅ Есть
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
 1.1-025	🟡 Важный	Студент	[Happy Path] Истечь access-токен → токен обновляется, запрос повторяется	Пользователь авторизован. Access-токен искусственно истекает (через манипуляцию временем или моки). Фронтенд отправляет запрос, получает 401, автоматически отправляет POST /api/token/refresh/, получает новый access-токен, повторяет исходный запрос.	—	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru	✅ Есть
 Password: student2026"	✅ Есть																	
@@ -71,8 +71,8 @@ Password: student2026"	✅ Есть
 Happy Path — Выход из системы	🔴 Критичный	Студент	[Happy Path] Войти как студент → редирект на /student/profile	Пользователь вводит валидные данные, нажимает "Войти". После успешной авторизации происходит редирект на /student/profile. В шапке видна только роль "Студент" (без кнопок переключения).	—	Playwright (E2E)	"Email: arhipov_kyu@luberteh.ru
 Password: student2026"	✅ Есть																	
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
-1.1-017	🟡 Важный	Студент	[Happy Path] Нажать "ВЫХОД" → редирект на /login, сессия очищена	Пользователь нажимает кнопку "ВЫХОД". Фронтенд отправляет POST /api/logout/, очищает память (access-токен удаляется), редиректит на /login. Refresh-токен в cookie становится невалидным (добавлен в blacklist).	SELECT COUNT(*) FROM token_blacklist_blacklistedtoken WHERE token='<refresh_token>'; — значение ≥ 1	Playwright (E2E)	"Email: arhipov_kyu@luberteh.ru
-Password: student2026"	🔴 Новый																	
+1.1-017	🟡 Важный	Студент	[Happy Path] Нажать "ВЫХОД" → редирект на /login, сессия очищена	Пользователь нажимает кнопку "ВЫХОД". Фронтенд отправляет POST /api/logout/, очищает память (access-токен удаляется), редиректит на /login. Refresh-токен в cookie становится невалидным (добавлен в blacklist).	SELECT COUNT(*) FROM token_blacklist_blacklistedtoken WHERE token='<refresh_token>'; — значение ≥ 1	Playwright (E2E)	"Email: arhipov_kyu@luberteh.ru	✅ Есть
+Password: student2026"	✅ Есть																	
 Negative — Валидация полей	🔴 Критичный	Студент	[Security] Ввести неверный пароль 5 раз → появляется reCAPTCHA	Пользователь 5 раз вводит неверный пароль. После 5-й попытки появляется виджет reCAPTCHA v2 (Checkbox "Я не робот").	—	Playwright (E2E)	"Email: arhipov_kyu@luberteh.ru
 Password: WrongPass! (5 раз)"	🔴 Новый																	
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
