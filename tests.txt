@@ -37,18 +37,18 @@ Password: """""	✅ Есть
 Security — Защита от брутфорса и CSRF	🔴 Критичный	Студент	[Integration] Успешный вход возвращает JWT с флагами	POST /api/token/ возвращает 200 OK. Тело ответа содержит access, requires_password_change, roles. Refresh-токен установлен как httpOnly cookie с флагами HttpOnly, SameSite=Strict.	SELECT requires_password_change FROM core_user WHERE email='arhipov_kyu@luberteh.ru'; — значение False	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
 Password: student2026"	✅ Есть																	
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
-1.1-013	🔴 Критичный	Система	[Security] После 5 неудачных попыток с одного IP возвращается require_captcha: true	5 раз POST /api/token/ с неверным паролем. 6-й запрос возвращает 401 с полем "require_captcha": true. Фронтенд показывает reCAPTCHA v2.	SELECT COUNT(*) FROM redis WHERE key LIKE 'login_attempts:%'; — значение ≥ 5 (проверка через Redis CLI)	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
+1.1-013	🔴 Критичный	Система	[Security] После 5 неудачных попыток с одного IP возвращается require_captcha: true	5 раз POST /api/token/ с неверным паролем. 6-й запрос возвращает 401 с полем "require_captcha": true. Фронтенд показывает reCAPTCHA v2.	SELECT COUNT(*) FROM redis WHERE key LIKE 'login_attempts:%'; — значение ≥ 5 (проверка через Redis CLI)	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru	✅ Есть
 Password: WrongPass! × 6"	✅ Есть																	
 1.1-014	🔴 Критичный	Система	[Security] После 10 неудачных попыток с одного IP возвращается 429	10 раз POST /api/token/ с неверным паролем. 11-й запрос возвращает 429 Too Many Requests с сообщением "Слишком много попыток. Повторите через 15 минут".	SELECT COUNT(*) FROM redis WHERE key LIKE 'login_blocked:%'; — значение ≥ 1 (проверка через Redis CLI)	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru	✅ Есть
 Password: WrongPass! × 11"	✅ Есть																	
-1.1-015	🔴 Критичный	Система	[Security] Refresh-токен установлен как httpOnly cookie	POST /api/token/ возвращает 200 OK. Заголовок Set-Cookie содержит refresh=<token>; HttpOnly; SameSite=Strict.	—	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
+1.1-015	🔴 Критичный	Система	[Security] Refresh-токен установлен как httpOnly cookie	POST /api/token/ возвращает 200 OK. Заголовок Set-Cookie содержит refresh=<token>; HttpOnly; SameSite=Strict.	—	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru	✅ Есть
 Password: student2026"	✅ Есть																	
 1.1-016	🔴 Критичный	Студент	[Security] После смены пароля старый access-токен возвращает 401	Пользователь меняет пароль (обновляется password_version). Попытка использовать старый access-токен возвращает 401 с {"code": "password_changed", "detail": "Сессия устарела из-за смены пароля. Войдите снова"}.	SELECT password_version FROM core_user WHERE email='test_password_change@luberteh.ru'; — значение увеличено	Pytest (Integration)	"Email: test_password_change@luberteh.ru
-Old Password: OldPassword123!
-New Password: NewPassword123!"	🔴 Новый																	
+Old Password: OldPassword123!	✅ Есть
+New Password: NewPassword123!"	✅ Есть																	
 1.1-050	🔴 Критичный	Студент	[Security] Повторное использование refresh-токена после смены пароля	После смены пароля попытаться обновить access-токен с помощью старого refresh-токена. POST /api/token/refresh/ с старым refresh-токеном возвращает 401 Unauthorized. Тело: {"code": "invalid_token", "detail": "Токен недействителен"}.	SELECT COUNT(*) FROM token_blacklist_outstandingtoken WHERE token='<old_refresh>' AND blacklisted=True; — ≥ 1	Pytest (Integration)	"Email: test_password_change@luberteh.ru
-Old Password: OldPassword123!
-New Password: NewPassword123!"	🔴 Новый																	
+Old Password: OldPassword123!	✅ Есть
+New Password: NewPassword123!"	✅ Есть																	
 🟡 ВАЖНЫЕ ТЕСТЫ (основной функционал)	🟡 Важный	Студент	[Integration] После успешного входа поле last_login обновлено	POST /api/token/ возвращает 200 OK. Поле core_user.last_login обновлено до текущего времени.	SELECT last_login FROM core_user WHERE email='arhipov_kyu@luberteh.ru'; — значение > NOW() - INTERVAL '1 minute'	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
 Password: student2026"	🔴 Новый																	
 Happy Path — Логирование и аудит	🟡 Важный	Студент	[Integration] После успешного входа в core_auditlog создана запись	POST /api/token/ возвращает 200 OK. В таблице core_auditlog создана запись с action_type='login_success', user_id, ip_address.	SELECT COUNT(*) FROM core_auditlog WHERE action_type='login_success' AND user_id=(SELECT id_user FROM core_user WHERE email='arhipov_kyu@luberteh.ru'); — значение ≥ 1	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
@@ -87,7 +87,7 @@ Password: student2026"	🔴 Новый
 Password: any"	🔴 Новый																	
 Security — Graceful degradation	🟢 Желательный	Все	[UI/UX] Планшет (768x1024, портрет) — карточки читаемы	Страница /login отображается корректно. Карточки ролей расположены в 2 колонки. Поля ввода читаемы. Шапка содержит логотип, "ТехноПортал", ФИО (сокращённое), кнопки ролей, "ВЫХОД".	—	Playwright (E2E)	Viewport: 768x1024	🔴 Новый																	
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
-1.1-048	🟡 Важный	Система	[Security] Graceful degradation при недоступности Redis	Отключить Redis (или сделать его недоступным), выполнить 6 попыток входа с неверным паролем. Все запросы возвращают 401. Блокировка (reCAPTCHA) не наступает, так как Redis недоступен. В логах бэкенда появляется ошибка "Redis unavailable, bruteforce protection disabled".	—	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
+1.1-048	🟡 Важный	Система	[Security] Graceful degradation при недоступности Redis	Отключить Redis (или сделать его недоступным), выполнить 6 попыток входа с неверным паролем. Все запросы возвращают 401. Блокировка (reCAPTCHA) не наступает, так как Redis недоступен. В логах бэкенда появляется ошибка "Redis unavailable, bruteforce protection disabled".	—	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru	✅ Есть
 Password: WrongPass! × 6"	✅ Есть																	
 Integration — Роли и маршрутизация	🟢 Желательный	Все	[UI/UX] Масштабирование браузера (Zoom 200%) — доступность	Страница /login отображается корректно. Все поля и кнопки доступны. Текст не вылезает за границы контейнеров. Горизонтальный скролл отсутствует.	—	Playwright (E2E)	Zoom: 200%	🔴 Новый																	
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
@@ -120,15 +120,15 @@ Viewport: 1920x1080
 Password: student2026"	🔴 Новый																	
 Integration — Блокировка IP (разные email)																									
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
-1.1-TC034	🟡 Важный	Система	[Security] Блокировка IP применяется к разным email с одного IP	С одного IP сделать 10 неудачных попыток входа с разными email. 11-й запрос с любого email с этого IP возвращает 429.	SELECT COUNT(*) FROM redis WHERE key LIKE 'login_blocked:%'; — значение ≥ 1	Pytest (Integration)	"Email: user1@test.ru, user2@test.ru, ...
+1.1-TC034	🟡 Важный	Система	[Security] Блокировка IP применяется к разным email с одного IP	С одного IP сделать 10 неудачных попыток входа с разными email. 11-й запрос с любого email с этого IP возвращает 429.	SELECT COUNT(*) FROM redis WHERE key LIKE 'login_blocked:%'; — значение ≥ 1	Pytest (Integration)	"Email: user1@test.ru, user2@test.ru, ...	✅ Есть
 Password: WrongPass! × 11"	✅ Есть																	
 Integration — Восстановление после блокировки																									
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
-1.1-TC035	🟡 Важный	Система	[Security] Восстановление после блокировки IP	После 10 неудачных попыток IP заблокирован на 15 минут. Подождать 15 минут. Попытка входа с валидными данными возвращает 200 OK.	SELECT COUNT(*) FROM redis WHERE key LIKE 'login_blocked:%'; — значение = 0	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
+1.1-TC035	🟡 Важный	Система	[Security] Восстановление после блокировки IP	После 10 неудачных попыток IP заблокирован на 15 минут. Подождать 15 минут. Попытка входа с валидными данными возвращает 200 OK.	SELECT COUNT(*) FROM redis WHERE key LIKE 'login_blocked:%'; — значение = 0	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru	✅ Есть
 Password: student2026"	✅ Есть																	
 Integration — Проверка TTL ключей в Redis																									
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
-1.1-TC036	🟡 Важный	Система	[Security] Проверка TTL ключей в Redis	Сделать 5 неудачных попыток входа. Проверить TTL ключа login_attempts:<ip> в Redis. TTL должен быть 900 секунд (15 минут).	redis-cli TTL login_attempts:127.0.0.1 — значение 895-900	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
+1.1-TC036	🟡 Важный	Система	[Security] Проверка TTL ключей в Redis	Сделать 5 неудачных попыток входа. Проверить TTL ключа login_attempts:<ip> в Redis. TTL должен быть 900 секунд (15 минут).	redis-cli TTL login_attempts:127.0.0.1 — значение 895-900	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru	✅ Есть
 Password: WrongPass! × 5"	✅ Есть																	
 🟢 ЖЕЛАТЕЛЬНЫЕ ТЕСТЫ (edge cases, визуальные регрессии)																									
 UI/UX — Визуальные регрессионные тесты																									
