@@ -102,7 +102,7 @@ Password: OldPassword123!"	✅ Есть
 Integration — Переключение ролей	🔴 Критичный	Система	[Integration] [Security] Проверка подключения к Redis и TTL ключей для BruteForceProtection. Сделать 3 неудачные попытки входа.	Redis доступен, ключ login_attempts:127.0.0.1 создан со значением 3. TTL ключа = 900 секунд (15 минут). После успешного входа ключ удаляется.	"redis-cli GET login_attempts:127.0.0.1 → результат: 3
 redis-cli TTL login_attempts:127.0.0.1 → результат: 895-900"	Pytest (Integration)	"IP: 127.0.0.1
 Email: arhipov_kyu@luberteh.ru
-Password: WrongPass! (3 раза)"	🔴 Новый																	
+Password: WrongPass! (3 раза)"	✅ Есть																	
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
 1.1-022	🟡 Важный	Куратор+Преподаватель	[Happy Path] Переключение роли: находясь в роли "Преподаватель", нажать "Куратор"	URL меняется на /curator/group, боковое меню обновляется.	—	Playwright (E2E)	"Email: YVZhirnova@yandex.ru
 Password: student2026"	✅ Есть																	
@@ -117,7 +117,7 @@ Viewport: 1920x1080
 Порог: 0.5%"	⏳ Отложен																	
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
 1.1-TC038	🟡 Важный	Система	[Security] Rate Limit для /api/token/refresh/	Отправить 31 запрос на /api/token/refresh/ в течение 1 минуты. Первые 30 запросов возвращают 200 OK. 31-й запрос возвращает 429 Too Many Requests. Через 1 минуту запрос снова работает.	—	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
-Password: student2026"	🔴 Новый																	
+Password: student2026"	✅ Есть																	
 Integration — Блокировка IP (разные email)																									
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
 1.1-TC034	🟡 Важный	Система	[Security] Блокировка IP применяется к разным email с одного IP	С одного IP сделать 10 неудачных попыток входа с разными email. 11-й запрос с любого email с этого IP возвращает 429.	SELECT COUNT(*) FROM redis WHERE key LIKE 'login_blocked:%'; — значение ≥ 1	Pytest (Integration)	"Email: user1@test.ru, user2@test.ru, ...	✅ Есть
@@ -160,15 +160,15 @@ UI/UX — Адаптивность
 Edge Cases — Одновременные сессии																									
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
 1.1-TC047	🟢 Желательный	Студент	[Edge Case] Одновременные сессии с разных устройств	Пользователь входит на двух устройствах одновременно (ПК и телефон). Обе сессии активны. На первом устройстве можно работать, на втором — тоже.	SELECT COUNT(*) FROM core_usersession WHERE user_id=(SELECT id_user FROM core_user WHERE email='arhipov_kyu@luberteh.ru') AND expires_at > NOW(); — значение ≥ 2	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
-Password: student2026"	🔴 Новый																	
+Password: student2026"	✅ Есть																	
 Edge Cases — Изменение ролей во время сессии																									
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
 1.1-TC048	🟢 Желательный	Студент	[Edge Case] Изменение ролей во время активной сессии	Администратор добавляет роль teacher пользователю arhipov_kyu@luberteh.ru во время его активной сессии. Пользователь обновляет страницу. Список ролей в токене не обновляется (требуется повторный вход).	SELECT COUNT(*) FROM core_userrole WHERE user_id=(SELECT id_user FROM core_user WHERE email='arhipov_kyu@luberteh.ru'); — значение увеличено	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
-Password: student2026"	🔴 Новый																	
+Password: student2026"	✅ Есть																	
 Edge Cases — CSRF-защита																									
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
 1.1-TC049	🟢 Желательный	Система	[Edge Case] CSRF-защита для /api/token/	Отправить POST-запрос на /api/token/ без CSRF-токена (если он требуется). Запрос отклоняется с кодом 403 Forbidden.	—	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
-Password: student2026"	🔴 Новый																	
+Password: student2026"	✅ Есть																	
 Edge Cases — Длина пароля																									
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
 1.1-TC050	🟢 Желательный	Все	[Edge Case] Проверка длины пароля (серверная валидация)	Ввести пароль короче минимальной длины (например, 7 символов) или длиннее максимальной (например, 129 символов). Сервер возвращает 400 Bad Request с ошибкой валидации.	—	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
