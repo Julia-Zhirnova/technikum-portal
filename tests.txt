@@ -159,20 +159,20 @@ UI/UX — Адаптивность
 1.1-TC046	🟢 Желательный	Все	[UI/UX] Очень маленькие экраны (320x480)	Страница /login отображается корректно. Шапка не ломается, страница не имеет горизонтального скролла.	—	Playwright (E2E)	Viewport: 320x480	✅ Есть																	
 Edge Cases — Одновременные сессии																									
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
-1.1-TC047	🟢 Желательный	Студент	[Edge Case] Одновременные сессии с разных устройств	Пользователь входит на двух устройствах одновременно (ПК и телефон). Обе сессии активны. На первом устройстве можно работать, на втором — тоже.	SELECT COUNT(*) FROM core_usersession WHERE user_id=(SELECT id_user FROM core_user WHERE email='arhipov_kyu@luberteh.ru') AND expires_at > NOW(); — значение ≥ 2	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
+1.1-TC047	🟢 Желательный	Студент	[Edge Case] Одновременные сессии с разных устройств	Пользователь входит на двух устройствах одновременно (ПК и телефон). Обе сессии активны. На первом устройстве можно работать, на втором — тоже.	SELECT COUNT(*) FROM core_usersession WHERE user_id=(SELECT id_user FROM core_user WHERE email='arhipov_kyu@luberteh.ru') AND expires_at > NOW(); — значение ≥ 2	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru	✅ Есть
 Password: student2026"	✅ Есть																	
 Edge Cases — Изменение ролей во время сессии																									
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
-1.1-TC048	🟢 Желательный	Студент	[Edge Case] Изменение ролей во время активной сессии	Администратор добавляет роль teacher пользователю arhipov_kyu@luberteh.ru во время его активной сессии. Пользователь обновляет страницу. Список ролей в токене не обновляется (требуется повторный вход).	SELECT COUNT(*) FROM core_userrole WHERE user_id=(SELECT id_user FROM core_user WHERE email='arhipov_kyu@luberteh.ru'); — значение увеличено	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
+1.1-TC048	🟢 Желательный	Студент	[Edge Case] Изменение ролей во время активной сессии	Администратор добавляет роль teacher пользователю arhipov_kyu@luberteh.ru во время его активной сессии. Пользователь обновляет страницу. Список ролей в токене не обновляется (требуется повторный вход).	SELECT COUNT(*) FROM core_userrole WHERE user_id=(SELECT id_user FROM core_user WHERE email='arhipov_kyu@luberteh.ru'); — значение увеличено	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru	✅ Есть
 Password: student2026"	✅ Есть																	
 Edge Cases — CSRF-защита																									
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
-1.1-TC049	🟢 Желательный	Система	[Edge Case] CSRF-защита для /api/token/	Отправить POST-запрос на /api/token/ без CSRF-токена (если он требуется). Запрос отклоняется с кодом 403 Forbidden.	—	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
+1.1-TC049	🟢 Желательный	Система	[Edge Case] CSRF-защита для /api/token/	Отправить POST-запрос на /api/token/ без CSRF-токена (если он требуется). Запрос отклоняется с кодом 403 Forbidden.	—	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru	✅ Есть
 Password: student2026"	✅ Есть																	
 Edge Cases — Длина пароля																									
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
-1.1-TC050	🟢 Желательный	Все	[Edge Case] Проверка длины пароля (серверная валидация)	Ввести пароль короче минимальной длины (например, 7 символов) или длиннее максимальной (например, 129 символов). Сервер возвращает 400 Bad Request с ошибкой валидации.	—	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
-Password: 1234567 (7 символов)"	🔴 Новый																	
+1.1-TC050	🟢 Желательный	Все	[Edge Case] Проверка длины пароля (серверная валидация)	Ввести пароль короче минимальной длины (например, 7 символов) или длиннее максимальной (например, 129 символов). Сервер возвращает 400 Bad Request с ошибкой валидации.	—	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru	✅ Есть
+Password: 1234567 (7 символов)"	✅ Есть																	
 📊 Сводная статистика по Блоку 1.1																									
 Приоритет	Количество тестов	Процент																							
 🔴 Критичные	20	38%																							
