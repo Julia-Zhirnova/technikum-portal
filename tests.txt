@@ -76,10 +76,10 @@ Password: student2026"	✅ Есть
 Negative — Валидация полей	🔴 Критичный	Студент	[Security] Ввести неверный пароль 5 раз → появляется reCAPTCHA	Пользователь 5 раз вводит неверный пароль. После 5-й попытки появляется виджет reCAPTCHA v2 (Checkbox "Я не робот").	—	Playwright (E2E)	"Email: arhipov_kyu@luberteh.ru
 Password: WrongPass! (5 раз)"	🔴 Новый																	
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
-1.1-046	🟡 Важный	Все	[Negative] Ввести email без символа "@"	POST /api/token/ возвращает 400 Bad Request с ошибкой валидации (например, {"email": ["Введите правильный email"]}).	—	Pytest (Integration)	"Email: testuserluberteh.ru
-Password: any"	🔴 Новый																	
-1.1-052	🟡 Важный	Студент	[Negative] Ввести email с изменённым регистром	Вход должен быть успешным (если система нормализует email). Возвращается 200 OK, редирект на /student/profile.	SELECT email FROM core_user WHERE email='arhipov_kyu@luberteh.ru'; — должен существовать	Playwright (E2E)	"Email: Arhipov_Kyu@luberteh.ru
-Password: student2026"	🔴 Новый																	
+1.1-046	🟡 Важный	Все	[Negative] Ввести email без символа "@"	POST /api/token/ возвращает 400 Bad Request с ошибкой валидации (например, {"email": ["Введите правильный email"]}).	—	Pytest (Integration)	"Email: testuserluberteh.ru	✅ Есть
+Password: any"	✅ Есть																	
+1.1-052	🟡 Важный	Студент	[Negative] Ввести email с изменённым регистром	Вход должен быть успешным (если система нормализует email). Возвращается 200 OK, редирект на /student/profile.	SELECT email FROM core_user WHERE email='arhipov_kyu@luberteh.ru'; — должен существовать	Playwright (E2E)	"Email: Arhipov_Kyu@luberteh.ru	✅ Есть
+Password: student2026"	✅ Есть																	
 Security — XSS и CSRF	🔴 Критичный	Студент	[Happy Path] Пользователь авторизован, обновляет страницу (F5) → сессия восстанавливается	Пользователь авторизован, находится на /student/profile. Обновляет страницу (F5). Фронтенд проверяет наличие access-токена в памяти. Если его нет, отправляет POST /api/token/refresh/ (refresh-токен из cookie). При успехе — access сохраняется в памяти, пользователь остаётся на /student/profile (без редиректа на /login).	—	Playwright (E2E)	"Email: arhipov_kyu@luberteh.ru
 Password: student2026"	🔴 Новый																	
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
@@ -91,7 +91,7 @@ Security — Graceful degradation	🟢 Желательный	Все	[UI/UX] П�
 Password: WrongPass! × 6"	✅ Есть																	
 Integration — Роли и маршрутизация	🟢 Желательный	Все	[UI/UX] Масштабирование браузера (Zoom 200%) — доступность	Страница /login отображается корректно. Все поля и кнопки доступны. Текст не вылезает за границы контейнеров. Горизонтальный скролл отсутствует.	—	Playwright (E2E)	Zoom: 200%	🔴 Новый																	
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
-1.1-018	🟡 Важный	Пользователь без ролей	[Integration] Пользователь без ролей после логина редиректится на /access-denied	POST /api/token/ возвращает 200 OK с пустым списком roles. Фронтенд редиректит на /access-denied с текстом "Обратитесь к администратору для назначения роли".	SELECT COUNT(*) FROM core_userrole WHERE user_id=(SELECT id_user FROM core_user WHERE email='no_roles@test.ru'); — значение = 0	Pytest (Integration)	"Email: no_roles@test.ru
+1.1-018	🟡 Важный	Пользователь без ролей	[Integration] Пользователь без ролей после логина редиректится на /access-denied	POST /api/token/ возвращает 200 OK с пустым списком roles. Фронтенд редиректит на /access-denied с текстом "Обратитесь к администратору для назначения роли".	SELECT COUNT(*) FROM core_userrole WHERE user_id=(SELECT id_user FROM core_user WHERE email='no_roles@test.ru'); — значение = 0	Pytest (Integration)	"Email: no_roles@test.ru	✅ Есть
 Password: TestPass123!"	✅ Есть																	
 1.1-019	🟡 Важный	Куратор+Преподаватель	[Integration] Пользователь с ролями [curator, teacher] получает обе роли в токене	POST /api/token/ возвращает 200 OK. Поле roles содержит ["teacher", "curator"]. Фронтенд выбирает роль с наивысшим приоритетом (teacher) и редиректит на /teacher/statements.	SELECT COUNT(*) FROM core_userrole WHERE user_id=(SELECT id_user FROM core_user WHERE email='YVZhirnova@yandex.ru'); — значение ≥ 2	Pytest (Integration)	"Email: YVZhirnova@yandex.ru
 Password: student2026"	✅ Есть																	
