@@ -69,7 +69,7 @@ export default function TopNavbar() {
           </Tooltip>
 
           {/* 1.3.8: Переключатель ролей (используем наш кастомный компонент) */}
-          {roles.length > 1 && <RoleSwitcher roles={roles} currentRole={activeRole} />}
+          {roles.length > 1 && <div data-testid="role-switcher"><RoleSwitcher roles={roles} currentRole={activeRole} /></div>}
           
           {/* 1.3.3 и 1.3.4: ФИО полностью и активная роль (без обрезки) */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 1, flexShrink: 0 }}>

@@ -121,9 +121,11 @@ export default function DashboardLayout() {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 2 } }}>
             {/* Показываем роль, если она одна, иначе показываем переключатель */}
             {userRoles.length > 1 ? (
-              <RoleSwitcher roles={userRoles} currentRole={activeRole} onRoleChange={handleRoleChange} />
+              <div data-testid="role-switcher">
+                <RoleSwitcher roles={userRoles} currentRole={activeRole} onRoleChange={handleRoleChange} />
+              </div>
             ) : (
-              <Typography variant="body2" fontWeight="bold" sx={{ whiteSpace: 'nowrap', textTransform: 'capitalize', mr: 1 }}>
+              <Typography variant="body2" fontWeight="bold" sx={{ whiteSpace: 'nowrap', textTransform: 'capitalize', mr: 1 }} data-testid="role-label">
                 {ROLE_LABELS[activeRole] || activeRole}
               </Typography>
             )}

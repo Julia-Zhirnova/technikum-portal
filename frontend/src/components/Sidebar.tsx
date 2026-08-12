@@ -61,6 +61,7 @@ export default function Sidebar({ role, onClose }: SidebarProps) {
   const menuItems = getMenuByRole();
 
   return (
+    <div data-testid="sidebar">
     <Box 
       data-testid="sidebar-content"
       // 1.4.10: overflowX: 'hidden', 1.4.12: pt: 6 (достаточный отступ сверху, чтобы первый элемент был виден)
@@ -119,5 +120,6 @@ export default function Sidebar({ role, onClose }: SidebarProps) {
         })}
       </List>
     </Box>
+    </div>
   );
 }
