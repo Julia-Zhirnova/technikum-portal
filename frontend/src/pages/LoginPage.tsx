@@ -178,7 +178,6 @@ export default function LoginPage() {
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)} 
                 margin="normal" 
-                required 
                 autoFocus
                 sx={{ mb: 2 }}
               />
@@ -188,8 +187,7 @@ export default function LoginPage() {
                 type="password" 
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} 
-                margin="normal" 
-                required
+                margin="normal"
                 sx={{ mb: 3 }}
               />
               

@@ -192,4 +192,71 @@ test.describe('БП 1.1: Негативные сценарии входа', () =
     );
     expect(response.status()).toBe(401);
   });
+
+  // БП 1.1-044: Пустое поле Email
+  test('1.1-044: Пустое поле "Электронная почта" → сообщение + запрос не отправляется', async ({ page }) => {
+    await page.goto('/login');
+    
+    const emailInput = page.locator('input[type="email"], input[name="email"]').first();
+    const passwordInput = page.locator('input[type="password"]').first();
+    const loginButton = page.getByRole('button', { name: /Войти/i });
+    
+    // Заполняем только пароль, email оставляем пустым
+    await passwordInput.fill('student2026');
+    
+    // Мониторинг сетевых запросов к /api/token/
+    let apiRequestSent = false;
+    page.on('request', (req) => {
+      if (req.url().includes('/api/token/')) {
+        apiRequestSent = true;
+      }
+    });
+    
+    // Нажимаем "Войти"
+    await loginButton.click();
+    
+    // Проверяем появление сообщения об ошибке
+    await expect(page.getByText(/Введите email и пароль/i)).toBeVisible({ timeout: 5000 });
+    
+    // Ждём немного и проверяем, что запрос НЕ был отправлен
+    await page.waitForTimeout(1000);
+    expect(apiRequestSent).toBe(false);
+    
+    // URL остаётся /login
+    expect(page.url()).toContain('/login');
+  });
+
+  // БП 1.1-045: Пустое поле Пароль
+  test('1.1-045: Пустое поле "Пароль" → сообщение + запрос не отправляется', async ({ page }) => {
+    await page.goto('/login');
+    
+    const emailInput = page.locator('input[type="email"], input[name="email"]').first();
+    const passwordInput = page.locator('input[type="password"]').first();
+    const loginButton = page.getByRole('button', { name: /Войти/i });
+    
+    // Заполняем только email, пароль оставляем пустым
+    await emailInput.fill('arhipov_kyu@luberteh.ru');
+    
+    // Мониторинг сетевых запросов к /api/token/
+    let apiRequestSent = false;
+    page.on('request', (req) => {
+      if (req.url().includes('/api/token/')) {
+        apiRequestSent = true;
+      }
+    });
+    
+    // Нажимаем "Войти"
+    await loginButton.click();
+    
+    // Проверяем появление сообщения об ошибке
+    await expect(page.getByText(/Введите email и пароль/i)).toBeVisible({ timeout: 5000 });
+    
+    // Ждём немного и проверяем, что запрос НЕ был отправлен
+    await page.waitForTimeout(1000);
+    expect(apiRequestSent).toBe(false);
+    
+    // URL остаётся /login
+    expect(page.url()).toContain('/login');
+  });
+
 });
