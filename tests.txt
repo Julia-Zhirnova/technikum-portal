@@ -50,16 +50,16 @@ New Password: NewPassword123!"	✅ Есть
 Old Password: OldPassword123!	✅ Есть
 New Password: NewPassword123!"	✅ Есть																	
 🟡 ВАЖНЫЕ ТЕСТЫ (основной функционал)	🟡 Важный	Студент	[Integration] После успешного входа поле last_login обновлено	POST /api/token/ возвращает 200 OK. Поле core_user.last_login обновлено до текущего времени.	SELECT last_login FROM core_user WHERE email='arhipov_kyu@luberteh.ru'; — значение > NOW() - INTERVAL '1 minute'	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
-Password: student2026"	🔴 Новый																	
+Password: student2026"	✅ Есть																	
 Happy Path — Логирование и аудит	🟡 Важный	Студент	[Integration] После успешного входа в core_auditlog создана запись	POST /api/token/ возвращает 200 OK. В таблице core_auditlog создана запись с action_type='login_success', user_id, ip_address.	SELECT COUNT(*) FROM core_auditlog WHERE action_type='login_success' AND user_id=(SELECT id_user FROM core_user WHERE email='arhipov_kyu@luberteh.ru'); — значение ≥ 1	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
-Password: student2026"	🔴 Новый																	
+Password: student2026"	✅ Есть																	
 №	Приоритет	Роль	Элемент / Действие	Ожидаемый результат	SQL-проверка	Тип тестирования	Тестовые данные	Статус																	
-1.1-011	🟡 Важный	Студент	[Integration] После успешного входа в core_auditlog создана запись	POST /api/token/ возвращает 200 OK. В таблице core_auditlog создана запись с action_type='login_success', user_id, ip_address.	SELECT COUNT(*) FROM core_auditlog WHERE action_type='login_success' AND user_id=(SELECT id_user FROM core_user WHERE email='arhipov_kyu@luberteh.ru'); — значение ≥ 1	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
-Password: student2026"	🔴 Новый																	
-1.1-012	🟡 Важный	Студент	[Integration] После неудачного входа в core_auditlog создана запись	POST /api/token/ возвращает 401. В таблице core_auditlog создана запись с action_type='login_failed', ip_address, email.	SELECT COUNT(*) FROM core_auditlog WHERE action_type='login_failed' AND email='fake@luberteh.ru'; — значение ≥ 1	Pytest (Integration)	"Email: fake@luberteh.ru
+1.1-011	🟡 Важный	Студент	[Integration] После успешного входа в core_auditlog создана запись	POST /api/token/ возвращает 200 OK. В таблице core_auditlog создана запись с action_type='login_success', user_id, ip_address.	SELECT COUNT(*) FROM core_auditlog WHERE action_type='login_success' AND user_id=(SELECT id_user FROM core_user WHERE email='arhipov_kyu@luberteh.ru'); — значение ≥ 1	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru	✅ Есть
+Password: student2026"	✅ Есть																	
+1.1-012	🟡 Важный	Студент	[Integration] После неудачного входа в core_auditlog создана запись	POST /api/token/ возвращает 401. В таблице core_auditlog создана запись с action_type='login_failed', ip_address, email.	SELECT COUNT(*) FROM core_auditlog WHERE action_type='login_failed' AND email='fake@luberteh.ru'; — значение ≥ 1	Pytest (Integration)	"Email: fake@luberteh.ru	✅ Есть
 Password: any"	✅ Есть																	
-1.1-049	🟡 Важный	Студент	[Integration] Логирование выхода (logout) в core_auditlog	Выполнить вход, затем отправить POST /api/logout/. POST /api/logout/ возвращает 200 OK. В core_auditlog появляется запись с action_type='logout' для данного пользователя и IP.	SELECT COUNT(*) FROM core_auditlog WHERE action_type='logout' AND user_id=(SELECT id_user FROM core_user WHERE email='arhipov_kyu@luberteh.ru'); — ≥ 1	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru
-Password: student2026"	🔴 Новый																	
+1.1-049	🟡 Важный	Студент	[Integration] Логирование выхода (logout) в core_auditlog	Выполнить вход, затем отправить POST /api/logout/. POST /api/logout/ возвращает 200 OK. В core_auditlog появляется запись с action_type='logout' для данного пользователя и IP.	SELECT COUNT(*) FROM core_auditlog WHERE action_type='logout' AND user_id=(SELECT id_user FROM core_user WHERE email='arhipov_kyu@luberteh.ru'); — ≥ 1	Pytest (Integration)	"Email: arhipov_kyu@luberteh.ru	✅ Есть
+Password: student2026"	✅ Есть																	
 Happy Path — Восстановление сессии и Silent Auth	🔴 Критичный	Студент	[Security] После смены пароля старый access-токен возвращает 401	Пользователь меняет пароль (обновляется password_version). Попытка использовать старый access-токен возвращает 401 с {"code": "password_changed", "detail": "Сессия устарела из-за смены пароля. Войдите снова"}.	SELECT password_version FROM core_user WHERE email='test_password_change@luberteh.ru'; — значение увеличено	Pytest (Integration)	"Email: test_password_change@luberteh.ru
 Old Password: OldPassword123!
 New Password: NewPassword123!"	🔴 Новый																	
