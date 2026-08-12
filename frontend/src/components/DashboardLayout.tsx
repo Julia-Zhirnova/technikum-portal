@@ -24,7 +24,7 @@ export default function DashboardLayout() {
   const [userRoles, setUserRoles] = useState<string[]>([]);
   const [userName, setUserName] = useState<string>('');
   const [mobileOpen, setMobileOpen] = useState(false);
-
+  
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -50,6 +50,14 @@ export default function DashboardLayout() {
     };
     fetchUserProfile();
   }, [navigate]);
+
+    // БП 1.3-TC026: Обновление document.title при смене роли
+  useEffect(() => {
+    if (activeRole && userRoles.length > 0) {
+      const roleLabel = ROLE_LABELS[activeRole] || activeRole;
+      document.title = `ТехноПортал — ${roleLabel}`;
+    }
+  }, [activeRole, userRoles]);
 
   useEffect(() => {
     if (userRoles.length > 0 && activeRole) {
