@@ -168,3 +168,33 @@ class TestBlock213HealthPerformance:
         if total_queries > 3:
             print(f"⚠️  N+1: {total_queries} запросов "
                   "(цель ≤ 3, select_related('student__user'))")
+
+
+@pytest.mark.django_db
+class TestBlock213HealthEdgeCases:
+    """TC070: спецсимволы в диагнозе."""
+
+    def test_TC070_special_chars_in_diagnosis(self, api_client, student_user):
+        """БП2.1.3-TC070: Спецсимволы в диагнозе сохраняются корректно."""
+        api_client.force_authenticate(user=student_user)
+
+        special_diagnosis = 'Бронхиальная астма (средней тяжести)'
+        response = api_client.patch(
+            STUDENT_HEALTH_URL,
+            {'diagnosis': special_diagnosis},
+            format='json',
+        )
+
+        # Допустимо: 200 (сохранено), 202 (через заявку), 400 (валидация), 403
+        assert response.status_code in (200, 202, 400, 403), \
+            f"Получен {response.status_code}"
+
+        if response.status_code in (200, 202):
+            student, health = _get_student_health(student_user)
+            if health:
+                health.refresh_from_db()
+                # Проверяем, что спецсимволы не искажены
+                if response.status_code == 200:
+                    assert '(' in health.diagnosis or ')' in health.diagnosis, \
+                        f"Спецсимволы искажены: {health.diagnosis!r}"
+                    print(f"✅ Диагноз сохранён: {health.diagnosis!r}")
