@@ -18,7 +18,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from core.models import (
     Student, Organization, Employment, EmploymentType,
     ImportHistory, AuditLog
@@ -28,7 +28,7 @@ from core.permissions import IsAdmin, IsCurator, IsTeacher
 import openpyxl
 from openpyxl import load_workbook
 import re
-from validate_snils import validate_snils
+from core.validators import validate_snils
 import hashlib
 
 logger = logging.getLogger(__name__)
@@ -37,7 +37,7 @@ class EmploymentImportExportViewSet(viewsets.ModelViewSet):
     """ViewSet для импорта и экспорта трудоустройств"""
     serializer_class = EmploymentSerializer
     permission_classes = [IsAuthenticated]
-    authentication_classes = [JSONWebTokenAuthentication]
+    authentication_classes = [JWTAuthentication]
     
     def get_queryset(self):
         """Получение queryset с учетом прав"""

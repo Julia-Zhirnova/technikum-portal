@@ -1464,3 +1464,60 @@ class UserSession(models.Model):
         """Проверяет, активна ли сессия (не истекла)."""
         from django.utils import timezone
         return self.expires_at > timezone.now()
+
+
+
+from django.db import models
+from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
+from core.models import Student, Organization, EmploymentType, Employment
+
+User = get_user_model()
+
+class ImportHistory(models.Model):
+    """История импортов"""
+    IMPORT_MODES = [
+        ('skip_errors', 'Пропуск ошибок'),
+        ('stop_on_error', 'Остановка при ошибке'),
+        ('update_existing', 'Обновление существующих'),
+    ]
+    
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Пользователь'))
+    file_name = models.CharField(_('Имя файла'), max_length=255)
+    file_size = models.IntegerField(_('Размер файла'), help_text=_('в байтах'))
+    mode = models.CharField(_('Режим импорта'), max_length=20, choices=IMPORT_MODES)
+    status = models.CharField(_('Статус'), max_length=20, choices=[
+        ('pending', 'В обработке'),
+        ('processing', 'Обрабатывается'),
+        ('completed', 'Завершен'),
+        ('failed', 'Ошибка'),
+        ('dry_run', 'Сухой прогон'),
+    ], default='pending')
+    total_rows = models.IntegerField(_('Всего строк'), default=0)
+    valid_rows = models.IntegerField(_('Валидных строк'), default=0)
+    invalid_rows = models.IntegerField(_('Невалидных строк'), default=0)
+    created_rows = models.IntegerField(_('Создано записей'), default=0)
+    updated_rows = models.IntegerField(_('Обновлено записей'), default=0)
+    skipped_rows = models.IntegerField(_('Пропущено записей'), default=0)
+    errors = models.JSONField(_('Ошибки'), default=list, blank=True)
+    warnings = models.JSONField(_('Предупреждения'), default=list, blank=True)
+    task_id = models.CharField(_('ID задачи Celery'), max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(_('Дата создания'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Дата обновления'), auto_now=True)
+    completed_at = models.DateTimeField(_('Дата завершения'), blank=True, null=True)
+    
+    class Meta:
+        verbose_name = _('История импорта')
+        verbose_name_plural = _('История импортов')
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['user', 'created_at']),
+            models.Index(fields=['status']),
+            models.Index(fields=['task_id']),
+        ]
+    
+    def __str__(self):
+        return f"Импорт {self.file_name} от {self.created_at.strftime('%d.%m.%Y %H:%M')}"
+
+

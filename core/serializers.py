@@ -4,6 +4,7 @@ from .models import (
     StudentRequest, Notification,
     Passport, Health, Military, Family, FamilyMember, Profile,
     EducationInstitution,
+    Employment, EmploymentType, Industry, CityDistrict,
     StudentPracticePlace, PracticeDiary, PracticeAttestation,
 )
 
@@ -645,3 +646,25 @@ class StudentPracticePlaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentPracticePlace
         fields = ['id_place', 'student_name', 'organization_name', 'position', 'status', 'diary', 'attestation']
+
+
+# ==============================================================================
+# Сериализаторы трудоустройства (Блок 3.2)
+# ==============================================================================
+
+class EmploymentSerializer(serializers.ModelSerializer):
+    """Сериализатор трудоустройства студента."""
+    organization_name = serializers.CharField(source='organization.name', read_only=True)
+    employment_type_name = serializers.CharField(source='employment_type.name', read_only=True)
+    industry_name = serializers.CharField(source='industry.name', read_only=True)
+    city_district_name = serializers.CharField(source='city_district.name', read_only=True)
+
+    class Meta:
+        model = Employment
+        fields = (
+            'id_employment', 'student', 'organization', 'organization_name',
+            'employment_type', 'employment_type_name', 'is_cluster_partner',
+            'industry', 'industry_name', 'city_district', 'city_district_name',
+            'is_by_profession', 'position', 'update_date',
+        )
+        read_only_fields = ('id_employment',)

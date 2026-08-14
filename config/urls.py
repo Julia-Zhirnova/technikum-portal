@@ -64,3 +64,16 @@ urlpatterns = [
     path('api/v1/student/family/members/<int:pk>/', personal_data_views.FamilyMemberDetailView.as_view(), name='student-family-member-detail'),
     path('api/v1/student/education/', personal_data_views.EducationInstitutionView.as_view(), name='student-education'),
 ]
+
+
+from rest_framework.routers import DefaultRouter
+from core.views import EmploymentImportExportViewSet
+
+router = DefaultRouter()
+router.register(r'employment', EmploymentImportExportViewSet, basename='employment')
+
+urlpatterns += [
+    path('api/v1/admin/', include(router.urls)),
+    path('api/v1/curator/', include(router.urls)),
+    path('api/v1/teacher/', include(router.urls)),
+]
