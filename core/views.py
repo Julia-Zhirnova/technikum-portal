@@ -189,9 +189,7 @@ class EmploymentImportExportViewSet(viewsets.ModelViewSet):
         """Парсинг TXT файла"""
         content = file_obj.read().decode('utf-8-sig')
         rows = []
-        for line in content.split('
-')
-'):
+        for line in content.split('\n'):
             if line.strip():
                 # Определяем разделитель
                 if '	' in line:
