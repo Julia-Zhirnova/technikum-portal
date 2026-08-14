@@ -372,7 +372,7 @@ class EmploymentImportExportViewSet(viewsets.ModelViewSet):
             return False
     
     def _validate_inn(self, inn):
-        """Валидация ИНН""" (10 или 12 цифр)
+        """Валидация ИНН (10 или 12 цифр)"""
         inn_clean = re.sub(r'[-\s]', '', inn)
         return re.match(r'^\d{10}$|^\d{12}$', inn_clean) is not None
     
@@ -514,8 +514,7 @@ class EmploymentImportExportViewSet(viewsets.ModelViewSet):
             output.append(row)
         
         response = HttpResponse(
-            '
-'.join(output).encode('utf-8-sig'),
+        '\n'.join(output).encode('utf-8-sig'),
             content_type='text/plain'
         )
         response['Content-Disposition'] = 'attachment; filename=employment_export.txt'
