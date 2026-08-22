@@ -598,6 +598,15 @@ class Organization(models.Model):
     mentor_position = models.CharField(_('Должность наставника ОО'), max_length=100, blank=True, null=True)
     mentor_phone = models.CharField(max_length=100, blank=True, null=True, verbose_name='Телефон наставника')
     
+    
+    verification_status = models.CharField(_('Статус верификации'), max_length=20, choices=[
+        ('unverified', 'Непроверена'),
+        ('verified', 'Проверена'),
+        ('blocked', 'Заблокирована'),
+        ('not_found', 'Не найдена в реестре'),
+    ], default='unverified')
+    
+    inn_hash = models.CharField(_('Хэш ИНН'), max_length=64, blank=True, null=True, db_index=True)
     bank_name = models.CharField(_('Название банка'), max_length=255, blank=True, null=True)
     account = models.CharField(_('Расчетный счет'), max_length=50, blank=True, null=True)
     corr_account = models.CharField(_('Корр. счет'), max_length=50, blank=True, null=True)
@@ -1064,6 +1073,9 @@ class StatementGrade(models.Model):
     ], blank=True, null=True)
     date = models.DateField(_('Дата сдачи'), blank=True, null=True)
     is_retake = models.BooleanField(_('Является пересдачей'), default=False)
+    
+    created_at = models.DateTimeField(_('Дата создания записи'), auto_now_add=True, db_index=True)
+    updated_at = models.DateTimeField(_('Дата обновления записи'), auto_now=True)
 
     class Meta:
         verbose_name = _('Оценка в ведомости')

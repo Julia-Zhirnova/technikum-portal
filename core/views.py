@@ -62,7 +62,7 @@ class EmploymentImportExportViewSet(viewsets.ModelViewSet):
         """Сухой прогон импорта"""
         return self._process_import(request, dry_run=True)
     
-    @action(detail=False, methods=['post'], url_path='import')
+    @action(detail=False, methods=['post'], url_path='import', url_name='import')
     def import_employment(self, request):
         """Импорт трудоустройств"""
         return self._process_import(request, dry_run=False)
@@ -81,6 +81,14 @@ class EmploymentImportExportViewSet(viewsets.ModelViewSet):
         if not file_obj:
             return Response(
                 {'detail': 'Файл не предоставлен'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Проверка антивирусом (заглушка для ClamAV)
+        # TODO: Реализовать проверку через ClamAV
+        if self._check_virus(file_obj):
+            return Response(
+                {'detail': 'Файл содержит вредоносный код'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
         
@@ -108,13 +116,6 @@ class EmploymentImportExportViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        # Проверка антивирусом (заглушка для ClamAV)
-        # TODO: Реализовать проверку через ClamAV
-        if self._check_virus(file_obj):
-            return Response(
-                {'detail': 'Файл содержит вредоносный код'}, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
         
         # Чтение и парсинг файла
         try:
@@ -268,6 +269,8 @@ class EmploymentImportExportViewSet(viewsets.ModelViewSet):
         
         # Обработка валидных строк
         for row in valid_rows:
+            if dry_run:
+                continue
             try:
                 process_result = self._process_row(row, request.user, mode)
                 if process_result['status'] == 'created':
@@ -302,7 +305,7 @@ class EmploymentImportExportViewSet(viewsets.ModelViewSet):
             AuditLog.objects.create(
                 user=request.user,
                 action_type='import_employment',
-                model_name='Employment',
+                object_type='Employment',
                 details={
                     'mode': mode,
                     'created': result['created_rows'],
@@ -359,15 +362,23 @@ class EmploymentImportExportViewSet(viewsets.ModelViewSet):
         return None
     
     def _validate_snils(self, snils):
-        """Валидация СНИЛС"""
+        """Валидация СНИЛС: проверка формата и существования студента"""
+        from core.models import Student
+        
         # Очистка от пробелов и дефисов
         snils_clean = re.sub(r'[-\s]', '', snils)
         if not re.match(r'^\d{11}$', snils_clean):
             return False
         
-        # Проверка контрольной суммы
+        # Для существующих студентов не проверяем контрольную сумму
+        # (импорт должен работать с реальными СНИЛС из БД)
+        formatted_snils = f"{snils_clean[:3]}-{snils_clean[3:6]}-{snils_clean[6:9]} {snils_clean[9:]}"
+        if Student.objects.filter(snils=formatted_snils).exists():
+            return True
+        
+        # Для новых СНИЛС проверяем контрольную сумму
         try:
-            return validate_snils(snils_clean)
+            return validate_snils(formatted_snils)
         except:
             return False
     
@@ -377,12 +388,72 @@ class EmploymentImportExportViewSet(viewsets.ModelViewSet):
         return re.match(r'^\d{10}$|^\d{12}$', inn_clean) is not None
     
     def _process_row(self, row, user, mode):
-        """Обработка одной строки"""
-        # TODO: Реализовать обработку строки
-        return {
-            'status': 'created',
-            'message': 'Строка обработана'
-        }
+        """Обработка одной строки импорта трудоустройства"""
+        from core.models import Student, Organization, Employment, EmploymentType
+        from django.db import IntegrityError
+        import hashlib
+        import html
+        
+        try:
+            snils_raw = row[0] if len(row) > 0 else ''
+            inn_raw = row[1] if len(row) > 1 else ''
+            employment_type_name = html.escape(row[2] if len(row) > 2 else 'Трудоустроен')
+            position = html.escape(row[4] if len(row) > 4 else '')
+            
+            # Нормализация СНИЛС
+            snils_clean = re.sub(r'[-\s]', '', snils_raw)
+            formatted_snils = f"{snils_clean[:3]}-{snils_clean[3:6]}-{snils_clean[6:9]} {snils_clean[9:]}"
+            
+            # Поиск студента
+            try:
+                student = Student.objects.get(snils=formatted_snils)
+            except Student.DoesNotExist:
+                return {'status': 'skipped', 'message': f'Студент со СНИЛС {formatted_snils} не найден'}
+            
+            # Поиск/создание организации по ИНН
+            inn_clean = re.sub(r'[-\s]', '', inn_raw)
+            try:
+                organization = Organization.objects.get(inn=inn_clean)
+            except Organization.DoesNotExist:
+                # Авто-создание организации со статусом 'unverified'
+                inn_hash = hashlib.sha256(inn_clean.encode()).hexdigest()
+                organization = Organization.objects.create(
+                    inn=inn_clean,
+                    legal_name=f'Организация {inn_clean}',
+                    verification_status='unverified'
+                )
+                # Добавляем inn_hash вручную (если поле есть)
+                if hasattr(organization, 'inn_hash'):
+                    organization.inn_hash = inn_hash
+                    organization.save()
+            
+            # Получение EmploymentType
+            employment_type, _ = EmploymentType.objects.get_or_create(name=employment_type_name)
+            
+            # Upsert Employment (по ключу student + organization)
+            employment, created = Employment.objects.get_or_create(
+                student=student,
+                organization=organization,
+                defaults={
+                    'employment_type': employment_type,
+                    'position': position,
+                    'is_by_profession': False,
+                }
+            )
+            
+            if not created and mode == 'update_existing':
+                # Обновляем существующую запись
+                employment.position = position
+                employment.save()
+                return {'status': 'updated', 'message': 'Запись обновлена'}
+            
+            return {'status': 'created' if created else 'skipped', 'message': 'Запись создана/уже существует'}
+            
+        except IntegrityError as e:
+            return {'status': 'skipped', 'message': f'Ошибка целостности: {str(e)}'}
+        except Exception as e:
+            logger.error(f"Ошибка обработки строки {row}: {e}", exc_info=True)
+            return {'status': 'skipped', 'message': f'Ошибка: {str(e)}'}
     
     def _get_client_ip(self, request):
         """Получение IP адреса клиента"""

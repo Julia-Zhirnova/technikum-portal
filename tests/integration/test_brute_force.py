@@ -13,12 +13,28 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.fixture(autouse=True)
-def clear_brute_force_cache():
+def clear_brute_force_cache(mock_client_ip):
     """Очищает кэш brute_force перед каждым тестом."""
     cache = caches[settings.BRUTE_FORCE_PROTECTION['CACHE_ALIAS']]
-    cache.clear()
+    # Удаляем только ключи текущего IP (не весь Redis)
+    keys = [
+        f'technikum:login_attempts:{mock_client_ip}',
+        f'login_attempts:{mock_client_ip}',
+        f'technikum:login_blocked:{mock_client_ip}',
+        f'login_blocked:{mock_client_ip}',
+    ]
+    for key in keys:
+        cache.delete(key)
     yield
-    cache.clear()
+    # Удаляем только ключи текущего IP (не весь Redis)
+    keys = [
+        f'technikum:login_attempts:{mock_client_ip}',
+        f'login_attempts:{mock_client_ip}',
+        f'technikum:login_blocked:{mock_client_ip}',
+        f'login_blocked:{mock_client_ip}',
+    ]
+    for key in keys:
+        cache.delete(key)
 
 
 @pytest.mark.xdist_group("cache_sensitive")

@@ -17,18 +17,25 @@ def api_client():
 
 @pytest.fixture
 def unique_client_ip(worker_id, request):
-    """Генерирует уникальный IP для каждого теста.
+    """Генерирует гарантированно уникальный IP для каждого теста.
     
-    Это решает проблему параллелизма в xdist: каждый тест получает
-    свой IP (например, 127.0.0.101, 127.0.0.102), и их счётчики
-    попыток не пересекаются в Redis.
+    Формат: 10.{worker_num}.{hash_octet_2}.{hash_octet_3}
+    - worker_num явно кодирует xdist-воркер (gw0, gw1, ...) — исключает меж-воркерные коллизии
+    - hash из nodeid — исключает внутри-воркерные коллизии
     """
     import hashlib
-    test_id = request.node.nodeid
-    # Хэш для получения числа от 0 до 254
-    hash_val = int(hashlib.md5(f"{worker_id}{test_id}".encode()).hexdigest(), 16)
-    last_octet = (hash_val % 254) + 1  # 1-254
-    return f"127.0.0.{last_octet}"
+    # Извлекаем номер воркера (0, 1, 2, ...) — для master будет 'master' → 0
+    try:
+        worker_num = int(worker_id.replace('gw', ''))
+    except (ValueError, AttributeError):
+        worker_num = 0
+    
+    # Хэш test_id для 2-х оставшихся октетов
+    test_hash = hashlib.md5(request.node.nodeid.encode()).hexdigest()
+    octet_2 = (int(test_hash[:8], 16) % 254) + 1
+    octet_3 = (int(test_hash[8:16], 16) % 254) + 1
+    
+    return f"10.{worker_num}.{octet_2}.{octet_3}"
 
 
 @pytest.fixture
@@ -239,49 +246,6 @@ def curator_user(db):
     UserRole.objects.get_or_create(user=user, role=role)
     return user
 
-
-@pytest.fixture(autouse=True)
-def clear_brute_force_cache(worker_id, request):
-    """Очищает brute-force кэш до и после каждого теста.
-    
-    ВАЖНО: при использовании pytest-xdist используем worker_id + test_id
-    для полной изоляции между тестами и воркерами.
-    """
-    from django.conf import settings
-    from django.core.cache import caches
-    from unittest.mock import patch
-    
-    patcher = None
-    test_id = request.node.nodeid.replace('/', '_').replace('::', '_')
-    unique_prefix = f"{worker_id}_{test_id}" if worker_id != "master" else test_id
-    
-    try:
-        cache = caches[settings.BRUTE_FORCE_PROTECTION["CACHE_ALIAS"]]
-        cache.clear()
-        
-        # Патчим BruteForceProtection, чтобы добавлять уникальный префикс
-        from accounts.brute_force import BruteForceProtection
-        original_init = BruteForceProtection.__init__
-        
-        def patched_init(self, ip_address: str):
-            unique_ip = f"{ip_address}_{unique_prefix}"
-            original_init(self, unique_ip)
-        
-        patcher = patch.object(BruteForceProtection, '__init__', patched_init)
-        patcher.start()
-        
-    except Exception as e:
-        print(f"⚠️  Не удалось настроить изоляцию кэша: {e}")
-    
-    yield
-    
-    try:
-        cache = caches[settings.BRUTE_FORCE_PROTECTION["CACHE_ALIAS"]]
-        cache.clear()
-        if patcher:
-            patcher.stop()
-    except Exception:
-        pass
 
 
 # ============================================
