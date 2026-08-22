@@ -66,3 +66,5 @@ full_db_dump_*.json
 .pids/
 logs/
 
+staticfiles/
+celerybeat-schedule
