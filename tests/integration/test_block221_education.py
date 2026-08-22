@@ -122,3 +122,44 @@ class TestBlock221EducationBoundary:
         assert response.status_code == 400, f"Получен {response.status_code}"
         assert 'profile' in response.data, \
             f"Нет ошибки по profile: {response.data}"
+
+
+@pytest.mark.django_db
+class TestBlock221Performance:
+    """TC042: Performance — время отклика загрузки образования."""
+
+    def test_TC042_load_education_under_300ms(self, api_client, student_user):
+        """БП2.2.1-TC042: [Performance] GET /api/v1/student/education/ < 300 мс.
+        
+        Адаптация под реальную схему: EducationInstitution — OneToOne со Student,
+        поэтому проверяем время загрузки одной записи (не 10 школ).
+        """
+        import time
+        from core.models import Student, EducationInstitution
+        
+        # Arrange: создаём запись об образовании для студента
+        api_client.force_authenticate(user=student_user)
+        
+        student = Student.objects.filter(user=student_user).first()
+        if not student.education:
+            edu = EducationInstitution.objects.create(
+                name='МБОУ СОШ №1',
+                type='общеобразовательная_средняя',
+                profile='Физико-математический',
+            )
+            student.education = edu
+            student.save()
+        
+        # Прогревочный запрос (кэширование Django ORM)
+        api_client.get(EDUCATION_URL)
+        
+        # Act: замеряем время отклика
+        start = time.perf_counter()
+        response = api_client.get(EDUCATION_URL)
+        elapsed = time.perf_counter() - start
+        
+        # Assert: 200 OK + время < 300 мс
+        assert response.status_code == 200, f"Получен {response.status_code}"
+        assert elapsed < 0.3, f"Время отклика {elapsed:.3f}s > 300мс"
+        
+        print(f"✅ Время отклика: {elapsed:.3f}s (< 300мс)")
