@@ -135,6 +135,48 @@ class TestForcePasswordChange:
 
 @pytest.mark.xdist_group("cache_sensitive")
 class TestPasswordChangeSecurity:
+    
+    @pytest.fixture(autouse=True)
+    def clear_pwd_change_cache(self):
+        """Очищает кэш pwd_change перед каждым тестом."""
+        from django.core.cache import caches
+        from django.conf import settings
+        
+        cache = caches[settings.BRUTE_FORCE_PROTECTION['CACHE_ALIAS']]
+        
+        # Очищаем ключи pwd_change через правильный API
+        try:
+            # Для RedisCache (django-redis)
+            if hasattr(cache, 'client') and hasattr(cache.client, 'get_client'):
+                redis_client = cache.client.get_client()
+                for key in redis_client.scan_iter('*pwd_change*'):
+                    redis_client.delete(key)
+            # Для LocMemCache (в тестах)
+            elif hasattr(cache, '_cache'):
+                for key in list(cache._cache.keys()):
+                    if 'pwd_change' in str(key):
+                        # Удаляем префикс Django (:1: или :2:)
+                        clean_key = key.split(':', 2)[-1] if ':' in key else key
+                        cache.delete(clean_key)
+        except Exception as e:
+            # Логируем, но не падаем
+            print(f"⚠️  Не удалось очистить pwd_change кэш: {e}")
+        
+        yield
+        
+        # Очистка после теста
+        try:
+            if hasattr(cache, 'client') and hasattr(cache.client, 'get_client'):
+                redis_client = cache.client.get_client()
+                for key in redis_client.scan_iter('*pwd_change*'):
+                    redis_client.delete(key)
+            elif hasattr(cache, '_cache'):
+                for key in list(cache._cache.keys()):
+                    if 'pwd_change' in str(key):
+                        clean_key = key.split(':', 2)[-1] if ':' in key else key
+                        cache.delete(clean_key)
+        except Exception:
+            pass
     """Тесты безопасности при смене пароля (TC005-TC008)."""
 
     def test_TC005_invalidate_all_refresh_tokens(self, api_client, db):
