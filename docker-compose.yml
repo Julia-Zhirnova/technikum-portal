@@ -47,7 +47,7 @@ services:
       - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1,backend,0.0.0.0}
       - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost:5174}
     volumes:
-      - .:/app
+      - .:/app:z
       - media_data:/app/media
       - static_data:/app/static
     ports:
@@ -86,7 +86,7 @@ services:
       - REDIS_URL=redis://redis:6379/0
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-dev-secret-key-change-me}
     volumes:
-      - .:/app
+      - .:/app:z
       - media_data:/app/media
     depends_on:
       postgres:
@@ -107,7 +107,7 @@ services:
       - REDIS_URL=redis://redis:6379/0
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-dev-secret-key-change-me}
     volumes:
-      - .:/app
+      - .:/app:z
     depends_on:
       postgres:
         condition: service_healthy

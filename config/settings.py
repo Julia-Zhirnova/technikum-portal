@@ -96,7 +96,7 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME', 'technikum_db'),
         'USER': os.getenv('DB_USER', 'technikum_user'),
         'PASSWORD': os.getenv('DB_PASSWORD', ''),
-        'HOST': os.getenv('DB_HOST', '127.0.0.1'),
+        'HOST': os.getenv('DB_HOST', 'postgres'),
         'PORT': os.getenv('DB_PORT', '5432'),
         'OPTIONS': {
             'client_encoding': 'UTF8',
@@ -126,8 +126,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # CELERY (асинхронные задачи)
 # ============================================
 # Брокер и бэкенд результатов — Redis (используем тот же Redis, что и для кэша brute_force, но DB 1)
-CELERY_BROKER_URL = 'redis://localhost:6379/1'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
+CELERY_BROKER_URL = 'redis://redis:6379/1'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/1'
 
 # Сериализация задач
 CELERY_ACCEPT_CONTENT = ['json']
@@ -245,7 +245,7 @@ CACHES = {
     # БП 1.1.5: Redis для Brute Force Protection
     'brute_force': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'LOCATION': 'redis://redis:6379/1',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
             'SOCKET_CONNECT_TIMEOUT': 1,
